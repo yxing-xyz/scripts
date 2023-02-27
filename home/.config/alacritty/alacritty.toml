@@ -1,0 +1,109 @@
+
+[colors]
+# 绘制粗体文本时使用亮色
+draw_bold_text_with_bright_colors = true
+
+# Colours (Monokai Charcoal)
+
+# Default Colours
+[colors.primary]
+background = '#000000'
+foreground = '#FFFFFF'
+
+# Normal Colours
+[colors.normal]
+black = '#1a1a1a'
+red = '#f4005f'
+green = '#98e024'
+yellow = '#fa8419'
+blue = '#9d65ff'
+magenta = '#f4005f'
+cyan = '#58d1eb'
+white = '#c4c5b5'
+
+# Bright Colours
+[colors.bright]
+black = '#625e4c'
+red = '#f4005f'
+green = '#98e024'
+yellow = '#e0d561'
+blue = '#9d65ff'
+magenta = '#f4005f'
+cyan = '#58d1eb'
+white = '#f6f6ef'
+
+[env]
+TERM = "xterm-256color"
+
+[font]
+builtin_box_drawing = true
+size = 11
+
+[font.bold]
+family = "CodeNewRoman Nerd Font Propo"
+style = "Bold"
+
+[font.bold_italic]
+family = "CodeNewRoman Nerd Font Propo"
+style = "Bold Italic"
+
+[font.italic]
+family = "CodeNewRoman Nerd Font Propo"
+style = "Italic"
+
+[font.normal]
+family = "CodeNewRoman Nerd Font Propo"
+style = "Regular"
+
+[[keyboard.bindings]]
+action = "Paste"
+key = "Insert"
+mods = "Shift"
+
+[[keyboard.bindings]]
+chars = "\u0000"
+key = "Space"
+mods = "Control"
+
+[[keyboard.bindings]]
+chars = "\u001F"
+key = "Slash"
+mods = "Control"
+
+[scrolling]
+history = 10000
+multiplier = 3
+
+[selection]
+save_to_clipboard = true
+semantic_escape_chars = ",│`|:\"' ()[]{}<>\t"
+
+[terminal.shell]
+program = "/bin/zsh"
+
+[window]
+decorations = "full"
+dynamic_padding = true
+dynamic_title = true
+opacity = 0.7
+option_as_alt = "Both"
+resize_increments = true
+startup_mode = "Windowed"
+title = "Terminal"
+
+[window.class]
+general = "Alacritty"
+instance = "Alacritty"
+
+[window.dimensions]
+columns = 120
+lines = 30
+
+[window.padding]
+x = 0
+y = 0
+
+[general]
+live_config_reload = true
+
+[terminal]

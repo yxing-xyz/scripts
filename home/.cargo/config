@@ -1,0 +1,8 @@
+[source.crates-io]
+replace-with = 'mirror'
+
+[source.mirror]
+registry = "https://mirror.nju.edu.cn/git/crates.io-index.git"
+
+[target.x86_64-unknown-linux-musl]
+linker = 'x86_64-multilib-linux-musl-gcc'

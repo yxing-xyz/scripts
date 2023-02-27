@@ -1,0 +1,42 @@
+name: Synchronize from Gitee
+on:
+  workflow_dispatch: # 添加这一行以支持手动触发
+      inputs: # 可选：定义输入参数
+        exampleInput:
+          description: 'Progressive synchronization of data .(true/false)'
+          required: true
+          default: 'true'
+  schedule:
+    - cron: "0 0 1 * *"
+permissions: write-all
+jobs:
+  work:
+#    needs: [create_release]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: szenius/set-timezone@v2.0
+        with:
+          timezoneLinux: "Asia/Shanghai"
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set up Git
+        env:
+            ADMIN_TOKEN: ${{ secrets.ADMIN_TOKEN }}
+        run: |
+          git config --global user.name "GitHub Action"
+          git config --global user.email "action@github.com"
+
+          INPUT_VALUE="${{ github.event.inputs.exampleInput }}"
+          echo "The input value is: $INPUT_VALUE"
+          # 根据输入值执行不同的逻辑
+          if [ "$INPUT_VALUE" = "true" ]; then
+            git remote remove origin
+            git remote add origin https://gitee.com/yxing-xyz/scripts.git
+            git pull origin main
+            git push https://yxing-xyz:${ADMIN_TOKEN}@github.com/yxing-xyz/scripts.git main:main -u -f
+          else
+            git clone https://gitee.com/yxing-xyz/scripts.git
+            cd scripts
+            git push https://yxing-xyz:${ADMIN_TOKEN}@github.com/yxing-xyz/scripts.git main:main -u -f
+          fi

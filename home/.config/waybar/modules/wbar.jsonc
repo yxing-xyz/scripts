@@ -1,0 +1,9 @@
+    "custom/wbar": {
+        "format": "{}", //    //
+        "rotate": ${r_deg},
+        "exec": "echo ; echo  switch bar //  dock",
+        "on-click": "wbarconfgen.sh n",
+        "on-click-right": "wbarconfgen.sh p",
+        "interval" : 86400,
+        "tooltip": true
+    },

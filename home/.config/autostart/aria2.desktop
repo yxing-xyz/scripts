@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Aria2
+Exec=aria2c -D --enable-rpc --rpc-allow-origin-all
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
