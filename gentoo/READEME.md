@@ -2,12 +2,15 @@
 略
 # 2. 挂载分区chroot分区
 ```bash
+tar xpvf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner
+
 mkfs.vfat /dev/vda1
 mkfs.ext4 /dev/vda2
 mount /dev/vda2 /mnt/gentoo
-mount /dev/vda1 /mnt/gentoo/boot/ESP
-tar xpvf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner
+mount /dev/vda1 /mnt/gentoo/boot/EFI
+
 cp --dereference /etc/resolv.conf /mnt/gentoo/etc/
+mount --bind /mnt/gentoo /mnt/gentoo
 mount --types proc /proc /mnt/gentoo/proc
 mount --rbind /sys /mnt/gentoo/sys
 mount --make-rslave /mnt/gentoo/sys
@@ -42,9 +45,9 @@ dracut --early-microcode --kver=6.1.12-gentoo
 emerge --ask gentoo-kernel-bin
 
 # 安装UEFI grub
-grub-install --target=x86_64-efi --boot-directory=/boot/ --efi-directory=/boot/ESP --bootloader-id=grub
+grub-install --target=x86_64-efi --recheck --boot-directory=/boot/ --efi-directory=/boot/EFI --bootloader-id=grub
 # 安装BIOS gurb
-grub2-install --boot-directory=/boot /dev/vda
+grub2-install --target=i386-pc --recheck --boot-directory=/boot /dev/vda
 
 # 生成的grub.cfg必须放在上面一条命令安装的grub目录中
 grub-mkconfig -o /boot/grub/grub.cfg
