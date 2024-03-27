@@ -47,7 +47,7 @@ emerge --ask gentoo-kernel-bin
 # 安装UEFI grub
 grub-install --target=x86_64-efi --recheck --boot-directory=/boot/ --efi-directory=/boot/EFI --bootloader-id=grub
 # 安装BIOS gurb
-grub2-install --target=i386-pc --recheck --boot-directory=/boot /dev/vda
+grub-install --target=i386-pc --recheck --boot-directory=/boot /dev/vda
 
 # 生成的grub.cfg必须放在上面一条命令安装的grub目录中
 grub-mkconfig -o /boot/grub/grub.cfg
