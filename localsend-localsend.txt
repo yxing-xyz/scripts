@@ -1,0 +1,12 @@
+https://github.com/localsend/localsend/releases/download/v1.15.4/LocalSend-1.15.4-android-arm32v7.apk
+https://github.com/localsend/localsend/releases/download/v1.15.4/LocalSend-1.15.4-android-arm64v8.apk
+https://github.com/localsend/localsend/releases/download/v1.15.4/LocalSend-1.15.4-android-google-play.apk
+https://github.com/localsend/localsend/releases/download/v1.15.4/LocalSend-1.15.4-android-x64.apk
+https://github.com/localsend/localsend/releases/download/v1.15.4/LocalSend-1.15.4-linux-arm-64.deb
+https://github.com/localsend/localsend/releases/download/v1.15.4/LocalSend-1.15.4-linux-arm-64.tar.gz
+https://github.com/localsend/localsend/releases/download/v1.15.4/LocalSend-1.15.4-linux-x86-64.AppImage
+https://github.com/localsend/localsend/releases/download/v1.15.4/LocalSend-1.15.4-linux-x86-64.deb
+https://github.com/localsend/localsend/releases/download/v1.15.4/LocalSend-1.15.4-linux-x86-64.tar.gz
+https://github.com/localsend/localsend/releases/download/v1.15.4/LocalSend-1.15.4-windows-x86-64.exe
+https://github.com/localsend/localsend/releases/download/v1.15.4/LocalSend-1.15.4-windows-x86-64.zip
+https://github.com/localsend/localsend/releases/download/v1.15.4/LocalSend-1.15.4.dmg
