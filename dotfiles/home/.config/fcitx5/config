@@ -17,6 +17,8 @@ EnumerateGroupBackwardKeys=
 ActivateKeys=
 # 取消激活输入法
 DeactivateKeys=
+# 触发修饰键快捷键的时限 (毫秒)
+ModifierOnlyKeyTimeout=250
 
 [Hotkey/TriggerKeys]
 0=Super+space
