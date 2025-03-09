@@ -32,10 +32,10 @@ rm-other-file = "!f() { git ls-files --others --exclude-standard | xargs rm; }; 
 
 [diff]
 external = difft --display inline
-[http "https://github.com"]
-proxy = socks5://127.0.0.1:1080
-[https "https://github.com"]
-proxy = socks5://127.0.0.1:1080
+#[http "https://github.com"]
+#proxy = socks5://127.0.0.1:1080
+#[https "https://github.com"]
+#proxy = socks5://127.0.0.1:1080
 
 [filter "lfs"]
 process = git-lfs filter-process
