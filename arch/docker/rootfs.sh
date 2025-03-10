@@ -17,6 +17,8 @@ else
     exit 1
 fi
 # 修复arm archlinux key错误
+# adduser -c "Arch Linux Package Management" -r alpm
+adduser -g "Arch Linux Package Management" -S alpm
 sed -i 's|^Include = /etc/pacman.d/mirrorlist|Include = /etc/pacman.d/mirrorlist\nSigLevel = Never|g' /etc/pacman.conf
 sed -i 's|#Color|Color|' /etc/pacman.conf
 sed -i 's|#ParallelDownloads|ParallelDownloads|' /etc/pacman.conf
