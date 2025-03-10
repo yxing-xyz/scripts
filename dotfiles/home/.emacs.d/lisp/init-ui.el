@@ -287,8 +287,7 @@
 
 
 ;; Ligatures support
-(when emacs/>=28p
-  (use-package composite
+ (use-package composite
     :ensure nil
     :init (defvar composition-ligature-table (make-char-table nil))
     :hook (((prog-mode
@@ -330,6 +329,6 @@
       (dolist (char-regexp alist)
         (set-char-table-range composition-ligature-table (car char-regexp)
                               `([,(cdr char-regexp) 0 font-shape-gstring]))))
-    (set-char-table-parent composition-ligature-table composition-function-table)))
+    (set-char-table-parent composition-ligature-table composition-function-table))
 
 (provide 'init-ui)

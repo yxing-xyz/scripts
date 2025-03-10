@@ -71,9 +71,6 @@
   :if xx-server
   :hook (after-init . server-mode))
 
-(use-package desktop
-  :hook (after-init . desktop-save-mode))
-
 (use-package saveplace
   :hook (after-init . save-place-mode))
 
@@ -113,7 +110,7 @@
   :init
   (setq column-number-mode t
         line-number-mode t
-        ;; kill-whole-line t               ; Kill line including '\n'
+        kill-whole-line t               ; Kill line including '\n'
         line-move-visual nil
         track-eol t                     ; Keep cursor at end of lines. Require line-move-visual is nil.
         set-mark-command-repeat-pop t)  ; Repeating C-SPC after popping mark pops it again

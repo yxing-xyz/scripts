@@ -8,12 +8,12 @@
   :group 'convenience
   :link '(url-link :tag "Homepage" "https://github.com/yxing-dev/.emacs.d"))
 
-(defcustom xx-proxy "127.0.0.1:1087"
+(defcustom xx-proxy "127.0.0.1:12333"
   "Set HTTP/HTTPS proxy."
   :group 'xx
   :type 'string)
 
-(defcustom xx-socks-proxy "127.0.0.1:1086"
+(defcustom xx-socks-proxy "127.0.0.1:1080"
   "Set SOCKS proxy."
   :group 'xx
   :type 'string)

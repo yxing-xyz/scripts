@@ -21,8 +21,6 @@
 (declare-function xwidget-buffer "xwidget")
 (declare-function xwidget-webkit-current-session "xwidget")
 
-
-
 ;; Font
 (defun font-installed-p (font-name)
   "Check if font with FONT-NAME is available."
@@ -130,6 +128,17 @@ Same as '`replace-string' `C-q' `C-m' `RET' `RET''."
       (buffer-substring-no-properties (region-beginning) (region-end))
     (thing-at-point 'symbol t)))
 
+(defun xwidget-workable-p ()
+  "Check whether xwidget is available."
+  (and (display-graphic-p)
+       (featurep 'xwidget-internal)))
+
+;; Browse URL
+(defun xwidget-workable-p ()
+  "Check whether xwidget is available."
+  (and (display-graphic-p)
+       (featurep 'xwidget-internal)))
+
 ;; Mode line
 (defun mode-line-height ()
   "Get the height of the mode-line."
@@ -220,8 +229,6 @@ Save to option `custom-file' if NO-SAVE is nil."
   (eval-expression
    (minibuffer-with-setup-hook
        (lambda ()
-         (add-function :before-until (local 'eldoc-documentation-function)
-           #'elisp-eldoc-documentation-function)
          (run-hooks 'eval-expression-minibuffer-setup-hook)
          (goto-char (minibuffer-prompt-end))
          (forward-char (length (format "(setq %S " sym))))
@@ -239,15 +246,6 @@ Save to option `custom-file' if NO-SAVE is nil."
       read-expression-map t
       'read-expression-history))))
 
-
-;; WORKAROUND: fix blank screen issue on macOS.
-(defun fix-fullscreen-cocoa ()
-  "Address blank screen issue with child-frame in fullscreen.
-This issue has been addressed in 28."
-  (and sys/mac-cocoa-p
-       (not emacs/>=28p)
-       (bound-and-true-p ns-use-native-fullscreen)
-       (setq ns-use-native-fullscreen nil)))
 
 
 

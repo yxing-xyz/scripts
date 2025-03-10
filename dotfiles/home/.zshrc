@@ -29,10 +29,10 @@ case ":${PATH}:" in
 *:"$HOME/.cargo/bin":*) ;;
 *)
     if [[ "${OSTYPE}" == darwin* ]]; then
-	export HOMEBREW_BREW_GIT_REMOTE="https://mirror.nju.edu.cn/git/homebrew/brew.git"
-	export HOMEBREW_CORE_GIT_REMOTE="https://mirror.nju.edu.cn/git/homebrew/homebrew-core.git"
-	export HOMEBREW_INSTALL_FROM_API=1
-	export HOMEBREW_BREW_GIT_REMOTE="https://mirror.nju.edu.cn/git/homebrew/brew.git"
+        export HOMEBREW_BREW_GIT_REMOTE="https://mirror.nju.edu.cn/git/homebrew/brew.git"
+        export HOMEBREW_CORE_GIT_REMOTE="https://mirror.nju.edu.cn/git/homebrew/homebrew-core.git"
+        export HOMEBREW_INSTALL_FROM_API=1
+        export HOMEBREW_BREW_GIT_REMOTE="https://mirror.nju.edu.cn/git/homebrew/brew.git"
         eval "$(/opt/homebrew/bin/brew shellenv)"
         export DOCKER_HOST=unix:///Users/x/.docker/run/docker.sock
     fi
@@ -212,7 +212,14 @@ bindkey -e '\ec' capitalize-word
 bindkey -e '^T' transpose-chars
 
 # alias
+alias ..='cd ..'
+alias ...='cd ../..'
+alias .3='cd ../../..'
+alias .4='cd ../../../..'
+alias .5='cd ../../../../..'
+alias c='clear' # clear terminal
 alias rm='trash-put'
+alias mkdir='mkdir -p'
 alias ls='lsd'
 alias cat="bat"
 alias diff="difft --display inline"
@@ -220,12 +227,13 @@ alias lzg='lazygit'
 alias ect='emacsclient -t'
 alias ecc='emacsclient -c'
 alias eq='emacs -nw -q'
-alias bj="sshuttle --dns -vr root@60.205.202.6   10.0.0.0/8 172.16.0.0/12  --ssh-cmd \"ssh -i /home/x/.ssh//品牌中心.key\""
-alias hz="sshuttle --dns -vr root@112.124.55.199 10.0.0.0/8 192.168.0.0/16 --ssh-cmd \"ssh -i /home/x/.ssh/品牌中心.key\""
 alias ssh="TERM=xterm-256color ${TRZSZ_ENABLE} ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
 alias docker="TERM=xterm-256color ${TRZSZ_ENABLE} docker"
 alias lzd="${TRZSZ_ENABLE} lazydocker"
 alias k9s="${TRZSZ_ENABLE} k9s"
+alias bj="sshuttle --dns -vr root@60.205.202.6   10.0.0.0/8 172.16.0.0/12  --ssh-cmd \"ssh -i /home/x/.ssh//品牌中心.key\""
+alias hz="sshuttle --dns -vr root@112.124.55.199 10.0.0.0/8 192.168.0.0/16 --ssh-cmd \"ssh -i /home/x/.ssh/品牌中心.key\""
+
 # 只有alacritty环境才启动zellij
 if [ ! -z ${ALACRITTY_LOG+x} ]; then
     ZELLIJ_AUTO_ATTACH=true
@@ -243,11 +251,13 @@ if [ ! -z ${ALACRITTY_LOG+x} ]; then
 fi
 # yazi
 function yy() {
-	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
-	EDITOR=vim yazi "$@" --cwd-file="$tmp"
-	if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-		builtin cd -- "$cwd"
-	fi
-	rm -f -- "$tmp"
+    local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+    EDITOR=vim yazi "$@" --cwd-file="$tmp"
+    if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+        builtin cd -- "$cwd"
+    fi
+    rm -f -- "$tmp"
 }
+# pokeman icon
+# pokemon-colorscripts --no-title -r 1,3,6
 eval "$(vfox activate zsh)"
