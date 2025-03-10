@@ -66,8 +66,11 @@ source "qemu" "example" {
   disk_interface    = "virtio"
   headless          = true
   boot_command      = [
-    "curl http://{{ .HTTPIP }}:{{ .HTTPPort }}/boot.sh -o boot.sh && <enter>",
-    "chmod +x boot.sh && ./boot.sh<enter> && rm ./boot.sh<enter>"
+    "<enter><enter><enter>",
+    "curl http://{{ .HTTPIP }}:{{ .HTTPPort }}/boot.sh -o boot.sh<enter>",
+    "chmod +x boot.sh<enter>",
+    "./boot.sh<enter><enter>",
+    "rm ./boot.sh<enter>"
   ]
   qemuargs = [
     ["-device", "qemu-xhci"],
