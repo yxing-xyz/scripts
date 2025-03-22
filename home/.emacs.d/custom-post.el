@@ -20,11 +20,6 @@
 (setq-default cursor-type 'box)
 ;; 禁止闪烁光标
 (setq blink-cursor-mode nil)
-;; 设置环境变量
-(when sys/macp (progn
-                 (setq cargo-bin-path (format "%s/%s" (getenv "HOME") ".cargo/bin"))
-                 (add-to-list 'exec-path cargo-bin-path)
-                 (setenv "PATH" (format "%s:%s" (getenv "PATH") cargo-bin-path))))
 
 ;; 设置mode-line显示路径风格
 (setq doom-modeline-buffer-file-name-style 'relative-from-project)

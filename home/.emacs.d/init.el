@@ -44,6 +44,19 @@ Otherwise the startup will be very slow."
 
 (update-load-path)
 
+(defun add-binary-path (path)
+  "Add a binary PATH to `exec-path' and the PATH environment variable."
+  (let ((full-path (format ":%s/%s" (getenv "HOME") path)))
+    ;; Add to `exec-path'
+    (add-to-list 'exec-path full-path t) ;; Use `t' for appending, to avoid duplicates
+    ;; Add to PATH environment variable
+    (setenv "PATH" (concat (file-name-as-directory (getenv "PATH")) full-path))))
+
+;; Add Cargo bin path
+(add-binary-path ".cargo/bin")
+;; Add Go bin path
+(add-binary-path "go/bin")
+
 ;; requisites
 (require 'init-const)
 (require 'init-custom)

@@ -50,3 +50,4 @@ home/.ssh/id_ed25519
 home/.ssh/id_ed25519.pub
 home/.ssh/known_hosts
 home/.ssh/known_hosts.old
+home/.config/dconf/user
