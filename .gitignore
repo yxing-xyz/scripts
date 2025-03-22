@@ -53,3 +53,5 @@ home/.ssh/known_hosts.old
 home/.config/dconf/user
 home/.local/share/TelegramDesktop
 home/.local/share/evolution
+home/.emacs.d/session.107d3037c72143f4ab174262425085032300001260880074
+home/.emacs.d/session.10cf28c07719697fc917426233726144900000017850103
