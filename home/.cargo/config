@@ -1,0 +1,5 @@
+[source.crates-io]
+replace-with = 'mirror'
+
+[source.mirror]
+registry = "https://mirror.nju.edu.cn/git/crates.io-index.git"

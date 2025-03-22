@@ -1,0 +1,5 @@
+gui:
+  mouseEvents: false
+  showIcons: true
+  nerdFontsVersion: ""
+  showFileIcons: true
