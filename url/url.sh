@@ -48,3 +48,4 @@ githubReleaseURL v2rayA v2rayA
 githubReleaseURL localsend localsend
 githubReleaseURL FelisCatus SwitchyOmega
 githubReleaseURL wagoodman dive
+githubReleaseURL iyear tdl
