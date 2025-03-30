@@ -14,10 +14,18 @@
 ;; Highlight matching parens
 (use-package paren
   :ensure nil
+  :custom-face
+  (show-paren-match ((((class color) (background light))
+                      (:box (:line-width (-1 . -1) :color "gray70")))
+                     (((class color) (background dark))
+                      (:box (:line-width (-1 . -1) :color "gray50")))))
   :hook (after-init . show-paren-mode)
   :init (setq show-paren-when-point-inside-paren t
               show-paren-when-point-in-periphery t)
   :config
+  (if emacs/>=29p
+      (setq  blink-matching-paren-highlight-offscreen t
+             show-paren-context-when-offscreen 'overlay))
   (with-no-warnings
     ;; Display matching line for off-screen paren.
     (defun display-line-overlay (pos str &optional face)
@@ -76,17 +84,17 @@ FACE defaults to inheriting from default and highlight."
   (symbol-overlay-face-6 ((t (:inherit nerd-icons-orange :background unspecified :foreground unspecified :inverse-video t))))
   (symbol-overlay-face-7 ((t (:inherit nerd-icons-green :background unspecified :foreground unspecified :inverse-video t))))
   (symbol-overlay-face-8 ((t (:inherit nerd-icons-cyan :background unspecified :foreground unspecified :inverse-video t))))
-  :bind (("M-i" . symbol-overlay-put)
+  :bind (:map symbol-overlay-mode-map
          ("M-n" . symbol-overlay-jump-next)
          ("M-p" . symbol-overlay-jump-prev)
          ("M-N" . symbol-overlay-switch-forward)
          ("M-P" . symbol-overlay-switch-backward)
          ("M-C" . symbol-overlay-remove-all)
          ([M-f3] . symbol-overlay-remove-all))
-  :hook (((prog-mode yaml-mode) . symbol-overlay-mode)
+  :hook (((prog-mode yaml-mode yaml-ts-mode) . symbol-overlay-mode)
          (iedit-mode            . turn-off-symbol-overlay)
          (iedit-mode-end        . turn-on-symbol-overlay))
-  :init (setq symbol-overlay-idle-time 0.1)
+  :init (setq symbol-overlay-idle-time 0.3)
   :config
   (with-no-warnings
     ;; Disable symbol highlighting while selecting
@@ -94,14 +102,23 @@ FACE defaults to inheriting from default and highlight."
       "Turn off symbol highlighting."
       (interactive)
       (symbol-overlay-mode -1))
-    (advice-add #'set-mark :after #'turn-off-symbol-overlay)
-
     (defun turn-on-symbol-overlay (&rest _)
       "Turn on symbol highlighting."
       (interactive)
-      (when (derived-mode-p 'prog-mode 'yaml-mode)
+      (when (derived-mode-p 'prog-mode 'yaml-mode 'yaml-ts-mode)
         (symbol-overlay-mode 1)))
-    (advice-add #'deactivate-mark :after #'turn-on-symbol-overlay)))
+    (advice-add #'activate-mark :after #'turn-off-symbol-overlay)
+    (advice-add #'deactivate-mark :after #'turn-on-symbol-overlay)
+    (advice-add #'easy-kill :after #'turn-off-symbol-overlay)
+    (advice-add #'easy-kill-destroy-candidate :after #'turn-on-symbol-overlay)))
+
+;; Mark occurrences of current region (selection)
+(use-package region-occurrences-highlighter
+  :diminish
+  :bind (:map region-occurrences-highlighter-nav-mode-map
+         ("M-n" . region-occurrences-highlighter-next)
+         ("M-p" . region-occurrences-highlighter-prev))
+  :hook (after-init . global-region-occurrences-highlighter-mode))
 
 (use-package colorful-mode
   :diminish

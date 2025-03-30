@@ -289,7 +289,7 @@ targets."
 
   ;; Enable indentation+completion using the TAB key.
   ;; `completion-at-point' is often bound to M-TAB.
-  (tab-always-indent 'complete)
+  (tab-always-indent nil)
 
   ;; Emacs 30 and newer: Disable Ispell completion function. As an alternative,
   ;; try `cape-dict'.

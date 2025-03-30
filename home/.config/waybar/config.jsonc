@@ -16,9 +16,9 @@
 
 // positions generated based on config.ctl //
 
-	"modules-left": ["custom/padd","custom/l_end","cpu","memory","custom/cpuinfo","custom/r_end","custom/l_end","idle_inhibitor","clock","custom/r_end","custom/l_end","hyprland/workspaces","custom/r_end","custom/padd"],
-	"modules-center": ["custom/padd","custom/l_end","hyprland/window","custom/r_end","custom/padd"],
-	"modules-right": ["custom/padd","custom/l_end","backlight","network","pulseaudio","pulseaudio#microphone","custom/keybindhint","custom/r_end","custom/l_end","privacy","tray","battery","custom/r_end","custom/l_end","custom/wallchange","custom/theme","custom/wbar","custom/cliphist","custom/power","custom/r_end","custom/padd"],
+	"modules-left": ["custom/padd","custom/l_end","cpu","memory","custom/cpuinfo","network","custom/r_end","custom/l_end","hyprland/workspaces","custom/r_end","custom/padd"],
+	"modules-center": ["custom/padd","custom/l_end","wlr/taskbar","custom/r_end","custom/padd"],
+	"modules-right": ["custom/padd","custom/l_end","backlight","pulseaudio","pulseaudio#microphone","custom/keybindhint","privacy","tray","battery","idle_inhibitor","custom/r_end","custom/l_end","custom/wallchange","custom/theme","custom/wbar","custom/cliphist","clock","custom/power","custom/r_end","custom/padd"],
 
 
 // sourced from modules based on config.ctl //
@@ -59,39 +59,17 @@
         "max-length": 1000
     },
 
-    "idle_inhibitor": {
-        "format": "{icon}",
+    "network": {
+        "tooltip": true,
+        "format-wifi": " ",
         "rotate": 0,
-        "format-icons": {
-            "activated": "󰅶 ",
-            "deactivated": "󰛊 "
-        },
-        "tooltip-format-activated":"Caffeine Mode Active",
-        "tooltip-format-deactivated":"Caffeine Mode Inactive"
-    },
-    "clock": {
-        "format": "{:%I:%M %p}",
-        "rotate": 0,
-        "format-alt": "{:%R 󰃭 %d·%m·%y}",
-        "tooltip-format": "<span>{calendar}</span>",
-        "calendar": {
-            "mode": "month",
-            "mode-mon-col": 3,
-            "on-scroll": 1,
-            "on-click-right": "mode",
-            "format": {
-                "months": "<span color='#ffead3'><b>{}</b></span>",
-                "weekdays": "<span color='#ffcc66'><b>{}</b></span>",
-                "today": "<span color='#ff6699'><b>{}</b></span>"
-            }
-        },
-        "actions": {
-            "on-click-right": "mode",
-            "on-click-forward": "tz_up",
-            "on-click-backward": "tz_down",
-            "on-scroll-up": "shift_up",
-            "on-scroll-down": "shift_down"
-        }
+        "format-ethernet": "󰈀 ",
+        "tooltip-format": "Network: <big><b>{essid}</b></big>\nSignal strength: <b>{signaldBm}dBm ({signalStrength}%)</b>\nFrequency: <b>{frequency}MHz</b>\nInterface: <b>{ifname}</b>\nIP: <b>{ipaddr}/{cidr}</b>\nGateway: <b>{gwaddr}</b>\nNetmask: <b>{netmask}</b>",
+        "format-linked": "󰈀 {ifname} (No IP)",
+        "format-disconnected": "󰖪 ",
+        "tooltip-format-disconnected": "Disconnected",
+        "format-alt": "<span foreground='#99ffdd'> {bandwidthDownBytes}</span> <span foreground='#ffcc66'> {bandwidthUpBytes}</span>",
+        "interval": 2,
     },
 
     "hyprland/workspaces": {
@@ -107,33 +85,23 @@
         }
     },
 
-    "hyprland/window": {
-        "format": "  {}",
-        "rotate": 0,
-        "separate-outputs": true,
-        "rewrite": {
-            "x@yoga:(.*)": "$1 ",
-            "(.*) — Mozilla Firefox": "$1 󰈹",
-            "(.*)Mozilla Firefox": "Firefox 󰈹",
-            "(.*) - Visual Studio Code": "$1 󰨞",
-            "(.*)Visual Studio Code": "Code 󰨞",
-            "(.*) - Code - OSS": "$1 󰨞",
-            "(.*)Code - OSS": "Code 󰨞",
-            "(.*) — Dolphin": "$1 󰉋",
-            "(.*)Spotify": "Spotify 󰓇",
-            "(.*)Steam": "Steam 󰓓",
-            "(.*) - Discord": "$1  ",
-            "(.*)Netflix": "Netflix 󰝆 ",
-            "(.*) — Google chrome": "$1  ",
-            "(.*)Google chrome": "Google chrome  ",
-            "(.*) — Github": "$1  ",
-            "(.*)Github": "Github ",
-            "(.*)Spotify Free": "Spotify 󰓇",
-            "(.*)Spotify Premiun": "Spotify 󰓇",
-        },
-        "max-length": 50
-    },
-
+	"wlr/taskbar": {
+		"format": "{icon}",
+		"rotate": 0,
+		"icon-size": 16,
+		"icon-theme": "Tela-circle",
+        "spacing": 0,
+		"tooltip-format": "{title}",
+		"on-click": "activate",
+		"on-click-middle": "close",
+		"ignore-list": [
+			"testyx"
+		],
+		"app_ids-mapping": {
+			"firefoxdeveloperedition": "firefox-developer-edition",
+      "jetbrains-datagrip": "DataGrip"
+		}
+	},
     "backlight": {
         "device": "intel_backlight",
         "rotate": 0,
@@ -143,19 +111,6 @@
         "on-scroll-up": "brightnesscontrol.sh i 1",
         "on-scroll-down": "brightnesscontrol.sh d 1",
         "min-length": 6
-    },
-
-    "network": {
-        "tooltip": true,
-        "format-wifi": " ",
-        "rotate": 0,
-        "format-ethernet": "󰈀 ",
-        "tooltip-format": "Network: <big><b>{essid}</b></big>\nSignal strength: <b>{signaldBm}dBm ({signalStrength}%)</b>\nFrequency: <b>{frequency}MHz</b>\nInterface: <b>{ifname}</b>\nIP: <b>{ipaddr}/{cidr}</b>\nGateway: <b>{gwaddr}</b>\nNetmask: <b>{netmask}</b>",
-        "format-linked": "󰈀 {ifname} (No IP)",
-        "format-disconnected": "󰖪 ",
-        "tooltip-format-disconnected": "Disconnected",
-        "format-alt": "<span foreground='#99ffdd'> {bandwidthDownBytes}</span> <span foreground='#ffcc66'> {bandwidthUpBytes}</span>",
-        "interval": 2,
     },
 
 "pulseaudio": {
@@ -238,6 +193,16 @@
         "format-icons": ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
     },
 
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "rotate": 0,
+        "format-icons": {
+            "activated": "󰅶 ",
+            "deactivated": "󰛊 "
+        },
+        "tooltip-format-activated":"Caffeine Mode Active",
+        "tooltip-format-deactivated":"Caffeine Mode Inactive"
+    },
     "custom/wallchange": {
         "format": "{}",
         "rotate": 0,
@@ -280,6 +245,30 @@
         "tooltip": true
     },
 
+    "clock": {
+        "format": "{:%R} ",
+        "rotate": 0,
+        "format-alt": "{:%F %R} 󰸘",
+        "tooltip-format": "<span>{calendar}</span>",
+        "calendar": {
+            "mode": "month",
+            "mode-mon-col": 3,
+            "on-scroll": 1,
+            "on-click-right": "mode",
+            "format": {
+                "months": "<span color='#ffead3'><b>{}</b></span>",
+                "weekdays": "<span color='#ffcc66'><b>{}</b></span>",
+                "today": "<span color='#ff6699'><b>{}</b></span>"
+            }
+        },
+        "actions": {
+            "on-click-right": "mode",
+            "on-click-forward": "tz_up",
+            "on-click-backward": "tz_down",
+            "on-scroll-up": "shift_up",
+            "on-scroll-down": "shift_down"
+        }
+    },
     "custom/power": {
         "format": "{}",
         "rotate": 0,

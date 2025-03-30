@@ -16,7 +16,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(package-vc-selected-packages
+   '((ultra-scroll :vc-backend Git :url "https://github.com/jdtsmith/ultra-scroll"))))
 
 (defun xx-setup-fonts ()
   "Setup fonts."
@@ -30,7 +31,7 @@
                                         :family font
                                         :height (cond (sys/macp 130)
                                                       (sys/win32p 110)
-                                                      (t 125))))
+                                                      (t 120))))
 
     ;; Set mode-line font
     ;; (cl-loop for font in '("Menlo" "SF Pro Display" "Helvetica")
@@ -56,7 +57,7 @@
     (cl-loop for font in '("Noto Sans Mono CJK SC")
              when (font-installed-p font)
              return (progn
-                      (setq face-font-rescale-alist `((,font . 1.10)))
+                      (setq face-font-rescale-alist `((,font . 1.15)))
                       (set-fontset-font t 'han (font-spec :family font))))))
 
 ;; Call the function to setup fonts
@@ -73,3 +74,9 @@
 ;; | 稍微长一点的文本 | 短文本       | 中等文本         |
 
 ;;; custom.el ends here
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

@@ -1,6 +1,8 @@
 ;; init-window.el --- Initialize window configurations.	-*- lexical-binding: t -*-
 
 ;;; Code:
+(eval-when-compile
+  (require 'init-custom))
 
 (use-package tabspaces
   :hook (after-init . tabspaces-mode)
@@ -14,7 +16,7 @@
   ;; sessions
   (tabspaces-session t)
   (tabspaces-session-auto-restore t)
-  :init
+  :config
   ;; Filter Buffers for Consult-Buffer
   (with-eval-after-load 'consult
     ;; hide full buffer list (still available with "b" prefix)

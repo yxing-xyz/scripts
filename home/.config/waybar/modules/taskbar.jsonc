@@ -8,11 +8,10 @@
 		"on-click": "activate",
 		"on-click-middle": "close",
 		"ignore-list": [
-			"Alacritty"
+			"testyx"
 		],
 		"app_ids-mapping": {
 			"firefoxdeveloperedition": "firefox-developer-edition",
       "jetbrains-datagrip": "DataGrip"
 		}
 	},
-

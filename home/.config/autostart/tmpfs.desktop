@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=tmpfs
+Exec=bash -c "mkdir -p /tmp/tmpfs && ln -sf /tmp/tmpfs ~"
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
