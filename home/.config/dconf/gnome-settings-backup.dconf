@@ -27,7 +27,7 @@ panel-id='world'
 size=(870, 690)
 
 [org/gnome/control-center]
-last-panel='wifi'
+last-panel='keyboard'
 window-state=(980, 640, false)
 
 [org/gnome/desktop/app-folders]
@@ -36,6 +36,11 @@ folder-children=['Utilities', 'YaST', 'Pardus']
 [org/gnome/desktop/app-folders/folders/Pardus]
 categories=['X-Pardus-Apps']
 name='X-Pardus-Apps.directory'
+translate=true
+
+[org/gnome/desktop/app-folders/folders/System]
+apps=['nm-connection-editor.desktop', 'org.gnome.baobab.desktop', 'org.gnome.DiskUtility.desktop', 'org.gnome.Logs.desktop', 'org.freedesktop.MalcontentControl.desktop', 'org.gnome.tweaks.desktop', 'org.gnome.SystemMonitor.desktop']
+name='X-GNOME-Shell-System.directory'
 translate=true
 
 [org/gnome/desktop/app-folders/folders/Utilities]
@@ -271,6 +276,7 @@ magnifier=@as []
 magnifier-zoom-in=@as []
 magnifier-zoom-out=@as []
 screenreader=@as []
+screensaver=['<Control><Super>l']
 
 [org/gnome/settings-daemon/plugins/power]
 power-button-action='nothing'
@@ -281,6 +287,7 @@ sleep-inactive-battery-type='suspend'
 overrides={'Gtk/IMModule': <'fcitx'>}
 
 [org/gnome/shell]
+app-picker-layout=[{'org.gnome.Contacts.desktop': <{'position': <0>}>, 'org.gnome.Weather.desktop': <{'position': <1>}>, 'kbd-layout-viewer5.desktop': <{'position': <2>}>, 'org.gnome.clocks.desktop': <{'position': <3>}>, 'org.gnome.Maps.desktop': <{'position': <4>}>, 'org.gnome.Music.desktop': <{'position': <5>}>, 'org.gnome.Extensions.desktop': <{'position': <6>}>, 'org.gnome.Settings.desktop': <{'position': <7>}>, 'org.gnome.Totem.desktop': <{'position': <8>}>, 'com.mattjakeman.ExtensionManager.desktop': <{'position': <9>}>, 'org.gnome.Snapshot.desktop': <{'position': <10>}>, 'org.gnome.Characters.desktop': <{'position': <11>}>, 'Utilities': <{'position': <12>}>, 'org.gnome.Console.desktop': <{'position': <13>}>, 'org.gnome.Tour.desktop': <{'position': <14>}>, 'blueman-manager.desktop': <{'position': <15>}>, 'yelp.desktop': <{'position': <16>}>, 'com.gitee.gmg137.NeteaseCloudMusicGtk4.desktop': <{'position': <17>}>, 'com.qq.weixin.desktop': <{'position': <18>}>, 'guvcview.desktop': <{'position': <19>}>, 'org.gnome.SimpleScan.desktop': <{'position': <20>}>, 'org.pulseaudio.pavucontrol.desktop': <{'position': <21>}>, 'org.kde.kuserfeedback-console.desktop': <{'position': <22>}>}, {'Alacritty.desktop': <{'position': <0>}>, 'org.kde.ark.desktop': <{'position': <1>}>, 'bssh.desktop': <{'position': <2>}>, 'bvnc.desktop': <{'position': <3>}>, 'avahi-discover.desktop': <{'position': <4>}>, 'btop.desktop': <{'position': <5>}>, 'chromium.desktop': <{'position': <6>}>, 'cmake-gui.desktop': <{'position': <7>}>, 'org.kde.dolphin.desktop': <{'position': <8>}>, 'emacs.desktop': <{'position': <9>}>, 'emacsclient.desktop': <{'position': <10>}>, 'org.fcitx.Fcitx5.desktop': <{'position': <11>}>, 'fcitx5-configtool.desktop': <{'position': <12>}>, 'org.fcitx.fcitx5-migrator.desktop': <{'position': <13>}>, 'firefox.desktop': <{'position': <14>}>, 'fish.desktop': <{'position': <15>}>, 'foot.desktop': <{'position': <16>}>, 'footclient.desktop': <{'position': <17>}>, 'foot-server.desktop': <{'position': <18>}>, 'gammastep-indicator.desktop': <{'position': <19>}>, 'com.gitlab.cunidev.Gestures.desktop': <{'position': <20>}>, 'google-chrome.desktop': <{'position': <21>}>, 'htop.desktop': <{'position': <22>}>, 'yad-icon-browser.desktop': <{'position': <23>}>}, {'kvantummanager.desktop': <{'position': <0>}>, 'localsend.desktop': <{'position': <1>}>, 'mpv.desktop': <{'position': <2>}>, 'assistant.desktop': <{'position': <3>}>, 'qdbusviewer.desktop': <{'position': <4>}>, 'linguist.desktop': <{'position': <5>}>, 'qv4l2.desktop': <{'position': <6>}>, 'qvidcap.desktop': <{'position': <7>}>, 'designer.desktop': <{'position': <8>}>, 'qt5ct.desktop': <{'position': <9>}>, 'qt6ct.desktop': <{'position': <10>}>, 'rofi.desktop': <{'position': <11>}>, 'rofi-theme-selector.desktop': <{'position': <12>}>, 'org.telegram.desktop.desktop': <{'position': <13>}>, 'uuctl.desktop': <{'position': <14>}>, 'v2raya.desktop': <{'position': <15>}>, 'vim.desktop': <{'position': <16>}>, 'code.desktop': <{'position': <17>}>, 'vlc.desktop': <{'position': <18>}>, 'org.wireshark.Wireshark.desktop': <{'position': <19>}>, 'yad-settings.desktop': <{'position': <20>}>, 'zellij.desktop': <{'position': <21>}>, 'org.gnome.SystemMonitor.desktop': <{'position': <22>}>}]
 command-history=['nwg-look', 'ala', 'alacritty', 'code', 'wechat', 'google-chrome-stable', 'telegram-desktop', 'cod', 'go']
 disable-user-extensions=false
 disabled-extensions=['places-menu@gnome-shell-extensions.gcampax.github.com', 'auto-move-windows@gnome-shell-extensions.gcampax.github.com', 'window-list@gnome-shell-extensions.gcampax.github.com', 'windowsNavigator@gnome-shell-extensions.gcampax.github.com', 'workspace-indicator@gnome-shell-extensions.gcampax.github.com', 'screenshot-window-sizer@gnome-shell-extensions.gcampax.github.com']
