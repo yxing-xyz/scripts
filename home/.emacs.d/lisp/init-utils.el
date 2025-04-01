@@ -87,15 +87,6 @@
   (cl-pushnew '("tmpl" . "*.tmpl") rg-custom-type-aliases))
 
 
-(use-package casual-calc
-  :ensure nil
-  :bind (:map
-         calc-mode-map
-         ("C-o" . casual-calc-tmenu)
-         :map
-         calc-alg-map
-         ("C-o" . casual-calc-tmenu))
-  :after (calc))
 
 (use-package pomidor
   :bind ("s-<f12>" . pomidor)

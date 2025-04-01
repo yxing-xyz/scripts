@@ -17,16 +17,18 @@
         eglot-send-changes-idle-time 0.5)
   :config
   (use-package consult-eglot
+    :after consult eglot
     :bind (:map eglot-mode-map
            ("C-M-." . consult-eglot-symbols)))
-  (when (executable-find "emacs-lsp-booster")
-    (unless (package-installed-p 'eglot-booster)
-      (and (fboundp #'package-vc-install)
-           (package-vc-install "https://github.com/jdtsmith/eglot-booster")))
-    (use-package eglot-booster
-      :ensure nil
-      :autoload eglot-booster-mode
-      :init (eglot-booster-mode 1))))
+
+
+  ;; Emacs LSP booster
+  (use-package eglot-booster
+    :when (and emacs/>=29p (executable-find "emacs-lsp-booster"))
+    :ensure nil
+    :init (unless (package-installed-p 'eglot-booster)
+            (package-vc-install "https://github.com/jdtsmith/eglot-booster"))
+    :hook (after-init . eglot-booster-mode)))
 
 (defun xx-eglot-organize-imports () (interactive)
 	   (eglot-code-actions nil nil "source.organizeImports" t))

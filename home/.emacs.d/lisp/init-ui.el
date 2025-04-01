@@ -264,15 +264,19 @@
       auto-window-vscroll nil
       scroll-preserve-screen-position t)
 
-;; Good pixel line scrolling
-(if (fboundp 'pixel-scroll-precision-mode)
-    (pixel-scroll-precision-mode t)
-  (when (and emacs/>=27p (not sys/macp))
-    (use-package good-scroll
-      :diminish
-      :hook (after-init . good-scroll-mode)
-      :bind (([remap next] . good-scroll-up-full-screen)
-             ([remap prior] . good-scroll-down-full-screen)))))
+
+;; Smooth scrolling
+(when emacs/>=29p
+  (use-package ultra-scroll
+    :ensure nil
+    :init (unless (package-installed-p 'ultra-scroll)
+            (package-vc-install "https://github.com/jdtsmith/ultra-scroll"))
+    :hook (after-init . ultra-scroll-mode)))
+
+(unless emacs/>=30p
+  (use-package iscroll
+    :diminish
+    :hook (image-mode . iscroll-mode)))
 
 ;; Use fixed pitch where it's sensible
 (use-package mixed-pitch
