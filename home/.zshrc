@@ -252,15 +252,6 @@ if [ ! -z ${ALACRITTY_LOG+x} ]; then
         fi
     fi
 fi
-# yazi
-function yy() {
-    local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
-    EDITOR=vim yazi "$@" --cwd-file="$tmp"
-    if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-        builtin cd -- "$cwd"
-    fi
-    rm -f -- "$tmp"
-}
 # pokeman icon
 # pokemon-colorscripts --no-title -r 1,3,6
 eval "$(vfox activate zsh)"
