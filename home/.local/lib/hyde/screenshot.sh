@@ -48,7 +48,7 @@ confDir="${confDir:-$XDG_CONFIG_HOME}"
 save_dir="${2:-$XDG_PICTURES_DIR/Screenshots}"
 save_file=$(date +'%y%m%d_%Hh%Mm%Ss_screenshot.png')
 temp_screenshot="/tmp/screenshot.png"
-annotation_tool=${SCREENSHOT_ANNOTATION_TOOL}
+annotation_tool=swappy
 annotation_args=("-o" "${save_dir}/${save_file}" "-f" "${temp_screenshot}")
 if [[ -z "$annotation_tool" ]]; then
 	pkg_installed "swappy" && annotation_tool="swappy"
@@ -88,15 +88,6 @@ m)                                                                              
 	# timeout 0.2 slurp                                                                                                                  # capture animation lol
 	# shellcheck disable=SC2086
 	"$LIB_DIR/hyde/grimblast" copysave output $temp_screenshot && "${annotation_tool}" ${evaluated_annotation_args} # intended globbing
-	;;
-sc) #? 󱉶 Use 'tesseract' to scan image then add to clipboard
-	check_package tesseract-data-eng tesseract
-	GEOM=$(slurp)
-	grim -g "${GEOM}" "${temp_screenshot}"
-	pkg_installed imagemagick && magick "${temp_screenshot}" -sigmoidal-contrast 10,50% "${temp_screenshot}"
-	tesseract "${temp_screenshot}" - | wl-copy
-	notify-send -a "HyDE Alert" "OCR preview" -i "${temp_screenshot}" -e
-	rm -f "${temp_screenshot}"
 	;;
 *) # invalid option
 	USAGE ;;
