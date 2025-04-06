@@ -79,3 +79,5 @@ home/.local/share/superfile
 home/.config/cava
 home/.config/QtProject.conf
 home/.config/kactivitymanagerdrc
+home/.emacs.d/tramp
+home/.emacs.d/%backup%~

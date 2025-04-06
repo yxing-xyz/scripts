@@ -18,7 +18,7 @@
 
 	"modules-left": ["custom/padd","custom/l_end","cpu","memory","custom/cpuinfo","network","custom/r_end","custom/l_end","hyprland/workspaces","custom/r_end","custom/padd"],
 	"modules-center": ["custom/padd","custom/l_end","wlr/taskbar","custom/r_end","custom/padd"],
-	"modules-right": ["custom/padd","custom/l_end","backlight","pulseaudio","pulseaudio#microphone","custom/keybindhint","privacy","tray","battery","idle_inhibitor","custom/r_end","custom/l_end","custom/wallchange","custom/theme","custom/wbar","custom/cliphist","clock","custom/power","custom/r_end","custom/padd"],
+	"modules-right": ["custom/padd","custom/l_end","backlight","pulseaudio","pulseaudio#microphone","privacy","tray","battery","idle_inhibitor","custom/r_end","custom/l_end","custom/wallchange","custom/theme","custom/wbar","custom/cliphist","clock","custom/power","custom/r_end","custom/padd"],
 
 
 // sourced from modules based on config.ctl //
@@ -146,13 +146,6 @@
     "tooltip-format": "{format_source} {source_desc} // {source_volume}%",
     "scroll-step": 5
 },
-
-    "custom/keybindhint": {
-        "format": " ",
-        "tooltip-format": " Keybinds",
-        "rotate": 0,
-        "on-click": "keybinds_hint.sh"
-    },
 
     "privacy": {
         "icon-size": 12,

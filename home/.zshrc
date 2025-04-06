@@ -227,8 +227,8 @@ alias tree='ls --tree'
 alias cat="bat"
 alias diff="difft --display inline"
 alias lzg='lazygit'
-alias ect='emacsclient -t'
-alias ecc='emacsclient -c'
+alias et='emacsclient -t'
+alias er='emacsclient -r'
 alias eq='emacs -nw -q'
 alias ssh="TERM=xterm-256color ${TRZSZ_ENABLE} ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
 alias docker="TERM=xterm-256color ${TRZSZ_ENABLE} docker"
