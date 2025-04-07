@@ -23,7 +23,7 @@
   "Setup fonts."
   (when (display-graphic-p)
     ;; Set Nerd Icons font family
-    (setq nerd-icons-font-family "CodeNewRoman Nerd Font Propo")
+    (setq nerd-icons-font-family "Symbols Nerd Font Mono")
     ;; Set default font
     (cl-loop for font in '("CodeNewRoman Nerd Font Propo")
              when (font-installed-p font)
@@ -31,7 +31,7 @@
                                         :family font
                                         :height (cond (sys/macp 130)
                                                       (sys/win32p 110)
-                                                      (t 120))))
+                                                      (t 110))))
 
     ;; Set mode-line font
     ;; (cl-loop for font in '("Menlo" "SF Pro Display" "Helvetica")
@@ -43,22 +43,24 @@
     ;;                   (set-face-attribute 'mode-line-inactive nil :family font :height 120)))
 
     ;; Specify font for all unicode characters
-    (cl-loop for font in '("CodeNewRoman Nerd Font Propo" "Apple Symbols" "Segoe UI Symbol" "Symbola" "Symbol")
+    (cl-loop for font in '("CodeNewRoman Nerd Font Propo")
              return (set-fontset-font t 'symbol (font-spec :family font) nil 'prepend))
 
     ;; Emoji
-    (cl-loop for font in '("CodeNewRoman Nerd Font Propo" "Noto Color Emoji" "Apple Color Emoji" "Segoe UI Emoji")
+    (cl-loop for font in '("CodeNewRoman Nerd Font Propo")
              when (font-installed-p font)
-             return (set-fontset-font t
-                                      (if (< emacs-major-version 28)'symbol 'emoji)
-                                      (font-spec :family font) nil 'prepend))
+             return  (progn
+                       (set-fontset-font t
+                                         (if (< emacs-major-version 28) 'symbol 'emoji)
+                                         (font-spec :family font) nil 'prepend)))
+
 
     ;; Specify font for Chinese characters
-    (cl-loop for font in '("Noto Sans Mono CJK SC")
+    (cl-loop for font in '("LXGW WenKai Mono")
              when (font-installed-p font)
              return (progn
-                      (setq face-font-rescale-alist `((,font . 1.15)))
-                      (set-fontset-font t 'han (font-spec :family font))))))
+                      (setq face-font-rescale-alist `((,font . 2.0)))
+                      (set-fontset-font t 'han (font-spec :family font :size 16))))))
 
 ;; Call the function to setup fonts
 (xx-setup-fonts)
