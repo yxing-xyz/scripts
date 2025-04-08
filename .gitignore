@@ -81,3 +81,6 @@ home/.config/QtProject.conf
 home/.config/kactivitymanagerdrc
 home/.emacs.d/tramp
 home/.emacs.d/%backup%~
+home/.emacs.d/projects
+home/.config/gopls/prompt
+home/.config/filezilla
