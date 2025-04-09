@@ -84,3 +84,6 @@ home/.emacs.d/%backup%~
 home/.emacs.d/projects
 home/.config/gopls/prompt
 home/.config/filezilla
+home/.local/share/clash-verge
+home/.local/share/io.github.clash-verge-rev.clash-verge-rev
+home/.config/dlv

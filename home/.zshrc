@@ -54,7 +54,7 @@ shutdownAfter() {
         if (($? != 0)); then
             break
         fi
-        sleep 300
+        sleep 10
     done
     shutdown -h now
 }
