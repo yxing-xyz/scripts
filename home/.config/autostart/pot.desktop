@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=pot
+Comment=potstartup script
+Exec=/usr/bin/pot 
+StartupNotify=false
+Terminal=false
