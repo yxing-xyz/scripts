@@ -106,3 +106,7 @@ home/.ssh/id_ed25519.pub
 home/.ssh/known_hosts
 home/.ssh/known_hosts.old
 .vscode
+home/.config/Kingsoft
+home/.local/share/Kingsoft
+home/.config/kingsoft
+home/.local/share/org.gnome.TextEditor

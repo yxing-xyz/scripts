@@ -1,4 +1,3 @@
-
 [Default Applications]
 text/html=google-chrome.desktop
 x-scheme-handler/http=google-chrome.desktop
@@ -7,3 +6,9 @@ x-scheme-handler/about=google-chrome.desktop
 x-scheme-handler/unknown=google-chrome.desktop
 x-scheme-handler/magnet=google-chrome.desktop
 x-scheme-handler/clash=clash-verge.desktop
+application/pdf=wps-office-pdf.desktop
+application/x-zerosize=code.desktop
+
+[Added Associations]
+application/pdf=wps-office-pdf.desktop;
+application/x-zerosize=code.desktop;
