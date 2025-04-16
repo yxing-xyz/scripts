@@ -1,13 +1,31 @@
+[apps/seahorse/listing]
+keyrings-selected=['gnupg://']
+
+[apps/seahorse/windows/key-manager]
+height=863
+width=753
+
 [com/gitee/gmg137/NeteaseCloudMusicGtk4]
 cache-clear-flag=false
 music-rate=uint32 0
+style-variant='light'
 volume=1.0
+
+[org/blueberry]
+obex-enabled=false
+
+[org/blueman/general]
+window-properties=[529, 350, 0, 0]
+
+[org/freedesktop/tracker/miner/files]
+index-recursive-directories=['&DESKTOP']
+index-single-directories=['$HOME']
 
 [org/gnome/Music]
 window-maximized=true
 
 [org/gnome/Snapshot]
-is-maximized=false
+is-maximized=true
 window-height=640
 window-width=800
 
@@ -27,7 +45,7 @@ panel-id='world'
 size=(870, 690)
 
 [org/gnome/control-center]
-last-panel='keyboard'
+last-panel='wifi'
 window-state=(980, 640, false)
 
 [org/gnome/desktop/app-folders]
@@ -62,11 +80,19 @@ picture-uri-dark='file:///usr/share/backgrounds/gnome/glass-chip-d.jxl'
 primary-color='#26a269'
 secondary-color='#000000'
 
+[org/gnome/desktop/break-reminders/eyesight]
+play-sound=true
+
+[org/gnome/desktop/break-reminders/movement]
+duration-seconds=uint32 300
+interval-seconds=uint32 1800
+play-sound=true
+
 [org/gnome/desktop/datetime]
 automatic-timezone=false
 
 [org/gnome/desktop/default-applications/terminal]
-exec=''
+exec='/usr/bin/bash'
 
 [org/gnome/desktop/input-sources]
 mru-sources=[('xkb', 'us')]
@@ -78,26 +104,33 @@ accent-color='green'
 color-scheme='default'
 cursor-size=22
 cursor-theme='Bibata-Modern-Ice'
-document-font-name='Inconsolata Nerd Font 10'
+document-font-name='Noto Sans CJK SC 10'
 enable-hot-corners=false
-font-antialiasing='grayscale'
+font-antialiasing='rgba'
 font-hinting='full'
-font-name='Cantarell 11'
+font-name='Noto Sans CJK SC 10'
 font-rgba-order='rgb'
 gtk-enable-primary-paste=false
-gtk-theme='Adwaita'
-icon-theme='breeze'
-monospace-font-name='Inconsolata Nerd Font 10'
+gtk-theme='deepin'
+icon-theme='Tela-circle'
+monospace-font-name='Noto Sans Mono CJK SC 10'
 show-battery-percentage=true
 text-scaling-factor=1.0
 toolbar-icons-size='large'
 toolbar-style='both-horiz'
 
 [org/gnome/desktop/notifications]
-application-children=['gnome-power-panel', 'org-telegram-desktop', 'netease-cloud-music', 'google-chrome', 'org-wireshark-wireshark']
+application-children=['gnome-power-panel', 'org-telegram-desktop', 'netease-cloud-music', 'google-chrome', 'org-wireshark-wireshark', 'org-gnome-software', 'code', 'com-alibabainc-dingtalk']
+show-in-lock-screen=true
 
 [org/gnome/desktop/notifications/application/alacritty]
 application-id='Alacritty.desktop'
+
+[org/gnome/desktop/notifications/application/code]
+application-id='code.desktop'
+
+[org/gnome/desktop/notifications/application/com-alibabainc-dingtalk]
+application-id='com.alibabainc.dingtalk.desktop'
 
 [org/gnome/desktop/notifications/application/com-mattjakeman-extensionmanager]
 application-id='com.mattjakeman.ExtensionManager.desktop'
@@ -113,6 +146,9 @@ application-id='google-chrome.desktop'
 
 [org/gnome/desktop/notifications/application/netease-cloud-music]
 application-id='netease-cloud-music.desktop'
+
+[org/gnome/desktop/notifications/application/org-gnome-software]
+application-id='org.gnome.Software.desktop'
 
 [org/gnome/desktop/notifications/application/org-telegram-desktop]
 application-id='org.telegram.desktop.desktop'
@@ -142,7 +178,8 @@ primary-color='#26a269'
 secondary-color='#000000'
 
 [org/gnome/desktop/search-providers]
-disabled=['org.gnome.Contacts.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Calculator.desktop', 'org.gnome.Epiphany.desktop', 'org.gnome.Calendar.desktop', 'org.gnome.Software.desktop', 'org.gnome.clocks.desktop', 'org.gnome.Characters.desktop', 'firefox.desktop']
+disable-external=false
+disabled=['org.gnome.Contacts.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Calculator.desktop', 'org.gnome.Epiphany.desktop', 'org.gnome.Calendar.desktop', 'org.gnome.Software.desktop', 'org.gnome.clocks.desktop', 'org.gnome.Characters.desktop', 'firefox.desktop', 'org.gnome.seahorse.Application.desktop']
 sort-order=['org.gnome.Settings.desktop', 'org.gnome.Contacts.desktop', 'org.gnome.Nautilus.desktop']
 
 [org/gnome/desktop/session]
@@ -248,6 +285,7 @@ search-filter-time-type='last_modified'
 [org/gnome/nautilus/window-state]
 initial-size=(890, 550)
 initial-size-file-chooser=(890, 550)
+maximized=true
 
 [org/gnome/nm-applet/eap/579c3a24-31a7-4878-b21c-4e06312c0654]
 ignore-ca-cert=false
@@ -262,6 +300,12 @@ last-folder-path='/home/x/文档'
 
 [org/gnome/portal/filechooser/google-chrome]
 last-folder-path='/home/x/Downloads'
+
+[org/gnome/settings-daemon/global-shortcuts]
+applications=['google-chrome']
+
+[org/gnome/settings-daemon/global-shortcuts/google-chrome]
+shortcuts=[('open-dashboard', {'description': <'Open dashboard'>}), ('open-dashboard-with-running-scripts', {'description': <"Open dashboard with the current tab's URL used as filter">}), ('open-new-script', {'description': <'Open new script tab'>}), ('toggle-enable', {'description': <'Toggle enable state'>})]
 
 [org/gnome/settings-daemon/plugins/color]
 night-light-enabled=false
@@ -328,6 +372,7 @@ check-timestamp=int64 1742180384
 download-updates=false
 first-run=false
 flatpak-purge-timestamp=int64 1742532859
+update-notification-timestamp=int64 1744776586
 
 [org/gnome/tweaks]
 show-extensions-notice=false
@@ -336,9 +381,33 @@ show-extensions-notice=false
 show-hidden=false
 sort-directories-first=false
 
+[org/gtk/settings/file-chooser]
+date-format='regular'
+location-mode='path-bar'
+show-hidden=true
+show-size-column=true
+show-type-column=true
+sidebar-width=148
+sort-column='name'
+sort-directories-first=false
+sort-order='ascending'
+type-format='category'
+window-position=(0, 0)
+window-size=(1536, 960)
+
 [system/proxy]
+autoconfig-url=''
+ignore-hosts=['localhost', '127.0.0.1', '192.168.0.0/16', '10.0.0.0/8', '172.16.0.0/12', '::1']
 mode='none'
 
 [system/proxy/http]
+host='127.0.0.1'
+port=12333
+
+[system/proxy/https]
+host='127.0.0.1'
+port=12333
+
+[system/proxy/socks]
 host='127.0.0.1'
 port=12333

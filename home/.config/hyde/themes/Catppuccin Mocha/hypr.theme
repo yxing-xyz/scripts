@@ -1,9 +1,11 @@
 $HOME/.config/hypr/themes/theme.conf|> $HOME/.config/hypr/themes/colors.conf
 #  // P̳r̳a̳s̳a̳n̳t̳h̳ R̳a̳n̳g̳a̳n̳
 
-$GTK_THEME=adw-gtk3-dark
+$GTK_THEME= deepin
 $ICON_THEME = Tela-circle
-$COLOR_SCHEME = prefer-dark
+# prefer-dark
+$COLOR_SCHEME = default
+
 
 # Optional: The varibles above will be set automatically when the theme is loaded
 # This exec commands will soon be deprecated
