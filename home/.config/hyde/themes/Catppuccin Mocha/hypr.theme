@@ -3,8 +3,8 @@ $HOME/.config/hypr/themes/theme.conf|> $HOME/.config/hypr/themes/colors.conf
 
 $GTK_THEME= deepin
 $ICON_THEME = Tela-circle
-# prefer-dark
-$COLOR_SCHEME = default
+# prefer-dark prefer-light default
+$COLOR_SCHEME = prefer-light
 
 
 # Optional: The varibles above will be set automatically when the theme is loaded
