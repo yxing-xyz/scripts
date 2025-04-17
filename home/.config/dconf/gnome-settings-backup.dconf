@@ -45,7 +45,7 @@ panel-id='world'
 size=(870, 690)
 
 [org/gnome/control-center]
-last-panel='sharing'
+last-panel='display'
 window-state=(980, 640, false)
 
 [org/gnome/desktop/app-folders]
@@ -75,8 +75,8 @@ translate=true
 [org/gnome/desktop/background]
 color-shading-type='solid'
 picture-options='zoom'
-picture-uri='file:///usr/share/backgrounds/gnome/glass-chip-l.jxl'
-picture-uri-dark='file:///usr/share/backgrounds/gnome/glass-chip-d.jxl'
+picture-uri='file:///home/x/.config/background'
+picture-uri-dark='file:///home/x/.config/background'
 primary-color='#26a269'
 secondary-color='#000000'
 
@@ -101,7 +101,7 @@ xkb-options=['terminate:ctrl_alt_bksp']
 
 [org/gnome/desktop/interface]
 accent-color='green'
-color-scheme='default'
+color-scheme='prefer-dark'
 cursor-size=22
 cursor-theme='Bibata-Modern-Ice'
 document-font-name='Noto Sans CJK SC 10'
@@ -120,7 +120,7 @@ toolbar-icons-size='large'
 toolbar-style='both-horiz'
 
 [org/gnome/desktop/notifications]
-application-children=['gnome-power-panel', 'org-telegram-desktop', 'netease-cloud-music', 'google-chrome', 'org-wireshark-wireshark', 'org-gnome-software', 'code', 'com-alibabainc-dingtalk', 'wemeetapp', 'wps-office-pdf']
+application-children=['gnome-power-panel', 'org-telegram-desktop', 'netease-cloud-music', 'google-chrome', 'org-wireshark-wireshark', 'org-gnome-software', 'code', 'com-alibabainc-dingtalk', 'wemeetapp', 'wps-office-pdf', 'com-qq-weixin', 'pot']
 show-in-lock-screen=true
 
 [org/gnome/desktop/notifications/application/alacritty]
@@ -134,6 +134,9 @@ application-id='com.alibabainc.dingtalk.desktop'
 
 [org/gnome/desktop/notifications/application/com-mattjakeman-extensionmanager]
 application-id='com.mattjakeman.ExtensionManager.desktop'
+
+[org/gnome/desktop/notifications/application/com-qq-weixin]
+application-id='com.qq.weixin.desktop'
 
 [org/gnome/desktop/notifications/application/emacsclient]
 application-id='emacsclient.desktop'
@@ -155,6 +158,9 @@ application-id='org.telegram.desktop.desktop'
 
 [org/gnome/desktop/notifications/application/org-wireshark-wireshark]
 application-id='org.wireshark.Wireshark.desktop'
+
+[org/gnome/desktop/notifications/application/pot]
+application-id='pot.desktop'
 
 [org/gnome/desktop/notifications/application/wemeetapp]
 application-id='wemeetapp.desktop'
@@ -396,7 +402,7 @@ locations=@av []
 check-timestamp=int64 1742180384
 download-updates=false
 first-run=false
-flatpak-purge-timestamp=int64 1744812784
+flatpak-purge-timestamp=int64 1744879437
 update-notification-timestamp=int64 1744776586
 
 [org/gnome/tweaks]
