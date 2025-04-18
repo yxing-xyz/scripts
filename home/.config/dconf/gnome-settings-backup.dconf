@@ -5,6 +5,9 @@ keyrings-selected=['gnupg://']
 height=863
 width=753
 
+[com/ftpix/transparentbar]
+transparency=50
+
 [com/gitee/gmg137/NeteaseCloudMusicGtk4]
 cache-clear-flag=false
 music-rate=uint32 0
@@ -45,7 +48,7 @@ panel-id='world'
 size=(870, 690)
 
 [org/gnome/control-center]
-last-panel='display'
+last-panel='sound'
 window-state=(980, 640, false)
 
 [org/gnome/desktop/app-folders]
@@ -96,6 +99,7 @@ exec='/usr/bin/bash'
 
 [org/gnome/desktop/input-sources]
 mru-sources=[('xkb', 'us')]
+show-all-sources=true
 sources=[('xkb', 'us')]
 xkb-options=['terminate:ctrl_alt_bksp']
 
@@ -152,6 +156,9 @@ application-id='netease-cloud-music.desktop'
 
 [org/gnome/desktop/notifications/application/org-gnome-software]
 application-id='org.gnome.Software.desktop'
+
+[org/gnome/desktop/notifications/application/org-gnome-tweaks]
+application-id='org.gnome.tweaks.desktop'
 
 [org/gnome/desktop/notifications/application/org-telegram-desktop]
 application-id='org.telegram.desktop.desktop'
