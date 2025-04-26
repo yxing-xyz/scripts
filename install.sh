@@ -29,21 +29,11 @@ create_symlink() {
     fi
 }
 
-# 处理目录
-declare -A dirs_to_link=(
-    ["${home_dir}/.config"]="${HOME}/.config"
-    ["${home_dir}/.local"]="${HOME}/.local"
+# 手动映射
+declare -A link_map=(
     ["${home_dir}/.ssh"]="${HOME}/.ssh"
     ["${home_dir}/.emacs.d"]="${HOME}/.emacs.d"
     ["${home_dir}/.cargo"]="${HOME}/.cargo"
-)
-
-for target in "${!dirs_to_link[@]}"; do
-    create_symlink "$target" "${dirs_to_link[$target]}"
-done
-
-# 处理文件
-declare -A files_to_link=(
     ["${home_dir}/.Xresources"]="${HOME}/.Xresources"
     ["${home_dir}/.zshrc"]="${HOME}/.zshrc"
     ["${home_dir}/.gitconfig"]="${HOME}/.gitconfig"
@@ -51,6 +41,27 @@ declare -A files_to_link=(
     ["${home_dir}/.gtkrc-2.0"]="${HOME}/.gtkrc-2.0"
 )
 
-for target in "${!files_to_link[@]}"; do
-    create_symlink "$target" "${files_to_link[$target]}"
+for target in "${!link_map[@]}"; do
+    create_symlink "$target" "${link_map[$target]}"
+done
+
+# 处理.config
+contents=("$home_dir/.config"/*)
+for item in "${contents[@]}"; do
+    create_symlink "$item" "${HOME}/.config/$(basename "$item")"
+done
+
+# 处理.local
+contents=("$home_dir/.local"/*)
+for item in "${contents[@]}"; do
+    if [[ "$(basename $item)" != "share" ]]; then
+        create_symlink "$item" "${HOME}/.local/$(basename "$item")"
+    fi
+done
+
+# 处理.local/share
+contents=("$home_dir/.local/share"/*)
+mkdir -p ${HOME}/.local/share
+for item in "${contents[@]}"; do
+    create_symlink "$item" "${HOME}/.local/share/$(basename "$item")"
 done
