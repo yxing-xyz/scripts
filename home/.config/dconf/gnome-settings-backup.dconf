@@ -52,7 +52,7 @@ panel-id='world'
 size=(870, 690)
 
 [org/gnome/control-center]
-last-panel='display'
+last-panel='keyboard'
 window-state=(980, 640, false)
 
 [org/gnome/desktop/app-folders]
@@ -349,7 +349,7 @@ night-light-enabled=false
 night-light-schedule-automatic=false
 
 [org/gnome/settings-daemon/plugins/media-keys]
-custom-keybindings=@as []
+custom-keybindings=['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/']
 help=@as []
 home=['<Super>e']
 logout=@as []
@@ -358,6 +358,11 @@ magnifier-zoom-in=@as []
 magnifier-zoom-out=@as []
 screenreader=@as []
 screensaver=['<Control><Super>l']
+
+[org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0]
+binding='<Super>c'
+command=' curl "127.0.0.1:60828/selection_translate"'
+name='翻译'
 
 [org/gnome/settings-daemon/plugins/power]
 power-button-action='nothing'
