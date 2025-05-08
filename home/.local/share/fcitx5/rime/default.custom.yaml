@@ -1,11 +1,19 @@
 patch:
+  ascii_composer:
+    initial_mode: ascii # 默认是半角输入法
+  key_binder/bindings/+:
+    - { when: always, accept: Shift_R, toggle: full_shape } # 开启Shift_R切换全角半角
+  good_old_caps_lock: false # 不要开启caps切换中英文
+  punctuator:
+    full_shape: []
+    half_shape: []
   "menu/page_size": 7
   # 仅使用「雾凇拼音」的默认配置，配置此行即可
   __include: rime_ice_suggestion:/
   # 以下根据自己所需自行定义，仅做参考。
   # 针对对应处方的定制条目，请使用 <recipe>.custom.yaml 中配置，例如 rime_ice.custom.yaml
   __patch:
-    key_binder/bindings/+:
-      # 开启逗号句号翻页
-      - { when: paging, accept: comma, send: Page_Up }
-      - { when: has_menu, accept: period, send: Page_Down }
+    # key_binder/bindings/+:
+    #   # 开启逗号句号翻页
+    #   - { when: paging, accept: comma, send: Page_Up }
+    #   - { when: has_menu, accept: period, send: Page_Down }
