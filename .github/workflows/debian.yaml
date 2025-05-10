@@ -8,6 +8,12 @@ on:
       - "debian/latest/**"
   schedule:
     - cron: "0 0 1 * *"
+  workflow_dispatch: # 添加这一行以支持手动触发
+      inputs: # 可选：定义输入参数
+        exampleInput:
+          description: '示例输入参数'
+          required: false
+          default: 'default_value'
 env:
   TZ: Asia/Shanghai
 jobs:
