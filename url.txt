@@ -1,0 +1,35 @@
+2025-05-10 22:52:15
+
+docker run -dit --name code --hostname code --restart always \
+    --privileged --pull always --platform linux/arm64 \
+    -p 22:22 \
+    registry.cn-hangzhou.aliyuncs.com/yxing-xyz/linux:debian-bullseye bash -c "mkdir -p /run/sshd && /usr/sbin/sshd -D"
+
+yxing-xyz-scripts.txt
+
+trzsz-trzsz-go.txt
+
+derailed-k9s.txt
+
+jesseduffield-lazygit.txt
+
+tsenart-vegeta.txt
+
+FiloSottile-mkcert.txt
+
+version-fox-vfox.txt
+
+jesseduffield-lazydocker.txt
+
+v2fly-v2ray-core.txt
+
+v2rayA-v2rayA.txt
+
+localsend-localsend.txt
+
+FelisCatus-SwitchyOmega.txt
+
+wagoodman-dive.txt
+
+iyear-tdl.txt
+
