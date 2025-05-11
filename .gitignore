@@ -113,3 +113,4 @@ home/.local/share/org.gnome.TextEditor
 home/.config/GIMP/3.0
 home/.config/totem
 home/.local/share/grilo-plugins
+home/.cargo/git
