@@ -1,3 +1,2 @@
 GO111MODULE=on
-GOPROXY=https://mirrors.aliyun.com/goproxy/
-GOSUMDB=sum.golang.google.cn
+GOPROXY=https://goproxy.cn,direct

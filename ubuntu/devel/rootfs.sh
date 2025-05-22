@@ -10,7 +10,11 @@ apt install -y gcc g++ make automake autoconf libtool perl bash git lrzsz procps
     psmisc sudo vim tmux bsdmainutils htop netcat-openbsd
 apt install -y openssh-server zlib1g-dev libssl-dev libpcre2-dev libpcre3-dev
 apt install -y tcpdump lsof net-tools bind9-utils bind9-dnsutils mtr wget curl iputils-arping iputils-ping iputils-tracepath
-locale-gen en_US.UTF-8
+
+echo "zh_CN.UTF-8 UTF-8" >> /etc/locale.gen
+echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
+echo "LANG=en_US.UTF-8" >> /etc/environment
+locale-gen
 sed -i 's/[# ]*PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
 ssh-keygen -A
 
