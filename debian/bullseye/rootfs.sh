@@ -3,9 +3,11 @@ set -e
 
 export DEBIAN_FRONTEND=noninteractive
 
+dpkg --add-architecture arm64
 apt -y update
 apt -y upgrade
-
+apt install -y gcc-aarch64-linux-gnu
+apt install -y libpcap-dev:arm64 libcephfs-dev:arm64 librbd-dev:arm64 librados-dev:arm64
 apt install -y gcc g++ make automake autoconf libtool perl bash git lrzsz procps netcat-openbsd \
     sudo vim tmux htop
 apt install -y openssh-server zlib1g-dev libssl-dev libpcre2-dev libpcre3-dev
@@ -22,3 +24,7 @@ ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
 ## china
 sed -i 's/deb.debian.org/mirrors.nju.edu.cn/g' /etc/apt/sources.list
+
+wget https://go.dev/dl/go1.24.3.linux-amd64.tar.gz
+curl -sSL https://go.dev/dl/go1.24.3.linux-amd64.tar.gz | sudo tar -xz -C /usr/local/lib/
+ln -sf /usr/local/lib/go/bin/* /usr/local/bin/
