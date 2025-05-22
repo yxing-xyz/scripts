@@ -9,9 +9,12 @@ apt -y upgrade
 apt install -y gcc g++ make automake autoconf libtool perl bash git lrzsz procps netcat-openbsd \
     sudo vim tmux htop
 apt install -y openssh-server zlib1g-dev libssl-dev libpcre2-dev libpcre3-dev
-apt install -y tcpdump lsof net-tools bind9-utils bind9-dnsutils mtr wget curl
-
-sed -i 's/[# ]*UsePAM.*/UsePAM no/' /etc/ssh/sshd_config
+apt install -y tcpdump lsof net-tools bind9-utils bind9-dnsutils mtr wget curl locales
+echo "zh_CN.UTF-8 UTF-8" >> /etc/locale.gen
+echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
+echo "LANG=en_US.UTF-8" >> /etc/environment
+locale-gen
+sed -i 's/[# ]*UsePAM.*/UsePAM yes/' /etc/ssh/sshd_config
 sed -i 's/[# ]*PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
 mkdir /var/run/sshd
 ssh-keygen -A
