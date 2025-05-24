@@ -30,6 +30,10 @@ yum install -y gcc gcc-c++ make automake autoconf libtool perl bash git lrzsz pr
 yum install -y openssh-server zlib-devel openssl-devel pcre-devel
 yum install -y tcpdump lsof net-tools bind-utils mtr wget curl
 
+echo "zh_CN.UTF-8 UTF-8" >> /etc/locale.gen
+echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
+echo "LANG=en_US.UTF-8" >> /etc/environment
+locale-gen
 sed -i 's/[# ]*PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
 ssh-keygen -A
 echo 'root:root' | chpasswd
