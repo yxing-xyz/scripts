@@ -8,7 +8,7 @@ yum update -y
 
 
 yum install -y gcc gcc-c++ make automake autoconf libtool perl bash git lrzsz procps \
-    psmisc sudo vim tmux netcat
+    psmisc sudo vim tmux netcat glibc-common
 yum install -y openssh-server zlib-devel openssl-devel pcre-devel
 yum install -y tcpdump lsof net-tools bind-utils mtr wget glibc-langpack-en glibc-langpack-zh
 yum install -y curl --allowerasing
