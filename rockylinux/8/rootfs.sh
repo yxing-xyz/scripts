@@ -8,7 +8,7 @@ yum update -y
 yum install -y gcc gcc-c++ make automake autoconf libtool perl bash git lrzsz procps \
     psmisc sudo vim tmux netcat glibc-common
 yum install -y openssh-server zlib-devel openssl-devel pcre-devel
-yum install -y tcpdump lsof net-tools bind-utils mtr wget curl glibc-langpack-en glibc-langpack-zh
+yum install -y tcpdump lsof net-tools bind-utils mtr wget curl glibc-locale-source glibc-langpack-en glibc-langpack-zh
 echo "LANG=en_US.UTF-8" >>/etc/environment
 localedef -i en_US -f UTF-8 en_US.UTF-8
 localedef -i zh_CN -f UTF-8 zh_CN.UTF-8
