@@ -9,7 +9,7 @@ sed -i 's|#MAKEFLAGS.*|MAKEFLAGS="-j17"|' /etc/makepkg.conf
 tee >>/etc/pacman.conf <<EOF
 [archlinuxcn]
 SigLevel = Never
-Server = https://mirrors.nju.edu.cn/archlinuxcn/\$arch
+Server = https://repo.archlinuxcn.org/\$arch
 EOF
 
 parted /dev/vda mklabel gpt
