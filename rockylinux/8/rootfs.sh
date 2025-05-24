@@ -12,7 +12,8 @@ yum install -y tcpdump lsof net-tools bind-utils mtr wget curl glibc-langpack-en
 echo "zh_CN.UTF-8 UTF-8" >> /etc/locale.gen
 echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
 echo "LANG=en_US.UTF-8" >> /etc/environment
-locale-gen
+localedef -i en_US -f UTF-8 en_US.UTF-8
+localedef -i zh_CN -f UTF-8 zh_US.UTF-8
 sed -i 's/[# ]*PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
 ssh-keygen -A
 
