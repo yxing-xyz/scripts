@@ -9,8 +9,9 @@ echo >>./url.txt
 
 tee >>./url.txt <<EOF
 docker run -dit --name code --hostname code --restart always \\
-    --privileged --pull always --platform linux/arm64 \\
+    --privileged --pull always --platform linux/amd64 \\
     -p 22:22 \\
+    -e DOCKER_HOST=tcp://host.docker.internal:2375 \\
     registry.cn-hangzhou.aliyuncs.com/yxing-xyz/linux:debian-bullseye bash -c "mkdir -p /run/sshd && /usr/sbin/sshd -D"
 EOF
 echo >>./url.txt
