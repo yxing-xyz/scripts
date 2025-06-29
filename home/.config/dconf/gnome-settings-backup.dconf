@@ -18,11 +18,18 @@ volume=1.0
 obex-enabled=false
 
 [org/blueman/general]
-window-properties=[529, 350, 0, 0]
+window-properties=[631, 492, 0, 0]
+
+[org/blueman/plugins/recentconns]
+recent-connections=[{'adapter': '2C:98:11:7A:A9:AA', 'address': '40:D4:F6:AE:5F:B8', 'alias': 'HONOR Earbuds X5', 'icon': 'audio-headset', 'name': '音频和输入配置文件', 'uuid': '00000000-0000-0000-0000-000000000000', 'time': '1746844194.128046', 'device': '/org/bluez/hci0/dev_40_D4_F6_AE_5F_B8'}]
 
 [org/freedesktop/tracker/miner/files]
 index-recursive-directories=['&DESKTOP']
 index-single-directories=['$HOME']
+
+[org/gnome/Console]
+last-window-maximised=false
+last-window-size=(572, 530)
 
 [org/gnome/Music]
 window-maximized=true
@@ -109,7 +116,7 @@ xkb-options=['terminate:ctrl_alt_bksp']
 
 [org/gnome/desktop/interface]
 accent-color='green'
-color-scheme='prefer-dark'
+color-scheme='prefer-light'
 cursor-size=22
 cursor-theme='Bibata-Modern-Ice'
 document-font-name='Noto Sans CJK SC 10'
@@ -119,7 +126,7 @@ font-hinting='full'
 font-name='Noto Sans CJK SC 10'
 font-rgba-order='rgb'
 gtk-enable-primary-paste=false
-gtk-theme='deepin'
+gtk-theme='adw-gtk3-dark'
 icon-theme='Tela-circle'
 monospace-font-name='Noto Sans Mono CJK SC 10'
 show-battery-percentage=true
@@ -128,7 +135,7 @@ toolbar-icons-size='large'
 toolbar-style='both-horiz'
 
 [org/gnome/desktop/notifications]
-application-children=['gnome-power-panel', 'org-telegram-desktop', 'netease-cloud-music', 'google-chrome', 'org-wireshark-wireshark', 'org-gnome-software', 'code', 'com-alibabainc-dingtalk', 'wemeetapp', 'wps-office-pdf', 'com-qq-weixin', 'pot']
+application-children=['gnome-power-panel', 'org-telegram-desktop', 'netease-cloud-music', 'google-chrome', 'org-wireshark-wireshark', 'org-gnome-software', 'code', 'com-alibabainc-dingtalk', 'wemeetapp', 'wps-office-pdf', 'com-qq-weixin', 'pot', 'org-gnome-nautilus', 'org-gnome-texteditor', 'alacritty', 'wps-office-et', 'org-flameshot-flameshot']
 show-in-lock-screen=true
 
 [org/gnome/desktop/notifications/application/alacritty]
@@ -158,8 +165,17 @@ application-id='google-chrome.desktop'
 [org/gnome/desktop/notifications/application/netease-cloud-music]
 application-id='netease-cloud-music.desktop'
 
+[org/gnome/desktop/notifications/application/org-flameshot-flameshot]
+application-id='org.flameshot.Flameshot.desktop'
+
+[org/gnome/desktop/notifications/application/org-gnome-nautilus]
+application-id='org.gnome.Nautilus.desktop'
+
 [org/gnome/desktop/notifications/application/org-gnome-software]
 application-id='org.gnome.Software.desktop'
+
+[org/gnome/desktop/notifications/application/org-gnome-texteditor]
+application-id='org.gnome.TextEditor.desktop'
 
 [org/gnome/desktop/notifications/application/org-gnome-tweaks]
 application-id='org.gnome.tweaks.desktop'
@@ -175,6 +191,9 @@ application-id='pot.desktop'
 
 [org/gnome/desktop/notifications/application/wemeetapp]
 application-id='wemeetapp.desktop'
+
+[org/gnome/desktop/notifications/application/wps-office-et]
+application-id='wps-office-et.desktop'
 
 [org/gnome/desktop/notifications/application/wps-office-pdf]
 application-id='wps-office-pdf.desktop'
@@ -315,16 +334,20 @@ toggle-tiled-right=@as []
 restore-shortcuts=@as []
 
 [org/gnome/nautilus/preferences]
-default-folder-viewer='icon-view'
+default-folder-viewer='list-view'
 migrated-gtk-settings=true
 search-filter-time-type='last_modified'
 
 [org/gnome/nautilus/window-state]
 initial-size=(890, 550)
 initial-size-file-chooser=(890, 550)
-maximized=true
+maximized=false
 
 [org/gnome/nm-applet/eap/579c3a24-31a7-4878-b21c-4e06312c0654]
+ignore-ca-cert=false
+ignore-phase2-ca-cert=false
+
+[org/gnome/nm-applet/eap/933381d7-80d8-427e-aaa7-526c8c0f473b]
 ignore-ca-cert=false
 ignore-phase2-ca-cert=false
 
@@ -332,10 +355,21 @@ ignore-phase2-ca-cert=false
 ignore-ca-cert=false
 ignore-phase2-ca-cert=false
 
+[org/gnome/nm-applet/eap/c07fe366-6196-4dfd-adf8-e36af8466c9c]
+ignore-ca-cert=false
+ignore-phase2-ca-cert=false
+
+[org/gnome/nm-applet/eap/e292cc99-ae57-4aff-92a0-f312d06ee77f]
+ignore-ca-cert=false
+ignore-phase2-ca-cert=false
+
 [org/gnome/portal/filechooser/google-chrome-stable]
 last-folder-path='/home/x/文档'
 
 [org/gnome/portal/filechooser/google-chrome]
+last-folder-path='/home/x/workspace/codeup/armcloud-container-backend-service-go/bin'
+
+[org/gnome/portal/filechooser/org.gnome.Zenity]
 last-folder-path='/home/x/Downloads'
 
 [org/gnome/settings-daemon/global-shortcuts]
@@ -349,7 +383,7 @@ night-light-enabled=false
 night-light-schedule-automatic=false
 
 [org/gnome/settings-daemon/plugins/media-keys]
-custom-keybindings=['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/']
+custom-keybindings=['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/']
 help=@as []
 home=['<Super>e']
 logout=@as []
@@ -364,20 +398,26 @@ binding='<Super>c'
 command=' curl "127.0.0.1:60828/selection_translate"'
 name='翻译'
 
+[org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1]
+binding='Print'
+command='script --command "QT_QPA_PLATFORM=wayland flameshot gui" /dev/null\n'
+name='截图'
+
 [org/gnome/settings-daemon/plugins/power]
 power-button-action='nothing'
 sleep-inactive-ac-type='suspend'
+sleep-inactive-battery-timeout=3600
 sleep-inactive-battery-type='suspend'
 
 [org/gnome/settings-daemon/plugins/xsettings]
 overrides={'Gtk/IMModule': <'fcitx'>}
 
 [org/gnome/shell]
-app-picker-layout=[{'org.gnome.Contacts.desktop': <{'position': <0>}>, 'org.gnome.Weather.desktop': <{'position': <1>}>, 'kbd-layout-viewer5.desktop': <{'position': <2>}>, 'org.gnome.clocks.desktop': <{'position': <3>}>, 'org.gnome.Maps.desktop': <{'position': <4>}>, 'org.gnome.Music.desktop': <{'position': <5>}>, 'org.gnome.Extensions.desktop': <{'position': <6>}>, 'org.gnome.Settings.desktop': <{'position': <7>}>, 'org.gnome.Totem.desktop': <{'position': <8>}>, 'com.mattjakeman.ExtensionManager.desktop': <{'position': <9>}>, 'org.gnome.Snapshot.desktop': <{'position': <10>}>, 'org.gnome.Characters.desktop': <{'position': <11>}>, 'Utilities': <{'position': <12>}>, 'org.gnome.Console.desktop': <{'position': <13>}>, 'org.gnome.Tour.desktop': <{'position': <14>}>, 'blueman-manager.desktop': <{'position': <15>}>, 'yelp.desktop': <{'position': <16>}>, 'com.gitee.gmg137.NeteaseCloudMusicGtk4.desktop': <{'position': <17>}>, 'com.qq.weixin.desktop': <{'position': <18>}>, 'guvcview.desktop': <{'position': <19>}>, 'org.gnome.SimpleScan.desktop': <{'position': <20>}>, 'org.pulseaudio.pavucontrol.desktop': <{'position': <21>}>, 'org.kde.kuserfeedback-console.desktop': <{'position': <22>}>}, {'Alacritty.desktop': <{'position': <0>}>, 'org.kde.ark.desktop': <{'position': <1>}>, 'bssh.desktop': <{'position': <2>}>, 'bvnc.desktop': <{'position': <3>}>, 'avahi-discover.desktop': <{'position': <4>}>, 'btop.desktop': <{'position': <5>}>, 'chromium.desktop': <{'position': <6>}>, 'cmake-gui.desktop': <{'position': <7>}>, 'org.kde.dolphin.desktop': <{'position': <8>}>, 'emacs.desktop': <{'position': <9>}>, 'emacsclient.desktop': <{'position': <10>}>, 'org.fcitx.Fcitx5.desktop': <{'position': <11>}>, 'fcitx5-configtool.desktop': <{'position': <12>}>, 'org.fcitx.fcitx5-migrator.desktop': <{'position': <13>}>, 'firefox.desktop': <{'position': <14>}>, 'fish.desktop': <{'position': <15>}>, 'foot.desktop': <{'position': <16>}>, 'footclient.desktop': <{'position': <17>}>, 'foot-server.desktop': <{'position': <18>}>, 'gammastep-indicator.desktop': <{'position': <19>}>, 'com.gitlab.cunidev.Gestures.desktop': <{'position': <20>}>, 'google-chrome.desktop': <{'position': <21>}>, 'htop.desktop': <{'position': <22>}>, 'yad-icon-browser.desktop': <{'position': <23>}>}, {'kvantummanager.desktop': <{'position': <0>}>, 'localsend.desktop': <{'position': <1>}>, 'mpv.desktop': <{'position': <2>}>, 'assistant.desktop': <{'position': <3>}>, 'qdbusviewer.desktop': <{'position': <4>}>, 'linguist.desktop': <{'position': <5>}>, 'qv4l2.desktop': <{'position': <6>}>, 'qvidcap.desktop': <{'position': <7>}>, 'designer.desktop': <{'position': <8>}>, 'qt5ct.desktop': <{'position': <9>}>, 'qt6ct.desktop': <{'position': <10>}>, 'rofi.desktop': <{'position': <11>}>, 'rofi-theme-selector.desktop': <{'position': <12>}>, 'org.telegram.desktop.desktop': <{'position': <13>}>, 'uuctl.desktop': <{'position': <14>}>, 'v2raya.desktop': <{'position': <15>}>, 'vim.desktop': <{'position': <16>}>, 'code.desktop': <{'position': <17>}>, 'vlc.desktop': <{'position': <18>}>, 'org.wireshark.Wireshark.desktop': <{'position': <19>}>, 'yad-settings.desktop': <{'position': <20>}>, 'zellij.desktop': <{'position': <21>}>, 'org.gnome.SystemMonitor.desktop': <{'position': <22>}>, 'com.alibabainc.dingtalk.desktop': <{'position': <23>}>}, {'wemeetapp.desktop': <{'position': <0>}>, 'electron35.desktop': <{'position': <1>}>, 'filezilla.desktop': <{'position': <2>}>, 'gimp.desktop': <{'position': <3>}>, 'org.kde.krita.desktop': <{'position': <4>}>, 'pot.desktop': <{'position': <5>}>, 'hyprsysteminfo.desktop': <{'position': <6>}>, 'wps-office-et.desktop': <{'position': <7>}>, 'wps-office-wps.desktop': <{'position': <8>}>, 'wps-office-wpp.desktop': <{'position': <9>}>, 'wps-office-prometheus.desktop': <{'position': <10>}>, 'wps-office-pdf.desktop': <{'position': <11>}>, 'com.github.xournalpp.xournalpp.desktop': <{'position': <12>}>}]
+app-picker-layout=[{'org.gnome.Contacts.desktop': <{'position': <0>}>, 'org.gnome.Weather.desktop': <{'position': <1>}>, 'kbd-layout-viewer5.desktop': <{'position': <2>}>, 'org.gnome.clocks.desktop': <{'position': <3>}>, 'org.gnome.Maps.desktop': <{'position': <4>}>, 'org.gnome.Music.desktop': <{'position': <5>}>, 'org.gnome.Extensions.desktop': <{'position': <6>}>, 'org.gnome.Settings.desktop': <{'position': <7>}>, 'org.gnome.Totem.desktop': <{'position': <8>}>, 'com.mattjakeman.ExtensionManager.desktop': <{'position': <9>}>, 'org.gnome.Snapshot.desktop': <{'position': <10>}>, 'org.gnome.Characters.desktop': <{'position': <11>}>, 'Utilities': <{'position': <12>}>, 'org.gnome.Console.desktop': <{'position': <13>}>, 'org.gnome.Tour.desktop': <{'position': <14>}>, 'blueman-manager.desktop': <{'position': <15>}>, 'yelp.desktop': <{'position': <16>}>, 'com.gitee.gmg137.NeteaseCloudMusicGtk4.desktop': <{'position': <17>}>, 'com.qq.weixin.desktop': <{'position': <18>}>, 'guvcview.desktop': <{'position': <19>}>, 'org.gnome.SimpleScan.desktop': <{'position': <20>}>, 'org.pulseaudio.pavucontrol.desktop': <{'position': <21>}>, 'org.kde.kuserfeedback-console.desktop': <{'position': <22>}>}, {'Alacritty.desktop': <{'position': <0>}>, 'org.kde.ark.desktop': <{'position': <1>}>, 'bssh.desktop': <{'position': <2>}>, 'bvnc.desktop': <{'position': <3>}>, 'avahi-discover.desktop': <{'position': <4>}>, 'btop.desktop': <{'position': <5>}>, 'chromium.desktop': <{'position': <6>}>, 'cmake-gui.desktop': <{'position': <7>}>, 'org.kde.dolphin.desktop': <{'position': <8>}>, 'emacs.desktop': <{'position': <9>}>, 'emacsclient.desktop': <{'position': <10>}>, 'org.fcitx.Fcitx5.desktop': <{'position': <11>}>, 'fcitx5-configtool.desktop': <{'position': <12>}>, 'org.fcitx.fcitx5-migrator.desktop': <{'position': <13>}>, 'firefox.desktop': <{'position': <14>}>, 'foot.desktop': <{'position': <15>}>, 'footclient.desktop': <{'position': <16>}>, 'foot-server.desktop': <{'position': <17>}>, 'gammastep-indicator.desktop': <{'position': <18>}>, 'com.gitlab.cunidev.Gestures.desktop': <{'position': <19>}>, 'google-chrome.desktop': <{'position': <20>}>, 'htop.desktop': <{'position': <21>}>, 'yad-icon-browser.desktop': <{'position': <22>}>}, {'kvantummanager.desktop': <{'position': <0>}>, 'localsend.desktop': <{'position': <1>}>, 'mpv.desktop': <{'position': <2>}>, 'assistant.desktop': <{'position': <3>}>, 'qdbusviewer.desktop': <{'position': <4>}>, 'linguist.desktop': <{'position': <5>}>, 'qv4l2.desktop': <{'position': <6>}>, 'qvidcap.desktop': <{'position': <7>}>, 'designer.desktop': <{'position': <8>}>, 'qt5ct.desktop': <{'position': <9>}>, 'qt6ct.desktop': <{'position': <10>}>, 'rofi.desktop': <{'position': <11>}>, 'rofi-theme-selector.desktop': <{'position': <12>}>, 'org.telegram.desktop.desktop': <{'position': <13>}>, 'uuctl.desktop': <{'position': <14>}>, 'v2raya.desktop': <{'position': <15>}>, 'vim.desktop': <{'position': <16>}>, 'code.desktop': <{'position': <17>}>, 'vlc.desktop': <{'position': <18>}>, 'org.wireshark.Wireshark.desktop': <{'position': <19>}>, 'yad-settings.desktop': <{'position': <20>}>, 'zellij.desktop': <{'position': <21>}>, 'org.gnome.SystemMonitor.desktop': <{'position': <22>}>, 'com.alibabainc.dingtalk.desktop': <{'position': <23>}>}, {'wemeetapp.desktop': <{'position': <0>}>, 'electron35.desktop': <{'position': <1>}>, 'filezilla.desktop': <{'position': <2>}>, 'gimp.desktop': <{'position': <3>}>, 'org.kde.krita.desktop': <{'position': <4>}>, 'pot.desktop': <{'position': <5>}>, 'hyprsysteminfo.desktop': <{'position': <6>}>, 'wps-office-et.desktop': <{'position': <7>}>, 'wps-office-wps.desktop': <{'position': <8>}>, 'wps-office-wpp.desktop': <{'position': <9>}>, 'wps-office-prometheus.desktop': <{'position': <10>}>, 'wps-office-pdf.desktop': <{'position': <11>}>, 'com.github.xournalpp.xournalpp.desktop': <{'position': <12>}>, 'xdvi.desktop': <{'position': <13>}>}]
 command-history=['nwg-look', 'ala', 'alacritty', 'code', 'wechat', 'google-chrome-stable', 'telegram-desktop', 'cod', 'go']
 disable-user-extensions=false
 disabled-extensions=['places-menu@gnome-shell-extensions.gcampax.github.com', 'auto-move-windows@gnome-shell-extensions.gcampax.github.com', 'workspace-indicator@gnome-shell-extensions.gcampax.github.com', 'screenshot-window-sizer@gnome-shell-extensions.gcampax.github.com', 'windowsNavigator@gnome-shell-extensions.gcampax.github.com', 'window-list@gnome-shell-extensions.gcampax.github.com']
-enabled-extensions=['system-monitor@gnome-shell-extensions.gcampax.github.com', 'launch-new-instance@gnome-shell-extensions.gcampax.github.com', 'native-window-placement@gnome-shell-extensions.gcampax.github.com', 'kimpanel@kde.org', 'user-theme@gnome-shell-extensions.gcampax.github.com', 'status-icons@gnome-shell-extensions.gcampax.github.com', 'drive-menu@gnome-shell-extensions.gcampax.github.com', 'apps-menu@gnome-shell-extensions.gcampax.github.com', 'gnome-shell-go-to-last-workspace@github.com', 'light-style@gnome-shell-extensions.gcampax.github.com', 'appindicatorsupport@rgcjonas.gmail.com']
+enabled-extensions=['system-monitor@gnome-shell-extensions.gcampax.github.com', 'launch-new-instance@gnome-shell-extensions.gcampax.github.com', 'native-window-placement@gnome-shell-extensions.gcampax.github.com', 'kimpanel@kde.org', 'user-theme@gnome-shell-extensions.gcampax.github.com', 'status-icons@gnome-shell-extensions.gcampax.github.com', 'drive-menu@gnome-shell-extensions.gcampax.github.com', 'apps-menu@gnome-shell-extensions.gcampax.github.com', 'gnome-shell-go-to-last-workspace@github.com', 'light-style@gnome-shell-extensions.gcampax.github.com', 'appindicatorsupport@rgcjonas.gmail.com', 'screenshort-cut@pauloimon']
 welcome-dialog-last-shown-version='47.5'
 
 [org/gnome/shell/extensions/kimpanel]
@@ -394,6 +434,9 @@ show-on-all-monitors=false
 
 [org/gnome/shell/keybindings]
 focus-active-notification=@as []
+screenshot=@as []
+screenshot-window=@as []
+show-screenshot-ui=@as []
 switch-to-application-1=@as []
 switch-to-application-2=@as []
 switch-to-application-3=@as []
@@ -418,8 +461,8 @@ locations=@av []
 check-timestamp=int64 1742180384
 download-updates=false
 first-run=false
-flatpak-purge-timestamp=int64 1745031995
-update-notification-timestamp=int64 1744776586
+flatpak-purge-timestamp=int64 1751049806
+update-notification-timestamp=int64 1750906017
 
 [org/gnome/tweaks]
 show-extensions-notice=false
@@ -431,16 +474,16 @@ sort-directories-first=false
 [org/gtk/settings/file-chooser]
 date-format='regular'
 location-mode='path-bar'
-show-hidden=true
+show-hidden=false
 show-size-column=true
 show-type-column=true
-sidebar-width=148
+sidebar-width=204
 sort-column='name'
 sort-directories-first=false
 sort-order='ascending'
 type-format='category'
-window-position=(0, 0)
-window-size=(1536, 890)
+window-position=(81, 66)
+window-size=(1096, 847)
 
 [system/proxy]
 autoconfig-url=''
