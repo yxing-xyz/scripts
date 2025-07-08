@@ -1,4 +1,4 @@
-TRZSZ_ENABLE=trzsz
+TRZSZ_ENABLE=
 OMZTHEME=OMZT::robbyrussell
 # OMZTHEME=OMZT::eastwood
 # OMZTHEME=OMZT::garyblessington
@@ -24,7 +24,7 @@ export FZF_CTRL_T_COMMAND="fd --follow --exclude ".git" 2> /dev/null"
 export EDITOR='emacsclient -t'
 export RUSTUP_UPDATE_ROOT=https://mirrors.aliyun.com/rustup/rustup
 export RUSTUP_DIST_SERVER=https://mirrors.aliyun.com/rustup
-# vcpkg 
+# vcpkg
 export VCPKG_ROOT=$HOME/.local/share/vcpkg
 # PATH
 case ":${PATH}:" in
