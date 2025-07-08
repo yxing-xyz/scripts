@@ -34,7 +34,7 @@ jobs:
           sed -i -e 's|${IMAGE}|almalinux:10|' ./rootfs.Dockerfile
           docker system prune -af
           echo "TAGS<<EOF" >> $GITHUB_ENV
-          echo  ${{ secrets.REGISTRY }}/yxing-xyz/linux:almalinux10 >> $GITHUB_ENV
+          echo  ${{ secrets.REGISTRY }}/${{ secrets.USERNAME }}/linux:almalinux10 >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
       - name: Build and Push
         uses: docker/build-push-action@v5

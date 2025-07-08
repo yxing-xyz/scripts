@@ -40,7 +40,7 @@ jobs:
           sed -i -e 's|${IMAGE}|debian:bullseye|' ./rootfs.Dockerfile
           docker system prune -af
           echo "TAGS<<EOF" >> $GITHUB_ENV
-          echo  ${{ secrets.REGISTRY }}/yxing-xyz/linux:debian-bullseye >> $GITHUB_ENV
+          echo  ${{ secrets.REGISTRY }}/${{ secrets.USERNAME }}/linux:debian-bullseye >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
       - name: Build and Push
         uses: docker/build-push-action@v5

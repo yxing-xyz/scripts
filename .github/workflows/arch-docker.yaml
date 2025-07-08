@@ -42,7 +42,7 @@ jobs:
         run: |
           docker system prune -af
           echo "TAGS<<EOF" >> $GITHUB_ENV
-          echo  ${{ secrets.REGISTRY }}/yxing-xyz/linux:arch >> $GITHUB_ENV
+          echo  ${{ secrets.REGISTRY }}/${{ secrets.USERNAME }}/linux:arch >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
       - name: Build and Push
         uses: docker/build-push-action@v5
