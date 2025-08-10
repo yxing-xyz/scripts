@@ -1,4 +1,4 @@
-TRZSZ_ENABLE=
+TRZSZ_ENABLE=trzsz
 OMZTHEME=OMZT::robbyrussell
 # OMZTHEME=OMZT::eastwood
 # OMZTHEME=OMZT::garyblessington
