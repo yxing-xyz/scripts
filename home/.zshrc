@@ -62,7 +62,7 @@ shutdownAfter() {
 setProxy() {
     case $1 in
     start)
-        PROXY_SERVER="127.0.0.1:12333" # define your proxy server here
+        PROXY_SERVER="127.0.0.1:10808" # define your proxy server here
         echo "setting proxy..."
         export http_proxy="http://$PROXY_SERVER"
         export https_proxy="http://$PROXY_SERVER"
