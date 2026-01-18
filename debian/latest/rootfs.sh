@@ -16,7 +16,7 @@ echo "LANG=en_US.UTF-8" >> /etc/environment
 locale-gen
 sed -i 's/[# ]*UsePAM.*/UsePAM yes/' /etc/ssh/sshd_config
 sed -i 's/[# ]*PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
-mkdir /var/run/sshd
+mkdir -p /var/run/sshd
 ssh-keygen -A
 
 echo 'root:root' | chpasswd
