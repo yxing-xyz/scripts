@@ -17,12 +17,17 @@ else
     exit 1
 fi
 # 修复arm archlinux key错误
-# adduser -c "Arch Linux Package Management" -r alpm
+# adduser -c "Arch Linux Package Management" -r alpm # debian 写法
 adduser -g "Arch Linux Package Management" -S alpm
 sed -i 's|^Include = /etc/pacman.d/mirrorlist|Include = /etc/pacman.d/mirrorlist\nSigLevel = Never|g' /etc/pacman.conf
 sed -i 's|#Color|Color|' /etc/pacman.conf
 sed -i 's|#ParallelDownloads|ParallelDownloads|' /etc/pacman.conf
 sed -i 's|#MAKEFLAGS.*|MAKEFLAGS="-j2"|' /etc/makepkg.conf
+# 修复容器内运行pacman报错
+sed -i '/#DisableSandbox/{c\
+# No kernel landlock in containerd\
+DisableSandbox
+}' /etc/pacman.conf
 pacman-key --init
 
 mkdir -p /rootfs
