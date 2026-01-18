@@ -27,3 +27,5 @@ PACKER_LOG=1 packer build -var "qemu_binary=$qemu_binary" \
 cp "./output/$vm_name" .
 qemu-img convert -c -O qcow2 $vm_name smaller.qcow2
 mv -f smaller.qcow2 $vm_name
+# 修复github限制单个文件不超过2G,拆分成arch.qcow2.1 arch.qcow2.2
+split --number=2 --numeric-suffixes=1 --suffix-length=1 $vm_name "$vm_name."
