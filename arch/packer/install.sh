@@ -26,11 +26,12 @@ mount /dev/vda2 /mnt/boot/ESP
 
 sed -i 's|^Include = /etc/pacman.d/mirrorlist|Include = /etc/pacman.d/mirrorlist\nSigLevel = Never|g' /etc/pacman.conf
 pacman -Sy
-pacstrap -i /mnt base base-devel devtools linux linux-firmware linux-headers grub networkmanager dhcpcd vim net-tools squashfs-tools openssh --noconfirm
+pacstrap -i /mnt base base-devel devtools linux linux-firmware linux-headers grub networkmanager dhcpcd vim net-tools squashfs-tools openssh chrony --noconfirm
 genfstab -U -p /mnt >>/mnt/etc/fstab
 arch-chroot /mnt bash -c 'echo "root:root" | chpasswd'
 arch-chroot /mnt bash -c 'systemctl enable NetworkManager'
 arch-chroot /mnt bash -c 'systemctl enable sshd'
+arch-chroot /mnt bash -c 'systemctl enable chronyd'
 arch-chroot /mnt bash -c "echo 'zh_CN.UTF-8 UTF-8' >> /etc/locale.gen && echo 'en_US.UTF-8 UTF-8' >> /etc/locale.gen && echo 'LANG=en_US.UTF-8' >> /etc/environment && locale-gen && sed -i 's/[# ]*UsePAM.*/UsePAM yes/' /etc/ssh/sshd_config && sed -i 's/[# ]*PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config && ssh-keygen -A"
 arch-chroot /mnt bash -c 'grub-install --target=x86_64-efi --boot-directory=/boot/ --efi-directory=/boot/ESP --removable --no-nvram'
 arch-chroot /mnt bash -c 'grub-install --target=i386-pc --boot-directory=/boot /dev/vda'
