@@ -24,8 +24,8 @@ ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
 ## china
 if [[ $(uname -a) == *"x86_64"* ]]; then
-    sed -i 's|^URIs: http://archive.ubuntu.com/ubuntu/|URIs: http://mirror.nju.edu.cn/ubuntu/|g' /etc/apt/sources.list.d/ubuntu.sources
-    sed -i 's|^URIs: http://security.ubuntu.com/ubuntu/|URIs: http://mirror.nju.edu.cn/ubuntu/|g' /etc/apt/sources.list.d/ubuntu.sources
+    sed -i 's|^URIs: http://archive.ubuntu.com/ubuntu/|URIs: http://mirrors.aliyun.com/ubuntu/|g' /etc/apt/sources.list.d/ubuntu.sources
+    sed -i 's|^URIs: http://security.ubuntu.com/ubuntu/|URIs: http://mirrors.aliyun.com/ubuntu/|g' /etc/apt/sources.list.d/ubuntu.sources
 else
-    sed -i 's|^URIs: http://ports.ubuntu.com/ubuntu-ports/|URIs: http://mirror.nju.edu.cn/ubuntu-ports/|g' /etc/apt/sources.list.d/ubuntu.sources
+    sed -i 's|^URIs: http://ports.ubuntu.com/ubuntu-ports/|URIs: http://mirrors.aliyun.com/ubuntu-ports/|g' /etc/apt/sources.list.d/ubuntu.sources
 fi

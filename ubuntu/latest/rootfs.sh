@@ -23,27 +23,27 @@ ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 ## china
 if [[ $(uname -a) == *"x86_64"* ]]; then
 echo 'Types: deb
-URIs: https://mirror.nju.edu.cn/ubuntu
+URIs: https://mirrors.aliyun.com/ubuntu
 Suites: noble noble-updates noble-backports
 Components: main restricted universe multiverse
 Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
 
 # 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
 # Types: deb-src
-# URIs: https://mirror.nju.edu.cn/ubuntu
+# URIs: https://mirrors.aliyun.com/ubuntu
 # Suites: noble noble-updates noble-backports
 # Components: main restricted universe multiverse
 # Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
 
 # 以下安全更新软件源包含了官方源与镜像站配置，如有需要可自行修改注释切换
 # Types: deb
-# URIs: https://mirror.nju.edu.cn/ubuntu
+# URIs: https://mirrors.aliyun.com/ubuntu
 # Suites: noble-security
 # Components: main restricted universe multiverse
 # Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
 
 # # Types: deb-src
-# # URIs: https://mirror.nju.edu.cn/ubuntu
+# # URIs: https://mirrors.aliyun.com/ubuntu
 # # Suites: noble-security
 # # Components: main restricted universe multiverse
 # # Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
@@ -62,17 +62,17 @@ Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
 
 # 预发布软件源，不建议启用
 # Types: deb
-# URIs: https://mirror.nju.edu.cn/ubuntu
+# URIs: https://mirrors.aliyun.com/ubuntu
 # Suites: noble-proposed
 # Components: main restricted universe multiverse
 # Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
 
 # # Types: deb-src
-# # URIs: https://mirror.nju.edu.cn/ubuntu
+# # URIs: https://mirrors.aliyun.com/ubuntu
 # # Suites: noble-proposed
 # # Components: main restricted universe multiverse
 # # Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
 ' | tee /etc/apt/sources.list.d/ubuntu.sources
 else
-    sed 's|ports.ubuntu.com|mirrors.nju.edu.cn|' -i /etc/apt/sources.list
+    sed 's|ports.ubuntu.com|mirrors.aliyun.com|' -i /etc/apt/sources.list
 fi

@@ -25,4 +25,4 @@ ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
 ## china
 # debian 12容器修改了配置文件格式
-sed -i 's/deb.debian.org/mirrors.nju.edu.cn/g' /etc/apt/sources.list.d/debian.sources
+sed -i 's/deb.debian.org/mirrors.aliyun.com/g' /etc/apt/sources.list.d/debian.sources

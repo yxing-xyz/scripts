@@ -29,9 +29,9 @@
     `((melpa    . (("gnu"    . ,(format "%s://elpa.gnu.org/packages/" proto))
                    ("nongnu" . ,(format "%s://elpa.nongnu.org/nongnu/" proto))
                    ("melpa"  . ,(format "%s://melpa.org/packages/" proto))))
-      (nju     .  (("gnu"    . ,(format "%s://mirrors.nju.edu.cn/elpa/gnu/" proto))
-                   ("nongnu" . ,(format "%s://mirrors.nju.edu.cn/elpa/nongnu/" proto))
-                   ("melpa"  . ,(format "%s://mirrors.nju.edu.cn/elpa/melpa/" proto))))))
+      (ustc     .  (("gnu"    . ,(format "%s://mirrors.ustc.edu.cn/elpa/gnu/" proto))
+                   ("nongnu" . ,(format "%s://mirrors.ustc.edu.cn/elpa/nongnu/" proto))
+                   ("melpa"  . ,(format "%s://mirrors.ustc.edu.cn/elpa/melpa/" proto))))))
   "A list of the package archives."
   :group 'xx
   :type '(alist :key-type (symbol :tag "Archive group name")

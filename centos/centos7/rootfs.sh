@@ -3,13 +3,13 @@ set -e
 # china
 if [[ $(uname -a) == *"x86_64"* ]]; then
     sed -e 's|^mirrorlist=|#mirrorlist=|g' \
-        -e 's|^#baseurl=http://mirror.centos.org/centos|baseurl=https://mirrors.nju.edu.cn/centos-vault|g' \
+        -e 's|^#baseurl=http://mirror.centos.org/centos|baseurl=https://mirrors.aliyun.com/centos-vault|g' \
         -i.bak \
         /etc/yum.repos.d/CentOS-*.repo
 else
     sed -e 's|^mirrorlist=|#mirrorlist=|g' \
-        -e 's|^#baseurl=http://mirror.centos.org/altarch/|baseurl=https://mirror.nju.edu.cn/centos-vault/altarch/|g' \
-        -e 's|^#baseurl=http://mirror.centos.org/$contentdir/|baseurl=https://mirror.nju.edu.cn/centos-vault/altarch/|g' \
+        -e 's|^#baseurl=http://mirror.centos.org/altarch/|baseurl=https://mirrors.aliyun.com/centos-vault/altarch/|g' \
+        -e 's|^#baseurl=http://mirror.centos.org/$contentdir/|baseurl=https://mirrors.aliyun.com/centos-vault/altarch/|g' \
         -i.bak \
         /etc/yum.repos.d/CentOS-*.repo
 fi
@@ -20,8 +20,8 @@ yum update -y
 yum install -y epel-release
 sed -e 's!^metalink=!#metalink=!g' \
     -e 's!^#baseurl=!baseurl=!g' \
-    -e 's!https\?://download\.fedoraproject\.org/pub/epel!https://mirror.nju.edu.cn/epel!g' \
-    -e 's!https\?://download\.example/pub/epel!https://mirror.nju.edu.cn/epel!g' \
+    -e 's!https\?://download\.fedoraproject\.org/pub/epel!https://mirrors.aliyun.com/epel!g' \
+    -e 's!https\?://download\.example/pub/epel!https://mirrors.aliyun.com/epel!g' \
     -i /etc/yum.repos.d/epel{,-testing}.repo
 yum update -y
 

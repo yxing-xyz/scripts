@@ -3,7 +3,7 @@
 
 ;; (setq debug-on-error t)
 
-(setq xx-package-archives 'nju)
+(setq xx-package-archives 'ustc)
 ;; (setq xx-package-archives 'melpa)
 (setq xx-full-name "shawnyyu")
 (setq xx-mail-address "yxing.xyz@gmail.com")

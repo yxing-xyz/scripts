@@ -7,9 +7,9 @@ if [ "$(uname -m)" = "x86_64" ]; then
     update-grub
 fi
 tee >/etc/apk/repositories <<EOF
-http://mirrors.nju.edu.cn/alpine/latest-stable/main
-http://mirrors.nju.edu.cn/alpine/latest-stable/community
-http://mirrors.nju.edu.cn/alpine/edge/testing/
+http://mirrors.aliyun.com/alpine/latest-stable/main
+http://mirrors.aliyun.com/alpine/latest-stable/community
+http://mirrors.aliyun.com/alpine/edge/testing/
 EOF
 rm -rf /var/log/*
 rm -rf /var/cache/*
