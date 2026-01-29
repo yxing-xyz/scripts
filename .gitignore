@@ -100,9 +100,7 @@ home/.local/share/zinit/snippets
 home/.local/share/zoxide
 home/.local/state
 home/.local/state/lazygit/state.yml
-home/.ssh/authorized_keys
 home/.ssh/id_ed25519
-home/.ssh/id_ed25519.pub
 home/.ssh/known_hosts
 home/.ssh/known_hosts.old
 .vscode
@@ -114,3 +112,5 @@ home/.config/GIMP/3.0
 home/.config/totem
 home/.local/share/grilo-plugins
 home/.cargo/git
+home/.config/niri/dms/colors.kdl
+home/.config/niri/dms/colors.kdl

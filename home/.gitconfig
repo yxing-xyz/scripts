@@ -1,47 +1,83 @@
 [core]
-safecrlf = warn
-autocrlf = false
-fileMode = true
-quotepath = false
+    # 拒绝提交包含混合换行符的文件时发出警告
+    safecrlf = warn
+    # 关闭自动换行符转换（保持文件原始换行符，通常在多平台协作时建议设为 input 或 false）
+    autocrlf = false
+    # 检查并保存文件的执行权限（对脚本文件很重要）
+    fileMode = true
+    # 解决中文文件名显示为八进制转义字符的问题
+    quotepath = false
+
 [init]
-defaultBranch = main
+    # 设置执行 git init 时默认的分支名为 main
+    defaultBranch = main
+
 [pull]
-rebase = true
+    # pull 时默认使用 rebase 模式，保持提交历史呈线性，避免不必要的 merge commit
+    rebase = true
+
 [credential]
-helper = store
+    # 将密码永久存储在磁盘上（下次输入后不再询问，注意安全）
+    helper = store
+
 [user]
-email = yxing.xyz@gmail.com
-name = Ethan
+    email = yxing.xyz@gmail.com
+    name = Ethan Yu
+
 [oh-my-zsh]
-hide-dirty = 1
+    # 在 oh-my-zsh 主题中不显示该仓库的“脏”状态（提升超大仓库的终端性能）
+    hide-dirty = 1
+
 [alias]
-dlog = "-c diff.external='difft --display inline' log -p --ext-diff"
-dshow = "-c diff.external='difft --display inline' show HEAD --ext-diff"
-x-log = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --stat
-remote-recent-commits = "!f() { git branch -r | grep -v HEAD | while read b; do git log --color --format=\"%ci _%C(magenta)%cr %C(bold cyan)$b%Creset %s %C(bold blue)<%an>%Creset\" $b | head -n 1; done | sort -r | cut -d_ -f2- | sed 's;origin/;;g' | head -50; }; f"
-assume-unchanged = update-index --assume-unchanged
-no-assume-unchanged = update-index --no-assume-unchanged
-untracked-files = "!f() { git ls-files -v | grep '^[a-z]'; }; f"
-show-exclude = "!f() { cat \"$(git rev-parse --git-dir)/info/exclude\"; }; f"
-archive-dir = "!f() { cd ${GIT_PREFIX:-.}; mkdir -p $3; git archive --format=tar $1 $2 | tar -x -C $3; }; f"
-branch-diverged = "!f() { git cherry $1 $2 | grep '-';  }; f"
-keep-latest-commit = "!f() { \
-    if [ -z \"$1\" ]; then \
-        git fetch --depth 1 origin main; \
-    else \
-        git fetch --depth 1 origin \"$1\"; \
-    fi \
-}; f"
-empty-commit = "!f() { git commit --allow-empty -m 'empty'; }; f"
-rm-other-file = "!f() { git ls-files --others --exclude-standard | xargs rm; }; f"
-shallow-clone = "!f() { if [ -n \"$2\" ]; then git clone --depth 1 $1 -b $2; else git clone --depth 1 $1; fi }; f"
+    # 精简版状态，显示分支信息和文件状态缩写
+    st = status -sb
+    # 使用 difftastic 渲染行内差异的日志视图
+    dl = "!f() { git -c diff.external='difft --display inline' log -p --ext-diff \"$@\"; }; f"
+    # 使用 difftastic 显示最近一次提交的详细改动
+    ds = "!f() { git -c diff.external='difft --display inline' show HEAD --ext-diff \"$@\"; }; f"
+
+    # --- 日志与查看系列 ---
+    # 漂亮的彩色图形化日志，包含简略统计信息
+    lg = "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --stat"
+    # 核心黑科技：列出远程所有分支最近的提交记录，并按时间排序 (Remote Recent Branches)
+    rrb = "!f() { git branch -r | grep -v HEAD | while read b; do git log --color --format=\"%ci _%C(magenta)%cr %C(bold cyan)$b%Creset %s %C(bold blue)<%an>%Creset\" $b -n 1; done | sort -r | cut -d_ -f2- | sed 's;origin/;;g' | head -n 50; }; f"
+
+    # --- 索引与文件操作 (使用 hide/show 语义) ---
+    # 暂时忽略某个文件的改动（不会被 commit，适合本地临时改配置）
+    hide = "update-index --assume-unchanged"
+    # 取消忽略文件的改动
+    unhide = "update-index --no-assume-unchanged"
+    # 列出所有被标记为“假装未改变”的文件
+    hidden = "!git ls-files -v | grep '^[a-z]'"
+    # 显示当前仓库 .git/info/exclude 中的忽略规则 (List Excluded)
+    lse = "!f() { cat \"$(git rev-parse --git-dir)/info/exclude\"; }; f"
+
+    # --- 操作与维护系列 ---
+    # 将特定分支的内容打包并解压到指定目录 (Export to directory)
+    export-to = "!f() { mkdir -p \"$3\"; git archive --format=tar \"$1\" \"$2\" | tar -x -C \"$3\"; }; f"
+    # 对比两个分支之间的差异提交，找出分叉情况 (Overlap check)
+    overlap = "!f() { git cherry \"$1\" \"$2\" | grep '-'; }; f"
+    # 浅拉取指定分支的最新的一个提交，减少流量占用 (Snapshot)
+    snap = "!f() { branch=${1:-main}; git fetch --depth 1 origin \"$branch\"; }; f"
+    # 快速创建一个空白提交，常用于触发 CI/CD (Blank Empty Commit)
+    bec = "commit --allow-empty -m 'empty'"
+    # 强制删除所有未被追踪的文件，危险操作慎用 (Purge untracked)
+    purge = "!f() { git ls-files --others --exclude-standard | xargs -r rm; }; f"
+
 [diff]
-external = difft --display inline
+    # 使用 difftastic 作为外部差异比较工具，提供语义化的代码对比
+    external = difft --display inline
 
 [filter "lfs"]
-process = git-lfs filter-process
-required = true
-clean = git-lfs clean -- %f
-smudge = git-lfs smudge -- %f
+    # Git Large File Storage (LFS) 相关配置
+    process = git-lfs filter-process
+    required = true
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+
 [merge]
-	ff = false
+    # 合并时禁用快进模式（FF），强制生成 merge commit 以保留分支历史（与 pull.rebase 略有逻辑冲突，建议根据习惯调整）
+    ff = false
+[rebase]
+    # 在 rebase 时自动执行 stash push 和 stash pop
+    autoStash = true

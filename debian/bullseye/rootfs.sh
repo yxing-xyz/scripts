@@ -26,7 +26,7 @@ useradd -m -s /bin/bash x
 ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
 ## china
-sed -i 's/deb.debian.org/mirrors.nju.edu.cn/g' /etc/apt/sources.list
+sed -i 's/deb.debian.org/mirrors.aliyun.com/g' /etc/apt/sources.list
 
 wget -qO- --delete-after https://go.dev/dl/go1.24.3.linux-amd64.tar.gz | sudo tar -xz -C /usr/local/lib/
 ln -sf /usr/local/lib/go/bin/* /usr/local/bin/

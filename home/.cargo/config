@@ -2,7 +2,7 @@
 replace-with = 'mirror'
 
 [source.mirror]
-registry = "https://mirror.nju.edu.cn/git/crates.io-index.git"
+registry = "https://mirrors.aliyun.com/git/crates.io-index.git"
 
 [target.x86_64-unknown-linux-musl]
 linker = 'x86_64-multilib-linux-musl-gcc'

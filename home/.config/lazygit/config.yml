@@ -1,5 +1,9 @@
 gui:
   mouseEvents: false
   showIcons: true
-  nerdFontsVersion: ""
+  nerdFontsVersion: "3"
   showFileIcons: true
+  language: "auto" # 如果你系统是中文，它会自动切换
+git:
+  pagers:
+    - colorArg: always
