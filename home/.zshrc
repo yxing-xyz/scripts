@@ -21,7 +21,7 @@ export FZF_ALT_C_COMMAND='fd -t d --follow 2> /dev/null'
 export FZF_CTRL_T_COMMAND="fd --follow --exclude ".git" 2> /dev/null"
 
 # emacs
-export EDITOR='emacsclient -t'
+export EDITOR='vim'
 export RUSTUP_UPDATE_ROOT=https://mirrors.aliyun.com/rustup/rustup
 export RUSTUP_DIST_SERVER=https://mirrors.aliyun.com/rustup
 # vcpkg
@@ -230,6 +230,8 @@ alias lzg='lazygit'
 alias et='emacsclient -t'
 alias er='emacsclient -r'
 alias eq='emacs -nw -q'
+alias yy="yazi"
+alias yz="zoxide query -i | xargs -r yazi"
 alias ssh="TERM=xterm-256color ${TRZSZ_ENABLE} ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
 alias docker="TERM=xterm-256color ${TRZSZ_ENABLE} docker"
 alias lzd="${TRZSZ_ENABLE} lazydocker"
