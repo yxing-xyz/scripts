@@ -67,17 +67,6 @@
     # 现在拆分为两行：
     enable = true;
     type = "fcitx5";
-
-    # 下面这一块保持不变
-    fcitx5.addons = with pkgs; [
-      fcitx5-rime
-      # 改为下面这样，明确指向 qt6Packages
-      qt6Packages.fcitx5-chinese-addons
-      fcitx5-gtk
-      # 同样的，配置工具也建议用这个，兼容性更好
-      qt6Packages.fcitx5-configtool
-      rime-ice
-    ];
   };
   # 建议配置环境变量，确保应用能正确识别
   environment.variables = {
