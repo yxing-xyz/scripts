@@ -6,7 +6,7 @@
 }:
 
 {
-  system.stateVersion = "25.11"; # ⚠️ 只能升不能降
+  system.stateVersion = "25.11";
   hardware.graphics.enable = true;
   boot.tmp.useTmpfs = true;
   boot.tmp.tmpfsSize = "70%";
@@ -45,7 +45,6 @@
     dates = "weekly";
     options = "--delete-older-than 7d";
   };
-  nixpkgs.config.allowUnfree = true;
   hardware.enableRedistributableFirmware = true;
   users.users.root = {
     password = "root";
@@ -71,6 +70,7 @@
     docker
     nixfmt
     lsof
+    home-manager
   ];
   programs.zsh.enable = true;
 }
