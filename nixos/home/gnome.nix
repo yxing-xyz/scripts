@@ -138,6 +138,10 @@
       num-workspaces = 5;
     };
 
+    "org/gnome/desktop/sound" = {
+      event-sounds = false;
+    };
+
     "org/gnome/shell/keybindings" = {
       # 禁用一系列默认快捷键
       focus-active-notification = [ ];
