@@ -8,6 +8,7 @@
     ./git.nix
     ./ssh.nix
   ];
+
   # 关键点：将软件包与配置绑定
   home.packages = with pkgs; [
     bat
@@ -19,6 +20,7 @@
     sshuttle
     yazi
   ];
+
   programs.zsh = {
     enable = true;
     enableCompletion = true;
@@ -30,7 +32,12 @@
       size = 10000000;
       save = 10000000;
       path = "$HOME/.zsh_history";
-      share = true;
+      # 核心三個選項：
+      expireDuplicatesFirst = true; # 當超過歷史上限時，優先刪除重複的
+      ignoreDups = true; # 如果這條命令跟上一條一模一樣，就不記錄
+      ignoreAllDups = true; # 只要歷史裡有過這條命令，就把舊的刪掉，只記最新的（最強去重）
+      # 其他實用配置
+      share = true; # 多個 Terminal 窗口共享歷史記錄
     };
 
     sessionVariables = {
@@ -59,7 +66,6 @@
       c = "clear";
       rm = "trash-put";
       mkdir = "mkdir -p";
-      # ls = lib.mkForce "lsd";
       tree = "ls --tree";
       cat = "bat";
       diff = "difft --display inline";
@@ -80,10 +86,10 @@
       yz = "zoxide query -i | xargs -r yazi";
     };
 
-    # 3. Oh My Zsh 插件与库 (替代大部分 zinit snippet)
+    # 3. Oh My Zsh 插件与库
     oh-my-zsh = {
       enable = true;
-      theme = "robbyrussell"; # 你可以换成 eastwood, garyblessington 等
+      theme = "robbyrussell";
       plugins = [
         "git"
         "svn"
@@ -99,34 +105,111 @@
       cheat.sh() { curl -L cheat.sh/$1; }
 
       shutdownAfter() {
-          while [ true ]; do
-              pgrep $1 >/dev/null 2>&1
-              if (($? != 0)); then break; fi
-              sleep 10
-          done
-          shutdown -h now
+        while [ true ]; do
+          pgrep $1 >/dev/null 2>&1
+          if (($? != 0)); then break; fi
+          sleep 10
+        done
+        shutdown -h now
       }
 
       setProxy() {
-          case $1 in
-              start)
-                  local PROXY_SERVER="127.0.0.1:10808"
-                  export http_proxy="http://$PROXY_SERVER"
-                  export https_proxy="http://$PROXY_SERVER"
-                  export all_proxy="socks5://$PROXY_SERVER"
-                  echo "Proxy started."
-                  ;;
-              stop)
-                  unset http_proxy https_proxy all_proxy
-                  echo "Proxy stopped."
-                  ;;
-          esac
+        case $1 in
+          start)
+            local PROXY_SERVER="127.0.0.1:10808"
+            export http_proxy="http://$PROXY_SERVER"
+            export https_proxy="http://$PROXY_SERVER"
+            export all_proxy="socks5://$PROXY_SERVER"
+            echo "Proxy started."
+            ;;
+          stop)
+            unset http_proxy https_proxy all_proxy
+            echo "Proxy stopped."
+            ;;
+        esac
       }
 
       # --- ZLE & Bindkeys ---
-      bindkey -e # 使用 Emacs 模式
+      bindkey -e # 启用 Emacs 模式
+      bindkey -d # 恢复默认键位
 
-      # FZF 绑定
+      # Zsh clip to xorg clipboard 逻辑
+      if [[ -n $DISPLAY ]] || [[ "$OSTYPE" == darwin* ]]; then
+        x-copy-region-as-kill() {
+          zle copy-region-as-kill
+          print -rn $CUTBUFFER | clipcopy
+        }
+        zle -N x-copy-region-as-kill
+
+        x-kill-region() {
+          if (($REGION_ACTIVE == 1)); then
+            zle copy-region-as-kill
+            print -rn $CUTBUFFER | clipcopy
+            zle kill-region
+          else
+            zle backward-kill-word
+            print -rn $CUTBUFFER | clipcopy
+          fi
+        }
+        zle -N x-kill-region
+
+        x-yank() {
+          CUTBUFFER=$(clippaste)
+          zle yank
+        }
+        zle -N x-yank
+
+        x-kill-line() {
+          zle kill-line
+          print -rn -- "$CUTBUFFER" | clipcopy
+        }
+        zle -N x-kill-line
+
+        # 正确的按键绑定语法
+        bindkey '\ew' x-copy-region-as-kill
+        bindkey '^W' x-kill-region
+        bindkey '^Y' x-yank
+        bindkey '^K' x-kill-line
+      fi
+
+      x-input-current-path() {
+        CUTBUFFER=$(pwd)
+        zle yank
+      }
+      zle -N x-input-current-path
+      bindkey '^[\' x-input-current-path
+
+      x-input-empty-dir() {
+        CUTBUFFER='rm -rf ./*'
+        zle yank
+      }
+      zle -N x-input-empty-dir
+      bindkey '^[`' x-input-empty-dir
+
+      x-backward-delete-char() {
+        if (($REGION_ACTIVE == 1)); then
+          zle kill-region
+        else
+          zle backward-delete-char
+        fi
+      }
+      zle -N x-backward-delete-char
+
+      x-delete-char() {
+        if (($REGION_ACTIVE == 1)); then
+          zle kill-region
+        else
+          zle delete-char
+        fi
+      }
+      zle -N x-delete-char
+
+      bindkey '^?' x-backward-delete-char
+      bindkey '^[[3~' x-delete-char
+      bindkey '^x^e' edit-command-line
+
+      # FZF 配置
+      source <(fzf --zsh)
       bindkey '^S' fzf-history-widget
       bindkey '\e[' fzf-file-widget
       bindkey '\e]' fzf-cd-widget
@@ -136,33 +219,17 @@
       bindkey -s '\e^M' 'ls -lh\n'
       bindkey '\ec' capitalize-word
       bindkey '^T' transpose-chars
-      bindkey '^x^e' edit-command-line
-
-      # 自定义 ZLE 小部件 (路径输入、清空目录等)
-      x-input-current-path() { CUTBUFFER=$(pwd); zle yank; }
-      zle -N x-input-current-path
-      bindkey '^[\' x-input-current-path
-
-      x-input-empty-dir() { CUTBUFFER='rm -rf ./*'; zle yank; }
-      zle -N x-input-empty-dir
-      bindkey '^[`' x-input-empty-dir
-
-      # 剪贴板增强逻辑 (适配 X11/Darwin)
-      # 注意：clipcopy 是 OMZ clipboard 插件提供的
-      x-copy-region-as-kill() { zle copy-region-as-kill; print -rn $CUTBUFFER | clipcopy; }
-      zle -N x-copy-region-as-kill
-      bindkey '\ew' x-copy-region-as-kill
 
       # Alacritty & Zellij 自动挂载
       if [ ! -z "''${ALACRITTY_LOG+x}" ]; then
-          if [[ -z "$ZELLIJ" ]]; then
-              zellij attach -c
-          fi
+        if [[ -z "$ZELLIJ" ]]; then
+          zellij attach -c
+        fi
       fi
     '';
   };
 
-  # 配合 Zsh 所需的工具 (Home Manager 会自动处理安装)
+  # 配合 Zsh 所需的工具
   programs.zoxide.enable = true;
   programs.fzf.enable = true;
   programs.bat.enable = true;
