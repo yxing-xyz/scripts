@@ -29,7 +29,7 @@
 
   # 根目录挂载 @ 子卷
   fileSystems."/" = {
-    device = "/dev/disk/by-uuid/a1a84a5b-67d7-4695-8ad7-9a934114adc8";
+    device = "/dev/disk/by-uuid/69fb64e8-926b-41bd-98da-025e32ab1d20";
     fsType = "btrfs";
     options = [
       "subvol=@"
@@ -41,7 +41,7 @@
 
   # 用户目录挂载 @home 子卷
   fileSystems."/home" = {
-    device = "/dev/disk/by-uuid/a1a84a5b-67d7-4695-8ad7-9a934114adc8";
+    device = "/dev/disk/by-uuid/69fb64e8-926b-41bd-98da-025e32ab1d20";
     fsType = "btrfs";
     options = [
       "subvol=@home"
@@ -52,7 +52,7 @@
 
   # Nix Store 挂载 @nix 子卷 (NixOS 的灵魂所在)
   fileSystems."/nix" = {
-    device = "/dev/disk/by-uuid/a1a84a5b-67d7-4695-8ad7-9a934114adc8";
+    device = "/dev/disk/by-uuid/69fb64e8-926b-41bd-98da-025e32ab1d20";
     fsType = "btrfs";
     options = [
       "subvol=@nix"
@@ -64,7 +64,7 @@
 
   # 日志目录挂载 @log 子卷
   fileSystems."/var/log" = {
-    device = "/dev/disk/by-uuid/a1a84a5b-67d7-4695-8ad7-9a934114adc8";
+    device = "/dev/disk/by-uuid/69fb64e8-926b-41bd-98da-025e32ab1d20";
     fsType = "btrfs";
     options = [
       "subvol=@log"

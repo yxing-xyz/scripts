@@ -120,6 +120,8 @@
     google-chrome # Google 浏览器
     vscode # Visual Studio Code
     v2rayn # V2RayN 客户端
+    sing-box # Sing-Box 客户端
+    xray # XRay 客户端
     vlc # 媒体播放器
     telegram-desktop # Telegram 桌面版
     wireshark # 网络抓包工具
