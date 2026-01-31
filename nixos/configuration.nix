@@ -70,6 +70,7 @@
     htop
     docker
     nixfmt
+    lsof
   ];
   programs.zsh.enable = true;
 }

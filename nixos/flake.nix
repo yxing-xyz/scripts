@@ -81,7 +81,7 @@
           inherit system;
           specialArgs = { inherit pot-fixed myScriptsPath; };
           modules = commonModules ++ [
-            ({ ... }: vmConfig)
+            vmConfig
           ];
         };
       };

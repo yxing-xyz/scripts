@@ -21,6 +21,10 @@
       enable-hot-corners = false;
       # 显示电源百分比
       show-battery-percentage = true;
+      # 高分辨率关闭字体抗锯齿和提示
+      font-hinting = "none";
+      # 高分辨率使用灰度就行
+      font-antialiasing = "grayscale";
     };
 
     # 设置自动熄屏时间（10分钟）
@@ -156,7 +160,7 @@
       toggle-application-view = [ "<Super>r" ];
     };
 
-  # 1. 定义快捷键的具体内容
+    # 1. 定义快捷键的具体内容
     "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
       binding = "<Super>t";
       command = "curl '127.0.0.1:60828/selection_translate'";
