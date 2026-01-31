@@ -41,7 +41,7 @@
           home-manager.extraSpecialArgs = { inherit myScriptsPath; };
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          home-manager.backupFileExtension = ".nixbak";
+          home-manager.backupFileExtension = "nixbak";
           home-manager.users.x = import ./home.nix;
         }
       ];
