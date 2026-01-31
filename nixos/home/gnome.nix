@@ -123,6 +123,10 @@
       unmaximize = [ ];
     };
 
+    # 1. 禁用动态工作区（固定工作区数量的前提）
+    "org/gnome/mutter" = {
+      dynamic-workspaces = false;
+    };
     "org/gnome/desktop/wm/preferences" = {
       # 按住 Super 键可以用鼠标拖动窗口
       mouse-button-modifier = "<Super>";
@@ -243,5 +247,6 @@
     gnomeExtensions.kimpanel
     # gnomeExtensions.user-themes
     gnomeExtensions.vitals
+    gnomeExtensions.appindicator
   ];
 }

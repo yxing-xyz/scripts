@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
   system.stateVersion = "25.11"; # ⚠️ 只能升不能降
@@ -15,17 +20,22 @@
   };
   boot.loader.timeout = 10;
 
-
   networking.networkmanager.enable = true;
   systemd.settings.Manager = {
     DefaultTimeoutStartSec = "10s";
-    DefaultTimeoutStopSec  = "10s";
+    DefaultTimeoutStopSec = "10s";
   };
 
   nix.settings = {
-    experimental-features = [ "nix-command" "flakes" ];
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
     substituters = [ "https://mirrors.ustc.edu.cn/nix-channels/store" ];
-    trusted-users = [ "root" "@wheel" ];
+    trusted-users = [
+      "root"
+      "@wheel"
+    ];
     # 自动合并
     auto-optimise-store = true;
   };
@@ -59,6 +69,7 @@
     fastfetch
     htop
     docker
+    nixfmt
   ];
   programs.zsh.enable = true;
 }

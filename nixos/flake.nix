@@ -48,6 +48,19 @@
       pot-fixed = nixpkgs-pot.legacyPackages.${system}.pot;
       # --- 新增：为 packages 定义 pkgs 变量 ---
       # pkgs = nixpkgs.legacyPackages.${system};
+
+      vmConfig = {
+        virtualisation.vmVariant = {
+          virtualisation.memorySize = 4096;
+          virtualisation.cores = 4;
+          virtualisation.sharedDirectories = {
+            config_repo = {
+              source = myScriptsPath;
+              target = myScriptsPath;
+            };
+          };
+        };
+      };
     in
     {
       nixosConfigurations = {
@@ -55,9 +68,10 @@
         # 目标主机名设为 my-pc，安装时使用：sudo nixos-rebuild switch --flake .#my-pc
         x-laptop = nixpkgs.lib.nixosSystem {
           inherit system;
-          specialArgs = { inherit pot-fixed myScriptsPath;};
+          specialArgs = { inherit pot-fixed myScriptsPath; };
           modules = commonModules ++ [
-              ./hardware-configuration.nix # 这里存放物理机的分区表和驱动
+            ./hardware-configuration.nix # 这里存放物理机的分区表和驱动
+            vmConfig
           ];
         };
 
@@ -67,23 +81,7 @@
           inherit system;
           specialArgs = { inherit pot-fixed myScriptsPath; };
           modules = commonModules ++ [
-            (
-              { ... }:
-              {
-                # 修复报错：在 vmVariant 中定义虚拟机专属资源
-                virtualisation.vmVariant = {
-                  virtualisation.memorySize = 4096;
-                  virtualisation.cores = 4;
-                  virtualisation.sharedDirectories = {
-                    # 名字随便起，对应宿主机的配置目录
-                    config_repo = {
-                      source = myScriptsPath;
-                      target = myScriptsPath;
-                    };
-                  };
-                };
-              }
-            )
+            ({ ... }: vmConfig)
           ];
         };
       };
