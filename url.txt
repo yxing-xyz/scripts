@@ -1,0 +1,36 @@
+2026-02-01 10:24:59
+
+docker run -dit --name code --hostname code --restart always \
+    --privileged --pull always --platform linux/amd64 \
+    -p 22:22 \
+    -e DOCKER_HOST=tcp://host.docker.internal:2375 \
+    registry.cn-hangzhou.aliyuncs.com/yxing-xyz/linux:debian-bullseye bash -c "mkdir -p /run/sshd && /usr/sbin/sshd -D"
+
+yxing-xyz-scripts.txt
+
+trzsz-trzsz-go.txt
+
+derailed-k9s.txt
+
+jesseduffield-lazygit.txt
+
+tsenart-vegeta.txt
+
+FiloSottile-mkcert.txt
+
+version-fox-vfox.txt
+
+jesseduffield-lazydocker.txt
+
+v2fly-v2ray-core.txt
+
+v2rayA-v2rayA.txt
+
+localsend-localsend.txt
+
+FelisCatus-SwitchyOmega.txt
+
+wagoodman-dive.txt
+
+iyear-tdl.txt
+
