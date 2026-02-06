@@ -74,5 +74,5 @@ Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
 # # Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
 ' | tee /etc/apt/sources.list.d/ubuntu.sources
 else
-    sed 's|ports.ubuntu.com|mirrors.nju.edu.cn|' -i /etc/apt/sources.list
+    sed 's|ports.ubuntu.com|mirrors.aliyun.com|' -i /etc/apt/sources.list
 fi

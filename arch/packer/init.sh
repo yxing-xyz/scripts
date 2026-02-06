@@ -1,5 +1,5 @@
 #!/bin/sh
-echo 'Server = https://mirrors.nju.edu.cn/archlinux/$repo/os/$arch' > /etc/pacman.d/mirrorlist
+echo 'Server = https://mirrors.aliyun.com/archlinux/$repo/os/$arch' > /etc/pacman.d/mirrorlist
 
 sed -i 's|#Color|Color|' /etc/pacman.conf
 sed -i 's|#ParallelDownloads|ParallelDownloads|' /etc/pacman.conf
@@ -8,7 +8,7 @@ sed -i 's|#MAKEFLAGS.*|MAKEFLAGS="-j17"|' /etc/makepkg.conf
 tee >>/etc/pacman.conf <<EOF
 [archlinuxcn]
 SigLevel = Never
-Server = https://mirrors.nju.edu.cn/archlinuxcn/\$arch
+Server = https://mirrors.aliyun.com/archlinuxcn/\$arch
 EOF
 
 rm -rf /var/log/*

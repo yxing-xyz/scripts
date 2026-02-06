@@ -3,7 +3,7 @@ set -e
 # china
 if [[ $(uname -a) == *"x86_64"* ]]; then
     sed -e 's|^mirrorlist=|#mirrorlist=|g' \
-        -e 's|^#baseurl=http://mirror.centos.org/centos|baseurl=https://mirrors.nju.edu.cn/centos-vault|g' \
+        -e 's|^#baseurl=http://mirror.centos.org/centos|baseurl=https://mirrors.aliyun.com/centos-vault|g' \
         -i.bak \
         /etc/yum.repos.d/CentOS-*.repo
 else

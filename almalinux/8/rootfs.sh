@@ -20,7 +20,7 @@ useradd -m -s /bin/bash x
 ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
 sed -e 's|^mirrorlist=|#mirrorlist=|g' \
-    -e 's|^# baseurl=https://repo.almalinux.org|baseurl=https://mirrors.nju.edu.cn|g' \
+    -e 's|^# baseurl=https://repo.almalinux.org|baseurl=https://mirrors.aliyun.com|g' \
     -i.bak \
     /etc/yum.repos.d/almalinux*.repo
 
