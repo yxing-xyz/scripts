@@ -8,6 +8,9 @@ patch:
     #   # 开启逗号句号翻页
     #   - { when: paging, accept: comma, send: Page_Up }
     #   - { when: has_menu, accept: period, send: Page_Down }
+  "key_binder/bindings":
+    __patch:
+      - "key_bindings:/emacs_editing"
   ascii_composer:
     initial_mode: ascii # 默认是半角输入法
   ascii_composer/switch_key:
@@ -16,6 +19,8 @@ patch:
     - { when: always, accept: Shift_R, toggle: full_shape } # 开启Shift_R切换全角半角
     - { when: composing, accept: "-", send: Page_Up }
     - { when: composing, accept: "=", send: Page_Down }
+    # - { accept: Tab, send: Select, when: has_menu }
+    - { when: has_menu, accept: Tab, send: space }
   good_old_caps_lock: false # 不要开启caps切换中英文
   punctuator:
     full_shape: []

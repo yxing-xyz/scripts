@@ -55,6 +55,7 @@ let
 in
 {
   system.stateVersion = "25.11";
+  boot.kernelPackages = pkgs.linuxPackages_latest;
   # 自动清理
   nix = {
     gc = {
@@ -82,12 +83,13 @@ in
       trusted-users = [
         "root"
         "@wheel"
-        "x"
       ];
       # 自动合并
       auto-optimise-store = true;
+      use-xdg-base-directories = true;
     };
   };
+
   boot.tmp.useTmpfs = true;
   boot.tmp.tmpfsSize = "70%";
   boot.kernel.sysctl = {
@@ -117,7 +119,14 @@ in
     fixBinary = true;
   };
 
-  networking.networkmanager.enable = true;
+  networking.networkmanager = {
+    enable = true;
+    # 强制全局使用指定的 DNS
+    insertNameservers = [
+      "223.5.5.5"
+      "223.6.6.6"
+    ];
+  };
   systemd.settings.Manager = {
     DefaultTimeoutStartSec = "10s";
     DefaultTimeoutStopSec = "10s";
@@ -145,13 +154,15 @@ in
     qemu
     nixfmt
     lsof
-    home-manager
     file
     aria2
     efibootmgr
     pciutils
     rsync
     jq
+    dig
+    dnslookup
+    dhcpcd
   ];
   # 模拟标准的FHS文件系统布局
   # services.envfs.enable = true;
@@ -167,7 +178,7 @@ in
     ];
   };
   virtualisation.docker.enable = true;
-  virtualisation.docker.storageDriver = "btrfs";
+  virtualisation.docker.storageDriver = "overlay2";
 
   # 配置 Docker 镜像加速器
   virtualisation.docker.daemon.settings = {

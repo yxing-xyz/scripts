@@ -111,44 +111,6 @@ shutdownAfter() {
     done
     shutdown -h now
 }
-setProxy() {
-    case $1 in
-    start)
-        PROXY_SERVER="127.0.0.1:10808" # define your proxy server here
-        echo "setting proxy..."
-        export http_proxy="http://$PROXY_SERVER"
-        export https_proxy="http://$PROXY_SERVER"
-        export ftp_proxy="ftp://$PROXY_SERVER"
-        export HTTP_PROXY=$http_proxy
-        export HTTPS_PROXY=$https_proxy
-        export FTP_PROXY=$ftp_proxy
-        export all_proxy=$http_proxy
-        export NO_PROXY=localhost,192.168.*,10.*,127.0.*
-        ;;
-    stop)
-        echo "stopping proxy..."
-        unset http_proxy
-        unset https_proxy
-        unset ftp_proxy
-        unset HTTP_PROXY
-        unset HTTPS_PROXY
-        unset FTP_PROXY
-        unset all_proxy
-        unset NO_PROXY
-        ;;
-    status)
-        echo "http_proxy=$http_proxy"
-        echo "HTTP_PROXY=$HTTP_PROXY"
-        echo "https_proxy=$https_proxy"
-        echo "HTTPS_PROXY=$HTTPS_PROXY"
-        echo "ftp_proxy=$ftp_proxy"
-        echo "FTP_PROXY=$FTP_PROXY"
-        echo "all_proxy=$all_proxy"
-        echo "NO_PROXY=$NO_PROXY"
-        ;;
-    esac
-}
-
 # 按键
 if [[ -n $DISPLAY ]] || [[ "${OSTYPE}" == darwin* ]]; then
     x-copy-region-as-kill() {
@@ -261,7 +223,7 @@ shutdownAfter() {
 setProxy() {
   case $1 in
     start)
-      local PROXY_SERVER="127.0.0.1:10808"
+      local PROXY_SERVER="127.0.0.1:12333"
       export http_proxy="http://$PROXY_SERVER"
       export https_proxy="http://$PROXY_SERVER"
       export all_proxy="socks5://$PROXY_SERVER"

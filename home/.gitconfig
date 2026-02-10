@@ -63,6 +63,8 @@
     bec = "commit --allow-empty -m 'empty'"
     # 强制删除所有未被追踪的文件，危险操作慎用 (Purge untracked)
     purge = "!f() { git ls-files --others --exclude-standard | xargs -r rm; }; f"
+    # 查找内容相关的提交记录
+	trace = "!f() { git log -S \"$1\" --source --all; }; f"
 
 [diff]
     # 使用 difftastic 作为外部差异比较工具，提供语义化的代码对比
