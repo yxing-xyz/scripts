@@ -114,3 +114,6 @@ home/.local/share/grilo-plugins
 home/.cargo/git
 home/.config/niri/dms/colors.kdl
 home/.config/niri/dms/colors.kdl
+home/.config/gtk-3.0/dank-colors.css
+home/.config/gtk-4.0/dank-colors.css
+home/.config/emacs/projects

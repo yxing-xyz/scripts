@@ -3,8 +3,6 @@
 {
   imports = [
     ./alacritty.nix
-    ./fcitx5.nix
-    ./autostart.nix
   ];
 
   dconf.settings = {
@@ -21,7 +19,7 @@
       # 配色方案：'default' 对应自动（跟随系统），'prefer-dark' 是强制深色，'prefer-light' 是强制浅色
       color-scheme = "prefer-dark";
       # 恢复默认的 Adwaita 三件套
-      cursor-size = 36;
+      cursor-size = 24;
       cursor-theme = "Bibata-Modern-Ice";
       gtk-theme = "Sweet-v40";
       icon-theme = "Flat-Remix-Cyan-Dark";
@@ -83,8 +81,8 @@
     "org/gnome/desktop/wm/keybindings" = {
       # 基础窗口操作
       close = [ "<Super>q" ];
-      toggle-fullscreen = [ "<Control><Super>f" ];
-      toggle-maximized = [ "<Control><Super>m" ];
+      toggle-fullscreen = [ "<Super>f" ];
+      toggle-maximized = [ "<Super>m" ];
       show-desktop = [ "<Super>d" ];
 
       # 切换工作区 (1-5)
@@ -196,7 +194,7 @@
     # 2. 关键步骤：必须在这里注册上述路径，GNOME 才会读取它们
     "org/gnome/settings-daemon/plugins/media-keys" = {
       home = [ "<Super>e" ]; # 添加这一行，恢复 Super+E 打开主目录
-      screensaver = [ "<Alt><Super>l" ];
+      screensaver = [ "<Super>l" ];
       custom-keybindings = [
         "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/"
         "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/"

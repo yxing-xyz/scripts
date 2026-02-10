@@ -71,7 +71,7 @@ layout {
     // You can also customize the heights that "switch-preset-window-height" (Mod+Shift+R) toggles between.
     // preset-window-heights { }
     // You can change the default width of the new windows.
-    default-column-width { proportion 0.5; }
+    default-column-width { proportion 0.7; }
     // If you leave the brackets empty, the windows themselves will decide their initial width.
     // default-column-width {}
     // By default focus ring and border are rendered as a solid background rectangle
@@ -195,12 +195,11 @@ window-rule {
     open-floating true
 }
 window-rule {
-    match app-id=r#"^org\.wezfurlong\.wezterm$"#
     match app-id="Alacritty"
-    match app-id="zen"
-    match app-id="com.mitchellh.ghostty"
-    match app-id="kitty"
-    draw-border-with-background false
+    match app-id="code" // VS Code
+    match app-id="google-chrome"
+    draw-border-with-background true
+    default-column-width { proportion 1.0; }
 }
 window-rule {
     match app-id=r#"firefox$"# title="^Picture-in-Picture$"

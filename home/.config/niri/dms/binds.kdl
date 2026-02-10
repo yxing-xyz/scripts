@@ -8,13 +8,13 @@ binds {
     Mod+R hotkey-overlay-title="Application Launcher" {
         spawn "dms" "ipc" "call" "spotlight" "toggle"; // 切换搜索启动器
     }
+    Mod+D { focus-workspace 9; }
+    Mod+Return {
+        spawn "sh" "-c" "ID=$(niri msg -j windows | jq '.[] | select(.app_id == \"Alacritty\") | .id' | head -n 1); if [ -n \"$ID\" ]; then niri msg action focus-window --id \"$ID\"; else alacritty; fi"
+    }
     Mod+V hotkey-overlay-title="Clipboard Manager" {
         spawn "dms" "ipc" "call" "clipboard" "toggle"; // 切换剪贴板
     }
-    Mod+M hotkey-overlay-title="Task Manager" {
-        spawn "dms" "ipc" "call" "processlist" "focusOrToggle"; // 切换任务管理器
-    }
-
     Super+X hotkey-overlay-title="Power Menu: Toggle" { spawn "dms" "ipc" "call" "powermenu" "toggle"; } // 电源菜单
     Mod+Comma hotkey-overlay-title="Settings" {
         spawn "dms" "ipc" "call" "settings" "focusOrToggle"; // 打开设置
@@ -26,7 +26,7 @@ binds {
     Mod+Shift+N hotkey-overlay-title="Notepad" { spawn "dms" "ipc" "call" "notepad" "toggle"; } // 记事本
 
     // === Security ===
-    Mod+Alt+L hotkey-overlay-title="Lock Screen" {
+    Mod+Ctrl+L hotkey-overlay-title="Lock Screen" {
         spawn "dms" "ipc" "call" "lock" "lock"; // 锁屏
     }
     Mod+Shift+E { quit; } // 退出
@@ -68,39 +68,34 @@ binds {
        spawn "dms" "ipc" "call" "brightness" "decrement" "5" ""; // 降低亮度
     }
 
+    // 切换当前列的显示风格
+    // Mod+V { switch-layout-viusal-vertical; } // 垂直平铺（看得见所有窗口）
+    // Mod+S { switch-layout-visual-stacked; }  // 堆叠/标签页（只看当前，节省空间）
     // === Window Management ===
     Mod+Q repeat=false { close-window; } // 关闭窗口
-    Mod+F { maximize-column; } // 最大化列
-    Mod+Shift+F { fullscreen-window; } // 全屏
-    Mod+Shift+T { toggle-window-floating; } // 切换浮动
-    Mod+Shift+V { switch-focus-between-floating-and-tiling; } // 切换浮动/平铺焦点
-    Mod+W { toggle-column-tabbed-display; } // 切换列标签模式
+    Mod+M { maximize-column; } // 最大化列
+    Mod+F { fullscreen-window; } // 全屏
+    Mod+T { toggle-window-floating; } // 切换浮动
+    Mod+Shift+T { switch-focus-between-floating-and-tiling; } // 切换浮动/平铺焦点
+    Mod+S { toggle-column-tabbed-display; } // 切换列标签模式
 
     // === Focus Navigation ===
-    Mod+Left  { focus-column-left; } // 焦点左移
-    Mod+Down  { focus-window-down; } // 焦点下移
-    Mod+Up    { focus-window-up; } // 焦点上移
-    Mod+Right { focus-column-right; } // 焦点右移
+    // 列操作
     Mod+H     { focus-column-left; } // 焦点左移(H)
     Mod+J     { focus-window-down; } // 焦点下移(J)
     Mod+K     { focus-window-up; } // 焦点上移(K)
     Mod+L     { focus-column-right; } // 焦点右移(L)
-
-    // === Window Movement ===
-    Mod+Shift+Left  { move-column-left; } // 向左移动列
-    Mod+Shift+Down  { move-window-down; } // 向下移动窗口G
-    Mod+Shift+Up    { move-window-up; } // 向上移动窗口
-    Mod+Shift+Right { move-column-right; } // 向右移动列
     Mod+Shift+H     { move-column-left; } // 向左移动列(H)
     Mod+Shift+J     { move-window-down; } // 向下移动窗口(J)
     Mod+Shift+K     { move-window-up; } // 向上移动窗口(K)
     Mod+Shift+L     { move-column-right; } // 向右移动列(L)
-
-    // === Column Navigation ===
     Mod+Home { focus-column-first; } // 跳转到第一列
     Mod+End  { focus-column-last; } // 跳转到最后一列
-    Mod+Ctrl+Home { move-column-to-first; } // 移动当前列到首位
-    Mod+Ctrl+End  { move-column-to-last; } // 移动当前列到末位
+
+    Mod+Left { move-column-to-first; } // 移动当前列到首位
+    Mod+Right  { move-column-to-last; } // 移动当前列到末位
+    Mod+Down { move-column-to-workspace-down; } // 移动当前列到下个工作区
+    Mod+Up   { move-column-to-workspace-up; } // 移动当前列到上个工作区
 
     // === Monitor Navigation ===
     // Mod+Ctrl+Left  { focus-monitor-left; } // 聚焦左边显示器
@@ -123,34 +118,18 @@ binds {
     //Mod+Shift+Ctrl+L     { move-column-to-monitor-right; } // 移动到右边显示器(L)
 
     // === Workspace Navigation ===
-    Mod+Page_Down      { focus-workspace-down; } // 跳转下个工作区
-    Mod+Page_Up        { focus-workspace-up; } // 跳转上个工作区
-    Mod+Ctrl+J              { focus-workspace-down; } // 跳转下个工作区(U)
-    Mod+Ctrl+K              { focus-workspace-up; } // 跳转上个工作区(I)
-    Mod+Ctrl+Down { move-column-to-workspace-down; } // 移动当前列到下个工作区
-    Mod+Ctrl+Up   { move-column-to-workspace-up; } // 移动当前列到上个工作区
-    Mod+Ctrl+U         { move-column-to-workspace-down; } // 移动列到下个工作区(U)
-    Mod+Ctrl+I         { move-column-to-workspace-up; } // 移动列到上个工作区(I)
+    Mod+Alt+J              { focus-workspace-down; } // 跳转下个工作区(U)
+    Mod+Alt+K              { focus-workspace-up; } // 跳转上个工作区(I)
+    Mod+Alt+Down         { move-workspace-down; } // 下移工作区
+    Mod+Alt+Up         { move-workspace-up;  } // 上移工作区
 
-    // === Move Workspaces ===
-    Mod+Ctrl+Shift+J         { move-workspace-down; } // 下移工作区(U)
-    Mod+Ctrl+Shift+K         { move-workspace-up; } // 上移工作区(I)
 
     // === Mouse Wheel Navigation ===
     Mod+WheelScrollDown      cooldown-ms=150 { focus-workspace-down; } // 滚轮切下个工作区
     Mod+WheelScrollUp        cooldown-ms=150 { focus-workspace-up; } // 滚轮切上个工作区
-    Mod+Ctrl+WheelScrollDown cooldown-ms=150 { move-column-to-workspace-down; } // 滚轮移列到下个工作区
-    Mod+Ctrl+WheelScrollUp   cooldown-ms=150 { move-column-to-workspace-up; } // 滚轮移列到上个工作区
-
-    //Mod+WheelScrollRight      { focus-column-right; } // 水平滚轮切右边列
-    //Mod+WheelScrollLeft       { focus-column-left; } // 水平滚轮切左边列
-    //Mod+Ctrl+WheelScrollRight { move-column-right; } // 水平滚轮右移列
-    // Mod+Ctrl+WheelScrollLeft  { move-column-left; } // 水平滚轮左移列
 
     Mod+Shift+WheelScrollDown      { focus-column-right; } // Shift+滚轮下聚焦右列
     Mod+Shift+WheelScrollUp        { focus-column-left; } // Shift+滚轮上聚焦左列
-    Mod+Ctrl+Shift+WheelScrollDown { move-column-right; } // Ctrl+Shift+滚轮下右移列
-    Mod+Ctrl+Shift+WheelScrollUp   { move-column-left; } // Ctrl+Shift+滚轮上左移列
 
     // === Numbered Workspaces ===
     Mod+1 { focus-workspace 1; } // 切换工作区1
@@ -160,8 +139,6 @@ binds {
     Mod+5 { focus-workspace 5; } // 切换工作区5
     Mod+6 { focus-workspace 6; } // 切换工作区6
     Mod+7 { focus-workspace 7; } // 切换工作区7
-    Mod+8 { focus-workspace 8; } // 切换工作区8
-    Mod+9 { focus-workspace 9; } // 切换工作区9
 
     // === Move to Numbered Workspaces ===
     Mod+Shift+1 { move-column-to-workspace 1; } // 移动到工作区1
@@ -171,21 +148,22 @@ binds {
     Mod+Shift+5 { move-column-to-workspace 5; } // 移动到工作区5
     Mod+Shift+6 { move-column-to-workspace 6; } // 移动到工作区6
     Mod+Shift+7 { move-column-to-workspace 7; } // 移动到工作区7
-    Mod+Shift+8 { move-column-to-workspace 8; } // 移动到工作区8
-    Mod+Shift+9 { move-column-to-workspace 9; } // 移动到工作区9
 
-    // === Column Management ===
-    Mod+BracketLeft  { consume-or-expel-window-left; } // 合并/弹出左侧窗口
-    Mod+BracketRight { consume-or-expel-window-right; } // 合并/弹出右侧窗口
-    Mod+Period { expel-window-from-column; } // 从列中弹出当前窗口
 
-    // === Sizing & Layout ===
-    Mod+Alt+R { switch-preset-column-width; } // 切换预设列宽
-    Mod+Alt+Shift+R { switch-preset-window-height; } // 切换预设窗口高度
-    Mod+Ctrl+R { reset-window-height; } // 重置窗口高度
-    Mod+Ctrl+F { expand-column-to-available-width; } // 扩展当前列宽
+    // 窗口吸入/弹出逻辑组
+    Mod+BracketLeft  { consume-or-expel-window-left; }  // Mod + [
+    Mod+BracketRight { consume-or-expel-window-right; } // Mod + ]
+    Mod+Backslash    { expel-window-from-column; }      // Mod + \
     Mod+C { center-column; } // 居中当前列
     Mod+Ctrl+C { center-visible-columns; } // 居中所有可见列
+    // --- 9 家族：宽度 (Width) ---
+    Mod+9       { switch-preset-column-width; }      // 循环预设宽度 (如 33%, 50%, 100%)
+    Mod+Shift+9 { expand-column-to-available-width; } // 一键拉满宽度
+
+    // --- 0 家族：高度 (Height) ---
+    Mod+0       { switch-preset-window-height; }     // 循环预设高度
+    Mod+Shift+0 { reset-window-height; }            // 重置高度
+
 
     // === Manual Sizing ===
     Mod+Minus { set-column-width "-10%"; } // 缩小列宽

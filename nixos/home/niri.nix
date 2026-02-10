@@ -9,8 +9,6 @@
 {
   imports = [
     ./alacritty.nix
-    ./fcitx5.nix
-    ./autostart.nix
   ];
   home.packages = with pkgs; [
     niri

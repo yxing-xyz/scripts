@@ -3,7 +3,6 @@
   pkgs,
   lib,
   pot-fixed,
-  nixpkgs-unstable,
   ...
 }:
 
@@ -49,9 +48,6 @@
       };
     };
   };
-  services.displayManager.gdm.enable = true;
-  services.desktopManager.gnome.enable = true;
-  programs.niri.enable = true;
   # services.displayManager.sessionPackages = [ pkgs.niri ];
   # 国际化配置
   i18n.defaultLocale = "zh_CN.UTF-8";
@@ -94,6 +90,8 @@
   fonts = {
     fontDir.enable = true;
     packages = with pkgs; [
+      wqy_zenhei
+      wqy_microhei
       material-design-icons
       material-icons
       lxgw-wenkai
@@ -154,19 +152,23 @@
   environment.systemPackages = with pkgs; [
     brightnessctl # 屏幕亮度
     google-chrome # Google 浏览器
-    (nixpkgs-unstable.vscode.override {
-      commandLineArgs = [
-        "--password-store=gnome-libsecret"
-        "--ozone-platform-hint=auto" # 顺便强制开启原生 Wayland 支持，告别模糊
-        "--enable-features=WaylandWindowDecorations"
-      ];
+    (pkgs.symlinkJoin {
+      name = "vscode-fhs-wrapped";
+      paths = [ vscode-fhs ]; # 引用原始包
+      nativeBuildInputs = [ pkgs.makeWrapper ];
+      postBuild = ''
+        # 包装 bin 目录下的所有可执行文件
+        # 对于 vscode-fhs，其二进制文件名通常是 code
+        wrapProgram $out/bin/code \
+          --add-flags "--password-store=gnome-libsecret"
+      '';
     })
-    v2rayn # V2RayN 客户端
     sing-box # Sing-Box 客户端
     xray # XRay 客户端
     vlc # 媒体播放器
     telegram-desktop # Telegram 桌面版
     wireshark # 网络抓包工具
+    clash-verge-rev # vpn
     wpsoffice-cn # WPS 中文版
     emacs-pgtk # 图形版 Emacs
     localsend # 局域网传文件工具
@@ -197,9 +199,16 @@
   # 这一行是关键！没有它，即便你在组里也抓不了包
   programs.wireshark.enable = true;
   programs.zsh.enable = true;
-
+  programs.clash-verge = {
+    enable = true;
+    tunMode = true;
+    serviceMode=true;
+  };
   # 3. 确保 Polkit 服务运行
   security.polkit.enable = true;
   # 4. Xwayland 支持
   programs.xwayland.enable = true;
+  programs.niri.enable = true;
+  services.displayManager.gdm.enable = true;
+  services.desktopManager.gnome.enable = true;
 }

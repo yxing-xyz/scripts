@@ -22,17 +22,10 @@
   };
 
   home.sessionVariables = {
-    RUSTUP_UPDATE_ROOT = "https://mirrors.aliyun.com/rustup/rustup";
-    RUSTUP_DIST_SERVER = "https://mirrors.aliyun.com/rustup";
-    GO111MODULE = "auto";
-    GOPROXY = "https://goproxy.cn,direct";
-    VCPKG_ROOT = "$HOME/.local/share/vcpkg";
-
     EDITOR = "vim";
     LANG = "zh_CN.UTF-8";
     LC_CTYPE = "zh_CN.UTF-8";
     COLORTERM = "truecolor";
-    TRZSZ_ENABLE = "trzsz";
   };
 
   home.packages = with pkgs; [

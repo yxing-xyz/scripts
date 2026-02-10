@@ -13,7 +13,6 @@
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
-  boot.kernelPackages = pkgs.linuxPackages_latest;
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.enableRedistributableFirmware = true;
   hardware.cpu.amd.updateMicrocode = true;
@@ -29,7 +28,9 @@
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
-
+  boot.kernelParams = [
+    "amd_iommu=off"
+  ];
   # 根目录挂载 @ 子卷
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/69fb64e8-926b-41bd-98da-025e32ab1d20";
@@ -87,7 +88,7 @@
   };
 
   swapDevices = [ ];
-    # 笔记本开启充电保护
+  # 笔记本开启充电保护
   systemd.tmpfiles.rules = [
     "f /var/lib/upower/charging-threshold-status 0644 root root - 1"
   ];

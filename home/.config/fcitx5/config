@@ -17,6 +17,14 @@ EnumerateSkipFirst=False
 EnumerateGroupForwardKeys=
 # 向后切换输入法分组
 EnumerateGroupBackwardKeys=
+# 缺省上一页
+PrevPage=
+# 缺省下一页
+NextPage=
+# 缺省前一个候选词
+PrevCandidate=
+# 缺省后一个候选词
+NextCandidate=
 # 切换是否使用嵌入预编辑
 TogglePreedit=
 # 触发修饰键快捷键的时限 (毫秒)
@@ -24,18 +32,6 @@ ModifierOnlyKeyTimeout=250
 
 [Hotkey/TriggerKeys]
 0=Super+space
-
-[Hotkey/PrevPage]
-0=minus
-
-[Hotkey/NextPage]
-0=equal
-
-[Hotkey/PrevCandidate]
-0=Shift+Tab
-
-[Hotkey/NextCandidate]
-0=Tab
 
 [Behavior]
 # 默认状态为激活

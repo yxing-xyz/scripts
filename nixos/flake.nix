@@ -21,12 +21,12 @@
   };
   inputs = {
     # 主系统通道
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11?shallow=1";
-    # 不稳定版本（用于获取最新软件）
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable?shallow=1";
+    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable?shallow=1";
     # Home Manager - 锁定 nixpkgs
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.11";
+      # 将分支指向 master
+      url = "github:nix-community/home-manager/master";
+      # 极其重要：让 home-manager 使用你输入的 nixpkgs 版本
       inputs.nixpkgs.follows = "nixpkgs";
     };
     flake-utils = {
@@ -65,7 +65,6 @@
       nixpkgs-pot,
       rust-overlay,
       flake-utils,
-      nixpkgs-unstable,
       dms,
       ...
     }@inputs:
@@ -90,12 +89,6 @@
               # 你其他的 overlay 也可以放这里
             ];
           };
-
-          # 2. 实例化不稳定版 (用于获取最新软件)
-          unstable = import nixpkgs-unstable {
-            inherit system;
-            config.allowUnfree = true;
-          };
         in
         {
           # 这里的每一个 key，都能在 configuration.nix 的参数大括号里直接拿到
@@ -107,7 +100,6 @@
             ;
           # 这里的命名可以根据你的习惯调整
           pot-fixed = nixpkgs-pot.legacyPackages.${system}.pot;
-          nixpkgs-unstable = unstable;
           niri = inputs.niri;
         };
       x86Context = makeSystemContext "x86_64-linux";
@@ -153,16 +145,6 @@
       }
     )
     // {
-      # 顶层不随架构变化的输出
-      homeConfigurations."x" = home-manager.lib.homeManagerConfiguration {
-        pkgs = x86Context.pkgs;
-        extraSpecialArgs = builtins.removeAttrs x86Context [ "pkgs" ];
-        modules = [
-          ./home.nix
-          sharedHomeInfo
-        ];
-      };
-
       nixosConfigurations = {
         x-laptop = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
