@@ -18,6 +18,8 @@ input {
             options "terminate:ctrl_alt_bksp"
         }
         numlock
+        repeat-delay 200
+        repeat-rate 30
     }
     touchpad {
         tap

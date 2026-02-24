@@ -1,9 +1,6 @@
-;; init-custom.el --- Define customizations.	-*- lexical-binding: t -*-
+;; -*- lexical-binding: t; -*-
 
 ;;; Code:
-(eval-when-compile
-  (require 'package))
-
 (defgroup xx nil
   "emacs config"
   :group 'convenience
@@ -18,11 +15,6 @@
   "Set SOCKS proxy."
   :group 'xx
   :type 'string)
-
-(defcustom xx-server t
-  "Enable `server-mode' or not."
-  :group 'xx
-  :type 'boolean)
 
 (defcustom xx-package-archives-alist
   (let ((proto (if (gnutls-available-p) "https" "http")))
@@ -54,7 +46,7 @@
                               name)))
                     xx-package-archives-alist)))
 
-(defcustom xx-doom-theme 'doom-one
+(defcustom xx-theme 'doom-one
   "The color theme."
   :group 'xx
   :type  'symbol)

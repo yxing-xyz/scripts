@@ -1,20 +1,13 @@
-;; init-funcs.el --- Define functions.	-*- lexical-binding: t -*-
-
+;; -*- lexical-binding: t; -*-
 
 
 (require 'cl-lib)
 
-(eval-when-compile
-  (require 'init-const)
-  (require 'init-custom)
-  )
-
-
 ;; Suppress warnings
-(defvar circadian-themes)
 (defvar socks-noproxy)
 (defvar socks-server)
 
+(declare-function browse-url-file-url "browse-url")
 (declare-function browse-url-interactive-arg "browse-url")
 (declare-function chart-bar-quickie "chart")
 (declare-function consult-theme "ext:consult")
@@ -23,7 +16,7 @@
 (declare-function xwidget-webkit-current-session "xwidget")
 
 ;; Font
-(defun font-installed-p (font-name)
+(defun font-available-p (font-name)
   "Check if font with FONT-NAME is available."
   (find-font (font-spec :name font-name)))
 
@@ -39,8 +32,8 @@
   (set-buffer-file-coding-system 'undecided-dos nil))
 
 (defun delete-dos-eol ()
-  "Delete `' characters in current region or buffer.
-Same as '`replace-string' `C-q' `C-m' `RET' `RET''."
+  "Delete `^M' characters in current region or buffer.
+Same as `replace-string' `C-q' `C-m' `RET' `RET'."
   (interactive)
   (save-excursion
     (when (region-active-p)
@@ -54,13 +47,6 @@ Same as '`replace-string' `C-q' `C-m' `RET' `RET''."
     (widen)))
 
 ;; File and buffer
-(defun revert-this-buffer ()
-  "Revert the current buffer."
-  (interactive)
-  (unless (minibuffer-window-active-p (selected-window))
-    (revert-buffer t t)
-    (message "Reverted this buffer")))
-
 (defun delete-this-file ()
   "Delete the current file, and kill the buffer."
   (interactive)
@@ -92,18 +78,6 @@ Same as '`replace-string' `C-q' `C-m' `RET' `RET''."
              (tramp-tramp-file-p file-name))
         (error "Cannot open tramp file")
       (browse-url (concat "file://" file-name)))))
-
-(defun copy-file-name ()
-  "Copy the current buffer file name to the clipboard."
-  (interactive)
-  (let ((filename (if (equal major-mode 'dired-mode)
-                      default-directory
-                    (buffer-file-name))))
-    (if filename
-        (progn
-          (kill-new filename)
-          (message "Copied '%s'" filename))
-      (warn "Current buffer is not attached to a file!"))))
 
 (defun create-scratch-buffer ()
   "Create a scratch buffer."
@@ -140,14 +114,41 @@ Same as '`replace-string' `C-q' `C-m' `RET' `RET''."
   (and (display-graphic-p)
        (featurep 'xwidget-internal)))
 
-;; Mode line
-(defun mode-line-height ()
-  "Get the height of the mode-line."
-  (- (elt (window-pixel-edges) 3)
-     (elt (window-inside-pixel-edges) 3)
-     (if (bound-and-true-p window-divider-mode)
-         window-divider-default-bottom-width
-       0)))
+(defun xx-webkit-browse-url (url &optional pop-buffer new-session)
+  "Browse URL with xwidget-webkit' and switch or pop to the buffer.
+
+POP-BUFFER specifies whether to pop to the buffer.
+NEW-SESSION specifies whether to create a new xwidget-webkit session.
+Interactively, URL defaults to the string looking like a url around point."
+  (interactive (progn
+                 (require 'browse-url)
+                 (browse-url-interactive-arg "URL: ")))
+  (xwidget-webkit-browse-url url new-session)
+  (let ((buf (xwidget-buffer (xwidget-webkit-current-session))))
+    (when (buffer-live-p buf)
+      (and (eq buf (current-buffer)) (quit-window))
+      (if pop-buffer
+          (pop-to-buffer buf)
+        (switch-to-buffer buf)))))
+
+(defun xx-browse-url (url)
+  "Open URL using a configurable method.
+See `browse-url' for more details."
+  (interactive)
+  (if (xwidget-workable-p)
+      (xx-webkit-browse-url url t)
+    (browse-url url)))
+
+(defun xx-browse-url-of-file (file)
+  "Use a web browser to display FILE.
+Display the current buffer's file if FILE is nil or if called
+interactively.  Turn the filename into a URL with function
+`browse-url-file-url'.  Pass the URL to a browser using the
+`browse-url' function then run `browse-url-of-file-hook'."
+  (interactive)
+  (if (xwidget-workable-p)
+      (xx-webkit-browse-url (browse-url-file-url file) t)
+    (browse-url-of-file file)))
 
 ;; Reload configurations
 (defun reload-init-file ()
@@ -186,9 +187,13 @@ Same as '`replace-string' `C-q' `C-m' `RET' `RET''."
     (if (fboundp 'native-compile-async)
         (native-compile-async dir t))))
 
+
 (defun xx-set-variable (variable value &optional no-save)
   "Set the VARIABLE to VALUE, and return VALUE.
-Save to option `custom-file' if NO-SAVE is nil."
+
+If NO-SAVE is non-nil, don't save to the custom file.
+This function both sets the variable in the current session and persists it to
+the custom file."
   (customize-set-variable variable value)
   (when (and (not no-save)
              (file-writable-p custom-file))
@@ -201,16 +206,21 @@ Save to option `custom-file' if NO-SAVE is nil."
         (replace-match (format "(setq %s '%s)" variable value) nil nil))
       (write-region nil nil custom-file)
       (message "Saved %s (%s) to %s" variable value custom-file))))
-(defun too-long-file-p ()
+
+(defun file-too-long-p ()
+  "Check whether the file is too long.
+
+Returns non-nil if the buffer size exceeds 500,000 bytes or has more than 10,000
+lines."
   (or (> (buffer-size) 500000)
       (and (fboundp 'buffer-line-statistics)
            (> (car (buffer-line-statistics)) 10000))))
 
+
 (defun set-package-archives (archives &optional refresh async no-save)
-  "Set the package ARCHIVES (ELPA).
-REFRESH is non-nil, will refresh archive contents.
-ASYNC specifies whether to perform the downloads in the background.
-Save to option `custom-file' if NO-SAVE is nil."
+  "If REFRESH is non-nil, refresh the package contents.  If ASYNC is non-nil,
+perform the refresh in the background.  Save the setting to `custom-file'
+if NO-SAVE is nil.  This function updates `xx-package-archives'."
   (interactive
    (list
     (intern
@@ -223,7 +233,46 @@ Save to option `custom-file' if NO-SAVE is nil."
   (and refresh (package-refresh-contents async))
 
   (message "Set package archives to `%s'" archives))
+
 (defalias 'xx-set-package-archives #'set-package-archives)
+
+
+;; Refer to https://emacs-china.org/t/elpa/11192
+(defun xx-test-package-archives (&optional no-chart)
+  "Test connection speed of all package archives and display on chart.
+
+Not displaying the chart if NO-CHART is non-nil.
+Return the fastest package archive."
+  (interactive)
+
+  (let* ((durations (mapcar
+                     (lambda (pair)
+                       (let ((url (concat (cdr (nth 2 (cdr pair)))
+                                          "archive-contents"))
+                             (start (current-time)))
+                         (message "Fetching %s..." url)
+                         (ignore-errors
+                           (url-copy-file url null-device t))
+                         (float-time (time-subtract (current-time) start))))
+                     xx-package-archives-alist))
+         (fastest (car (nth (cl-position (apply #'min durations) durations)
+                            xx-package-archives-alist))))
+
+    ;; Display on chart
+    (when (and (not no-chart)
+               (require 'chart nil t)
+               (require 'url nil t))
+      (chart-bar-quickie
+       'vertical
+       "Speed test for the ELPA mirrors"
+       (mapcar (lambda (p) (symbol-name (car p))) xx-package-archives-alist)
+       "ELPA"
+       (mapcar (lambda (d) (* 1e3 d)) durations) "ms"))
+
+    (message "`%s' is the fastest package archive" fastest)
+
+    ;; Return the fastest
+    fastest))
 
 (defun set-from-minibuffer (sym)
   "Set SYM value from minibuffer."
@@ -248,8 +297,6 @@ Save to option `custom-file' if NO-SAVE is nil."
       'read-expression-history))))
 
 
-
-
 ;; Update
 (defun update-config ()
   "Update  Emacs configurations to the latest version."
@@ -272,7 +319,7 @@ Save to option `custom-file' if NO-SAVE is nil."
 (defalias 'xx-update-packages #'update-packages)
 
 (defun update-config-and-packages()
-  "Update confgiurations and packages."
+  "Update configurations and packages."
   (interactive)
   (update-config)
   (update-packages))
@@ -285,7 +332,6 @@ Save to option `custom-file' if NO-SAVE is nil."
   (update-config-and-packages))
 (defalias 'xx-update-all #'update-all)
 
-
 ;; Fonts
 (defun xx-install-fonts ()
   "Install necessary fonts."
@@ -293,7 +339,6 @@ Save to option `custom-file' if NO-SAVE is nil."
   (nerd-icons-install-fonts))
 
 
-
 ;; Network Proxy
 (defun show-http-proxy ()
   "Show HTTP/HTTPS proxy."
@@ -362,7 +407,7 @@ Save to option `custom-file' if NO-SAVE is nil."
     (enable-socks-proxy)))
 
 (defun enable-proxy ()
-  "Enbale proxy."
+  "Enalbe proxy."
   (interactive)
   (enable-http-proxy)
   (enable-socks-proxy))
@@ -381,21 +426,28 @@ Save to option `custom-file' if NO-SAVE is nil."
 
 
 ;; UI
+
+(defun theme-solaire-p (theme)
+  "判断 THEME 是否支持 solaire-mode（目前仅识别 doom- 前缀）。"
+  (and theme
+       (string-prefix-p "doom-" (symbol-name theme))))
+
 (defvar after-load-theme-hook nil
   "Hook run after a color theme is loaded using `load-theme'.")
 (defun run-after-load-theme-hook (&rest _)
   "Run `after-load-theme-hook'."
   (run-hooks 'after-load-theme-hook))
-(advice-add #'load-theme :after #'run-after-load-theme-hook)
+(add-hook 'enable-theme-functions #'run-after-load-theme-hook)
 
 (defun xx-load-theme (theme &optional no-save)
-  "Load color THEME. Save to `custom-file' if NO-SAVE is nil."
+  "Load color THEME. Save setting to `custom-file' if NO-SAVE is nil."
   (interactive
    (list
     (intern
      (completing-read "Load theme: "
                       (mapcar #'symbol-name (custom-available-themes))
                       ))))
+  (mapc #'disable-theme custom-enabled-themes)
   (load-theme theme t)
   (xx-set-variable 'xx-doom-theme theme no-save))
 
@@ -407,7 +459,37 @@ Save to option `custom-file' if NO-SAVE is nil."
 
 (defun centaur-commitid ()
   (interactive)
-  (async-shell-command "git ls-remote --heads https://github.com/seagle0128/.emacs.d master > ~/.emacs.d/centaur" "*Async Shell Output*"))
+  (async-shell-command "git ls-remote --heads https://github.com/seagle0128/.emacs.d master > ~/.config/emacs/centaur" "*Async Shell Output*"))
+
+;; Rearrange split windows
+(defun split-window-horizontally-instead ()
+  "Kill other windows and split the current window is on the top half of the frame."
+  (interactive)
+  (let* ((next-window (next-window))
+         (other-buffer (and next-window (window-buffer next-window))))
+    (delete-other-windows)
+    (split-window-horizontally)
+    (when other-buffer
+      (set-window-buffer next-window other-buffer))))
+
+(defun split-window-vertically-instead ()
+  "Kill other windows and split the current window is on left half of the frame."
+  (interactive)
+  (let* ((next-window (next-window))
+         (other-buffer (and next-window (window-buffer next-window))))
+    (delete-other-windows)
+    (split-window-vertically)
+    (when other-buffer
+      (set-window-buffer next-window other-buffer))))
+
+(defun childframe-workable-p ()
+  "Whether childframe is workable."
+  (and (>= emacs-major-version 26)
+       (not noninteractive)
+       (not emacs-basic-display)
+       (or (display-graphic-p)
+           (featurep 'tty-child-frames))
+       (eq (frame-parameter (selected-frame) 'minibuffer) 't)))
 
 (provide 'init-funcs)
 

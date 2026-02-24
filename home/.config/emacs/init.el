@@ -1,104 +1,90 @@
-;;; init.el --- init.el -*- lexical-binding: t no-byte-compile: t -*-
+;; -*- lexical-binding: t; -*-
 ;;; Code
 
-(when (version< emacs-version "28.2")
-  (error "This requires Emacs 28.2 and above!"))
+(when (version< emacs-version "30.2")
+  (error "This requires Emacs 30.2 and above!"))
 
+;;
+;; Speed up Startup Process
+;;
+
+;; Optimize Garbage Collection for Startup
 (setq gc-cons-threshold most-positive-fixnum)
 
-(setq-default mode-line-format nil)
-
+;; Optimize `auto-mode-alist`
 (setq auto-mode-case-fold nil)
 
-
 (unless (or (daemonp) noninteractive init-file-debug)
-  ;; Suppress file handlers operations at startup
-  ;; `file-name-handler-alist' is consulted on each call to `require' and `load'
-  (let ((old-value file-name-handler-alist))
+  ;; Temporarily suppress file-handler processing to speed up startup
+  (let ((default-handlers file-name-handler-alist))
     (setq file-name-handler-alist nil)
-    (set-default-toplevel-value 'file-name-handler-alist file-name-handler-alist)
+    ;; Recover handlers after startup
     (add-hook 'emacs-startup-hook
               (lambda ()
-                "Recover file name handlers."
                 (setq file-name-handler-alist
-                      (delete-dups (append file-name-handler-alist old-value))))
+                      (delete-dups (append file-name-handler-alist default-handlers))))
               101)))
 
-;; Load path
-;; Optimize: Force "lisp"" and "site-lisp" at the head to reduce the startup time.
+;;
+;; Configure Load Path
+;;
+
+;; Add "lisp" and "site-lisp" to the beginning of `load-path`
 (defun update-load-path (&rest _)
-  "Update `load-path'."
+  "Update the `load-path` to prioritize personal configurations."
   (dolist (dir '("site-lisp" "lisp"))
     (push (expand-file-name dir user-emacs-directory) load-path)))
 
-(defun add-subdirs-to-load-path (&rest _)
-  "Add subdirectories to `load-path'.
+;; Initialize load paths explicitly
+(update-load-path)
 
-Don't put large files in `site-lisp' directory, e.g. EAF.
-Otherwise the startup will be very slow."
+;; Add subdirectories inside "site-lisp" to `load-path`
+(defun add-subdirs-to-load-path (&rest _)
+  "Recursively add subdirectories in `site-lisp` to `load-path`.
+
+Avoid placing large files like EAF in `site-lisp` to prevent slow startup."
   (let ((default-directory (expand-file-name "site-lisp" user-emacs-directory)))
     (normal-top-level-add-subdirs-to-load-path)))
 
-(advice-add #'package-initialize :after #'update-load-path)
+;; Ensure these functions are called after `package-initialize`
 (advice-add #'package-initialize :after #'add-subdirs-to-load-path)
 
-(update-load-path)
-
-(defun add-binary-path (path)
-  "Add a binary PATH to `exec-path' and the PATH environment variable."
-  (let ((full-path (format ":%s/%s" (getenv "HOME") path)))
-    ;; Add to `exec-path'
-    (add-to-list 'exec-path full-path t) ;; Use `t' for appending, to avoid duplicates
-    ;; Add to PATH environment variable
-    (setenv "PATH" (concat (file-name-as-directory (getenv "PATH")) full-path))))
-
-;; Add Cargo bin path
-(add-binary-path ".cargo/bin")
-;; Add Go bin path
-(add-binary-path "go/bin")
+;; 屏蔽原生编译的异步弹窗（必备）
+;; (setq native-comp-async-report-warnings-errors 'silent)
+;; 只显示错误，忽略警告（推荐）
+;; (setq warning-minimum-level :error)
 
 ;; requisites
 (require 'init-const)
 (require 'init-custom)
 (require 'init-funcs)
 
+;; package
 (require 'init-package)
-;;
-(require 'init-base)
+
+;; Preferences
 (require 'init-hydra)
+(require 'init-base)
 
 (require 'init-ui)
+(require 'init-highlight)
 (require 'init-edit)
 (require 'init-completion)
 (require 'init-snippet)
 
-
-(require 'init-highlight)
+(require 'init-bookmark)
 (require 'init-dired)
 (require 'init-ibuffer)
-(require 'init-window)
-(require 'init-treemacs)
-(require 'init-kill-ring)
 (require 'init-workspace)
-(require 'init-calendar)
+(require 'init-treemacs)
 (require 'init-dict)
-(require 'init-bookmark)
-
-(require 'init-eshell)
-(require 'init-shell)
-
-(require 'init-utils)
 
 
-;; program
+;; Programming
 (require 'init-vcs)
-(require 'init-check)
-(require 'init-lsp)
-(require 'init-dap)
-
 (require 'init-prog)
+(require 'init-lsp)
 (require 'init-elisp)
-(require 'init-c)
 (require 'init-go)
 (require 'init-rust)
-(require 'init-web)
+(require 'init-c)
