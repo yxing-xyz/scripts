@@ -1,4 +1,4 @@
-;; init-dired.el --- Initialize dired configurations.	-*- lexical-binding: t -*-
+;; -*- lexical-binding: t; -*-
 
 (eval-when-compile
   (require 'init-const))
@@ -48,25 +48,22 @@
 
   ;; Colorful dired
   (use-package diredfl
-    :hook (dired-mode . diredfl-mode))
+    :diminish
+    :hook dired-mode)
 
-  ;; Shows icons
+  ;; Shows icons in dired
   (use-package nerd-icons-dired
     :diminish
-    :when (icons-displayable-p)
-    :custom-face
-    (nerd-icons-dired-dir-face ((t (:inherit nerd-icons-dsilver :foreground unspecified))))
-    :hook (dired-mode . nerd-icons-dired-mode)
-    :config
-    ;; WORKAROUND: display transparent background of icons
-    ;; @see https://github.com/rainstormstudio/nerd-icons-dired/issues/1#issuecomment-2628680359
-    (defun my-nerd-icons-dired--add-overlay (pos string)
-      "Add overlay to display STRING at POS."
-      (let ((ov (make-overlay (1- pos) pos)))
-        (overlay-put ov 'nerd-icons-dired-overlay t)
-        (overlay-put ov 'after-string
-                     (propertize "_" 'display string))))
-    (advice-add #'nerd-icons-dired--add-overlay :override #'my-nerd-icons-dired--add-overlay))
+    :functions (nerd-icons-icon-for-dir my/nerd-icons-icon-for-dir)
+    :hook dired-mode
+    :init
+    (defface nerd-icons-dired-dir-face
+      '((t (:inherit 'font-lock-doc-face)))
+      "Face for the directory icon."
+      :group 'nerd-icons-faces)
+    (defun my/nerd-icons-icon-for-dir (dir)
+      (nerd-icons-icon-for-dir dir :face 'nerd-icons-dired-dir-face))
+    (setq nerd-icons-dired-dir-icon-function #'my/nerd-icons-icon-for-dir))
 
   ;; Extra Dired functionality
   (use-package dired-aux :ensure nil)
@@ -95,11 +92,4 @@
           (concat dired-omit-files
                   "\\|^.DS_Store$\\|^.projectile$\\|^.git*\\|^.svn$\\|^.vscode$\\|\\.js\\.meta$\\|\\.meta$\\|\\.elc$\\|^.emacs.*"))))
 
-;; `find-dired' alternative using `fd'
-(when (executable-find "fd")
-  (use-package fd-dired))
-
 (provide 'init-dired)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; init-dired.el ends here

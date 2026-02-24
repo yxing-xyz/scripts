@@ -1,4 +1,4 @@
-;; init-const.el --- Define constants.	-*- lexical-binding: t -*-
+;; -*- lexical-binding: t; -*-
 
 
 
@@ -7,13 +7,6 @@
 
 (defconst xx-custom-post-file
   (expand-file-name "custom-post.el" user-emacs-directory))
-
-(defcustom xx-completion-style 'minibuffer
-  "Completion display style."
-  :group 'xx
-  :type '(choice (const :tag "Minibuffer" minibuffer)
-                 (const :tag "Child Frame" childframe)))
-
 
 (defconst sys/win32p
   (eq system-type 'windows-nt)
@@ -55,14 +48,5 @@
   (string-equal "root" (getenv "USER"))
   "Are you using ROOT user?")
 
-(defconst emacs/>=29p
-  (>= emacs-major-version 29)
-  "Emacs is 29 or above.")
-
-(defconst emacs/>=30p
-  (>= emacs-major-version 30))
-
-(defconst emacs/>=31p
-  (>= emacs-major-version 31))
 
 (provide 'init-const)

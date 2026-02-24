@@ -178,6 +178,7 @@
     flameshot # 截图工具
     xournalpp # 手写笔记软件
     nautilus # GNOME 文件管理器
+    loupe # 图片查看器
 
     ## theme
     nwg-look

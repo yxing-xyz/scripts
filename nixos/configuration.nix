@@ -61,7 +61,7 @@ in
     gc = {
       automatic = true;
       dates = "weekly";
-      options = "--delete-older-than 7d";
+      options = "--delete-older-than 30d";
     };
     settings = {
       experimental-features = [
@@ -127,6 +127,17 @@ in
       "223.6.6.6"
     ];
   };
+  networking.firewall = {
+    enable = true;
+    # 允许 Ping (ICMP)
+    allowPing = true;
+    allowedTCPPorts = [ 53317 ];
+    allowedUDPPorts = [ 53317 ];
+    allowedTCPPortRanges = [ { from = 1; to = 65535; } ];
+    allowedUDPPortRanges = [ { from = 1; to = 65535; } ];
+    # 关闭反向路径过滤（可选，某些复杂的 Docker 虚拟网络需要）
+    checkReversePath = false;
+  };
   systemd.settings.Manager = {
     DefaultTimeoutStartSec = "10s";
     DefaultTimeoutStopSec = "10s";
@@ -140,12 +151,14 @@ in
   };
   time.timeZone = "Asia/Shanghai";
   environment.systemPackages = with pkgs; [
+    nvd
     vim
     git
     lazygit
     git-lfs
     curl
     unzip
+    p7zip
     fastfetch
     htop
     docker
@@ -163,6 +176,8 @@ in
     dig
     dnslookup
     dhcpcd
+    ripgrep
+    python3
   ];
   # 模拟标准的FHS文件系统布局
   # services.envfs.enable = true;

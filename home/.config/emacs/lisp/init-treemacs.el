@@ -1,13 +1,16 @@
-;; init-treemacs.el --- Initialize treemacs.	-*- lexical-binding: t -*-
+;; -*- lexical-binding: t; -*-
+
+;; A tree layout file explorer
 
 (eval-when-compile
   (require 'init-custom))
 
 ;; A tree layout file explorer
 (use-package treemacs
-  :commands (treemacs-follow-mode
-             treemacs-filewatch-mode
-             treemacs-git-mode)
+  :functions (treemacs-follow-mode
+              treemacs-filewatch-mode
+              treemacs-git-mode
+              treemacs-set-scope-type)
   :custom-face
   (cfrs-border-color ((t (:inherit posframe-border))))
   :bind (([f8]        . treemacs)
@@ -22,9 +25,10 @@
   :config
   (setq treemacs-collapse-dirs           (if treemacs-python-executable 3 0)
         treemacs-missing-project-action  'remove
+        treemacs-user-mode-line-format   'none
         treemacs-sorting                 'alphabetic-asc
         treemacs-follow-after-init       t
-        treemacs-width                   35
+        treemacs-width                   30
         treemacs-no-png-images           t)
 
   (treemacs-follow-mode t)
@@ -37,23 +41,17 @@
      (treemacs-git-mode 'simple)))
 
   (use-package treemacs-nerd-icons
-    :demand t
-    :when (icons-displayable-p)
-    :custom-face
-    (treemacs-nerd-icons-root-face ((t (:inherit nerd-icons-green :height 1.3))))
-    (treemacs-nerd-icons-file-face ((t (:inherit nerd-icons-dsilver))))
-    :config (treemacs-load-theme "nerd-icons"))
+    :autoload treemacs-nerd-icons-config
+    :init (treemacs-nerd-icons-config))
 
   (use-package treemacs-magit
-    :hook ((magit-post-commit
-            git-commit-post-finish
-            magit-post-stage
-            magit-post-unstage)
-           . treemacs-magit--schedule-update))
+    :demand t)
 
   (use-package treemacs-tab-bar
     :demand t
     :config (treemacs-set-scope-type 'Tabs)))
+
+(provide 'init-treemacs)
 
 (provide 'init-treemacs)
 

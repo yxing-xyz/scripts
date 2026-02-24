@@ -1,44 +1,63 @@
-;; init-edit.el --- Initialize editing configurations.	-*- lexical-binding: t -*-
+;; -*- lexical-binding: t; -*-
 
+(eval-when-compile
+  (require 'init-const))
+
+;; 输入文字覆盖选择区域
 (use-package delsel
   :ensure nil
   :hook (after-init . delete-selection-mode))
 
-
-;; Rectangle
+;; 矩形操作
 (use-package rect
+  ;; rect 是 Emacs 内置的矩形操作库，不需要从外部下载
   :ensure nil
+
+  ;; 定义快捷键绑定
   :bind (:map text-mode-map
-         ("<C-return>" . rect-hydra/body)
+         ("<C-return>" . rect-hydra/body) ; 在文本模式下按 Ctrl+Enter 开启
          :map prog-mode-map
-         ("<C-return>" . rect-hydra/body))
+         ("<C-return>" . rect-hydra/body)) ; 在编程模式下按 Ctrl+Enter 开启
+
   :init
+  ;; 针对特定模式的特殊处理，确保在这些模式下也能通过快捷键呼出 Hydra
   (with-eval-after-load 'org
-    (bind-key "<s-return>" #'rect-hydra/body org-mode-map))
+    (bind-key "<s-return>" #'rect-hydra/body org-mode-map)) ; Org-mode 用 Super+Enter (通常是 Win/Command 键)
   (with-eval-after-load 'wgrep
-    (bind-key "<C-return>" #'rect-hydra/body wgrep-mode-map))
+    (bind-key "<C-return>" #'rect-hydra/body wgrep-mode-map)) ; 在可编辑的 grep 结果页开启
   (with-eval-after-load 'wdired
-    (bind-key "<C-return>" #'rect-hydra/body wdired-mode-map))
+    (bind-key "<C-return>" #'rect-hydra/body wdired-mode-map)) ; 在可编辑的 Dired 目录页开启
+
+  ;; 使用 pretty-hydra 插件定义图形化菜单
   :pretty-hydra
-  ((:title (pretty-hydra-title "Rectangle" 'mdicon "nf-md-border_all")
-    :color amaranth :body-pre (rectangle-mark-mode) :post (deactivate-mark) :quit-key ("q" "C-g"))
+  ((:title (pretty-hydra-title "Rectangle" 'mdicon "nf-md-border_all") ; 菜单标题和图标
+    :color amaranth      ; 颜色模式：即使按了非 Hydra 键也不会退出，除非按退出键
+    :body-pre (rectangle-mark-mode) ; 进入 Hydra 前自动开启矩形选择模式
+    :post (deactivate-mark)         ; 退出 Hydra 后自动取消选区
+    :quit-key ("q" "C-g"))          ; 退出快捷键
+
+   ;; 菜单分组：移动
    ("Move"
-    (("h" backward-char "←")
-     ("j" next-line "↓")
-     ("k" previous-line "↑")
-     ("l" forward-char "→"))
+    (("h" backward-char "←")  ; 左移
+     ("j" next-line "↓")      ; 下移
+     ("k" previous-line "↑")  ; 上移
+     ("l" forward-char "→"))  ; 右移
+
+    ;; 菜单分组：核心操作
     "Action"
-    (("w" copy-rectangle-as-kill "copy") ; C-x r M-w
-     ("y" yank-rectangle "yank")         ; C-x r y
-     ("t" string-rectangle "string")     ; C-x r t
-     ("d" kill-rectangle "kill")         ; C-x r d
-     ("c" clear-rectangle "clear")       ; C-x r c
-     ("o" open-rectangle "open"))        ; C-x r o
+    (("w" copy-rectangle-as-kill "copy") ; 复制矩形内容
+     ("y" yank-rectangle "yank")         ; 粘贴矩形内容
+     ("t" string-rectangle "string")     ; 在矩形每行插入相同字符串
+     ("d" kill-rectangle "kill")         ; 剪切矩形区域
+     ("c" clear-rectangle "clear")       ; 清除矩形内容（变为空格）
+     ("o" open-rectangle "open"))        ; 在矩形区域插入空白
+
+    ;; 菜单分组：其他工具
     "Misc"
-    (("N" rectangle-number-lines "number lines")        ; C-x r N
-     ("e" rectangle-exchange-point-and-mark "exchange") ; C-x C-x
-     ("u" undo "undo")
-     ("r" (if (region-active-p)
+    (("N" rectangle-number-lines "number lines")        ; 矩形选区内自动编号
+     ("e" rectangle-exchange-point-and-mark "exchange") ; 交换光标和标记的位置（切换对角）
+     ("u" undo "undo")                                  ; 撤销操作
+     ("r" (if (region-active-p)                         ; 重置按钮
               (deactivate-mark)
             (rectangle-mark-mode 1))
       "reset")))))
@@ -48,6 +67,7 @@
   :ensure nil
   :diminish
   :hook (after-init . global-auto-revert-mode))
+
 
 ;; Pass a URL to a WWW browser
 (use-package browse-url
@@ -61,15 +81,23 @@
          ("C-c C-z v" . browse-url-of-file))
   :init
   (with-eval-after-load 'dired
-    (bind-key "C-c C-z f" #'browse-url-of-file dired-mode-map)))
+    (bind-key "C-c C-z f" #'browse-url-of-file dired-mode-map))
 
-;; Click to browse URL or to send to e-mail address
+  ;; For WSL
+  (let ((cmd-exe "/mnt/c/Windows/System32/cmd.exe")
+        (cmd-args '("/c" "start")))
+    (when (file-exists-p cmd-exe)
+      (setq browse-url-generic-program  cmd-exe
+            browse-url-generic-args     cmd-args
+            browse-url-browser-function 'browse-url-generic)
+      (when (daemonp)
+        e(advice-add #'browse-url :override #'browse-url-generic)))))
+
 (use-package goto-addr
   :ensure nil
   :hook ((text-mode . goto-address-mode)
          (prog-mode . goto-address-prog-mode)))
 
-;; Jump to things in Emacs tree-style
 (use-package avy
   :bind (("C-:"   . avy-goto-char)
          ("C-'"   . avy-goto-char-2)
@@ -87,54 +115,59 @@
   :bind (("M-z" . avy-zap-to-char-dwim)
          ("M-Z" . avy-zap-up-to-char-dwim)))
 
-;; Quickly follow links
-(use-package link-hint
-  :bind (("M-o" . link-hint-open-link)
-         ("C-c l o" . link-hint-open-link)
-         ("C-c l c" . link-hint-copy-link))
-  :init
-  (with-eval-after-load 'embark
-    (setq link-hint-action-fallback-commands (list :open (lambda ()
-                                                           (condition-case
-                                                               _ (progn (embark-dwim) t)
-                                                             (error nil)))))))
-
 ;; Jump to Chinese characters
 (use-package ace-pinyin
   :diminish
   :hook (after-init . ace-pinyin-global-mode))
 
-;; Minor mode to aggressively keep your code always indented
-(use-package aggressive-indent
-  :diminish
-  :hook ((after-init . global-aggressive-indent-mode)
-         ;; NOTE: Disable in large files due to the performance issues
-         ;; https://github.com/Malabarba/aggressive-indent-mode/issues/73
-         (find-file . (lambda ()
-                        (when (too-long-file-p)
-                          (aggressive-indent-mode -1)))))
-  :config
-  ;; Disable in some modes
-  (dolist (mode '(gitconfig-mode
-                  asm-mode webm-mode html-mode
-                  css-mode css-ts-mode
-                  go-mode go-ts-mode
-                  python-ts-mode yaml-ts-mode
-                  scale-mode
-                  shell-mode term-mode vterm-mode
-                  prolog-inferior-mode))
-    (add-to-list 'aggressive-indent-excluded-modes mode))
 
-  ;; Disable in some commands
-  (add-to-list 'aggressive-indent-protected-commands #'delete-trailing-whitespace t)
+;; Quickly follow links
+(use-package link-hint
+  :defines (Info-mode-map
+            compilation-mode-map custom-mode-map
+            devdocs-mode-map elfeed-show-mode-map eww-mode-map
+            help-mode-map helpful-mode-map nov-mode-map
+            woman-mode-map xref--xref-buffer-mode-map)
+  :functions embark-dwim
+  :bind (("M-o"     . link-hint-open-link)
+         ("C-c l o" . link-hint-open-link)
+         ("C-c l c" . link-hint-copy-link))
+  :init
+  (with-eval-after-load 'compile
+    (bind-key "o" #'link-hint-open-link compilation-mode-map))
+  (with-eval-after-load 'cus-edit
+    (bind-key "o" #'link-hint-open-link custom-mode-map))
+  (with-eval-after-load 'devdocs
+    (bind-key "o" #'link-hint-open-link devdocs-mode-map))
+  (with-eval-after-load 'elfeed-show
+    (bind-key "o" #'link-hint-open-link elfeed-show-mode-map))
+  (with-eval-after-load 'eww
+    (bind-key "o" #'link-hint-open-link eww-mode-map))
+  (with-eval-after-load 'help
+    (bind-key "o" #'link-hint-open-link help-mode-map))
+  (with-eval-after-load 'helpful
+    (bind-key "o" #'link-hint-open-link helpful-mode-map))
+  (with-eval-after-load 'info
+    (bind-key "o" #'link-hint-open-link Info-mode-map))
+  (with-eval-after-load 'nov
+    (bind-key "o" #'link-hint-open-link nov-mode-map))
+  (with-eval-after-load 'woman
+    (bind-key "o" #'link-hint-open-link woman-mode-map))
+  (with-eval-after-load 'xref
+    (bind-key "o" #'link-hint-open-link xref--xref-buffer-mode-map))
 
-  ;; Be slightly less aggressive in C/C++/C#/Java/Go/Swift
-  (add-to-list 'aggressive-indent-dont-indent-if
-               '(and (derived-mode-p 'c-mode 'c++-mode 'csharp-mode
-                                     'java-mode 'go-mode 'swift-mode)
-                     (null (string-match "\\([;{}]\\|\\b\\(if\\|for\\|while\\)\\b\\)"
-                                         (thing-at-point 'line))))))
+  (with-eval-after-load 'embark
+    (setq link-hint-action-fallback-commands
+          (list :open (lambda ()
+                        (condition-case _
+                            (progn
+                              (embark-dwim)
+                              t)
+                          (error
+                           nil)))))))
 
+
+;; anzu 是一个专门用来增强 Emacs 搜索和替换体验的小工具。
 (use-package anzu
   :diminish
   :bind (([remap query-replace] . anzu-query-replace)
@@ -147,12 +180,13 @@
 ;; Redefine M-< and M-> for some modes
 (use-package beginend
   :diminish beginend-global-mode
+  :functions diminish
   :hook (after-init . beginend-global-mode)
   :config (mapc (lambda (pair)
                   (diminish (cdr pair)))
                 beginend-modes))
 
-;; Drag stuff (lines, words, region, etc...) around
+;; ;; Drag stuff (lines, words, region, etc...) around
 (use-package drag-stuff
   :diminish
   :autoload drag-stuff-define-keys
@@ -161,43 +195,50 @@
   (add-to-list 'drag-stuff-except-modes 'org-mode)
   (drag-stuff-define-keys))
 
-;; A comprehensive visual interface to diff & patch
+
 (use-package ediff
   :ensure nil
   :hook(;; show org ediffs unfolded
         (ediff-prepare-buffer . outline-show-all)
         ;; restore window layout when done
-        (ediff-quit . winner-undo))
+        (ediff-quit . tab-bar-history-back))
+  :init
+  (with-eval-after-load 'ediff (require 'outline))
   :config
   (setq ediff-window-setup-function 'ediff-setup-windows-plain
         ediff-split-window-function 'split-window-horizontally
         ediff-merge-split-window-function 'split-window-horizontally))
 
-;; 插入扩号对
 (use-package elec-pair
-  :ensure nil
+  ;; 钩子：在 Emacs 初始化完成后（after-init）
+  ;; 作用：全局开启自动成对补全模式
   :hook (after-init . electric-pair-mode)
-  :init (setq electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit))
+  :init
+  ;; 变量设置：定义补全的“抑制（禁止）逻辑”
+  ;; 'electric-pair-conservative-inhibit 是一个更聪明的判断函数
+  ;; 它的作用是：如果你紧接着一个字母输入左括号，它就不会自动补全右括号
+  ;; 比如：输入 'f(' 时，它保持原样；只有输入 ' ('（前面有空格）时，才会补全为 ' ()'
+  (setq electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit))
 
-;; Visual `align-regexp'
+
+;; 实时预览（交互式）对齐。
 (use-package ialign)
 
+;; Edit multiple regions in the same way simultaneously
 (use-package iedit
-  :defines desktop-minor-mode-table
-  :bind (("C-;" . iedit-mode)
+  :bind (:map global-map
+         ("C-;" . iedit-mode)
          ("C-x r RET" . iedit-rectangle-mode)
-         :map isearch-mode-map ("C-;" . iedit-mode-from-isearch)
-         :map esc-map ("C-;" . iedit-execute-last-modification)
-         :map help-map ("C-;" . iedit-mode-toggle-on-function))
-  :config
-  ;; Avoid restoring `iedit-mode'
-  (with-eval-after-load 'desktop
-    (add-to-list 'desktop-minor-mode-table
-                 '(iedit-mode nil))))
+         :map isearch-mode-map
+         ("C-;" . iedit-mode-from-isearch)
+         :map esc-map
+         ("C-;" . iedit-execute-last-modification)
+         :map help-map
+         ("C-;" . iedit-mode-toggle-on-function)))
 
-;; Increase selected region by semantic units
 (use-package expand-region
-  :bind ("M--" . er/expand-region)
+  :functions treesit-buffer-root-node
+  :bind ("C-c =" . er/expand-region)
   :config
   (defun treesit-mark-bigger-node ()
     "Use tree-sitter to mark regions."
@@ -216,56 +257,57 @@
 
 ;; Multiple cursors
 (use-package multiple-cursors
-  :bind (("C-c m" . multiple-cursors-hydra/body)
-         ("C-S-c C-S-c"   . mc/edit-lines)
-         ("C->"           . mc/mark-next-like-this)
-         ("C-<"           . mc/mark-previous-like-this)
-         ("C-c C-<"       . mc/mark-all-like-this)
-         ("C-M->"         . mc/skip-to-next-like-this)
-         ("C-M-<"         . mc/skip-to-previous-like-this)
-         ("s-<mouse-1>"   . mc/add-cursor-on-click)
-         ("C-S-<mouse-1>" . mc/add-cursor-on-click)
-         :map mc/keymap
-         ("C-|" . mc/vertical-align-with-space))
+  ;; --- 快捷键绑定 ---
+  :bind (("C-c m" . multiple-cursors-hydra/body) ;; 呼出下方定义的 Hydra 直观菜单
+         ("C-S-c C-S-c"   . mc/edit-lines)       ;; 将选中的每一行末尾都加上光标
+         ("C->"           . mc/mark-next-like-this)      ;; 选中下一个与当前相同的文本
+         ("C-<"           . mc/mark-previous-like-this)  ;; 选中上一个与当前相同的文本
+         ("C-c C-<"       . mc/mark-all-like-this)       ;; 全选所有与当前相同的文本
+         ("C-M->"         . mc/skip-to-next-like-this)   ;; 跳过当前，寻找下一个相同文本
+         ("C-M-<"         . mc/skip-to-previous-like-this) ;; 跳过当前，寻找上一个相同文本
+         ("s-<mouse-1>"   . mc/add-cursor-on-click)     ;; Super键+左键点击：在点击处添加光标
+         ("C-S-<mouse-1>" . mc/add-cursor-on-click)     ;; Ctrl+Shift+左键点击：在点击处添加光标
+         :map mc/keymap ;; 当多光标激活时的特定键盘映射
+         ("C-|" . mc/vertical-align-with-space))        ;; 对齐所有光标（用空格填充）
+
+  ;; --- 可视化菜单配置 (Pretty-Hydra) ---
   :pretty-hydra
   ((:title (pretty-hydra-title "Multiple Cursors" 'mdicon "nf-md-cursor_move")
-    :color amaranth :quit-key ("q" "C-g"))
-   ("Up"
-	(("p" mc/mark-previous-like-this "prev")
-	 ("P" mc/skip-to-previous-like-this "skip")
-	 ("M-p" mc/unmark-previous-like-this "unmark")
-	 ("|" mc/vertical-align "align with input CHAR"))
-    "Down"
-    (("n" mc/mark-next-like-this "next")
-	 ("N" mc/skip-to-next-like-this "skip")
-	 ("M-n" mc/unmark-next-like-this "unmark"))
-    "Misc"
-    (("l" mc/edit-lines "edit lines" :exit t)
-	 ("a" mc/mark-all-like-this "mark all" :exit t)
-	 ("s" mc/mark-all-in-region-regexp "search" :exit t)
-     ("<mouse-1>" mc/add-cursor-on-click "click"))
+    :color amaranth :quit-key ("q" "C-g")) ;; amaranth颜色表示即使按了非绑定键也不会退出菜单
+   ("向上标记"
+    (("p" mc/mark-previous-like-this "上一个")
+     ("P" mc/skip-to-previous-like-this "跳过并找上一个")
+     ("M-p" mc/unmark-previous-like-this "取消上一个标记")
+     ("|" mc/vertical-align "按输入字符对齐"))
+    "向下标记"
+    (("n" mc/mark-next-like-this "下一个")
+     ("N" mc/skip-to-next-like-this "跳过并找下一个")
+     ("M-n" mc/unmark-next-like-this "取消下一个标记"))
+    "杂项"
+    (("l" mc/edit-lines "编辑选中行" :exit t) ;; :exit t 表示执行后退出菜单
+     ("a" mc/mark-all-like-this "全选相同项" :exit t)
+     ("s" mc/mark-all-in-region-regexp "正则搜索标记" :exit t)
+     ("<mouse-1>" mc/add-cursor-on-click "点击添加"))
+    ;; 动态显示当前光标数量
     "% 2(mc/num-cursors) cursor%s(if (> (mc/num-cursors) 1) \"s\" \"\")"
-	(("0" mc/insert-numbers "insert numbers" :exit t)
-	 ("A" mc/insert-letters "insert letters" :exit t)))))
+    (("0" mc/insert-numbers "插入数字序列" :exit t)
+     ("A" mc/insert-letters "插入字母序列" :exit t)))))
 
 
 ;; Smartly select region, rectangle, multi cursors
+;; 增强ctrl+space
 (use-package smart-region
   :hook (after-init . smart-region-on))
 
+
 ;; On-the-fly spell checker
-(use-package flyspell
-  :ensure nil
-  :diminish
-  :if (executable-find "aspell")
-  :hook (((text-mode outline-mode) . flyspell-mode)
-         ;; (prog-mode . flyspell-prog-mode)
-         (flyspell-mode . (lambda ()
-                            (dolist (key '("C-;" "C-," "C-."))
-                              (unbind-key key flyspell-mode-map)))))
-  :init (setq flyspell-issue-message-flag nil
-              ispell-program-name "aspell"
-              ispell-extra-args '("--sug-mode=ultra" "--lang=en_US" "--run-together")))
+;; (use-package jinx
+;;   :hook (emacs-startup . global-jinx-mode)
+;;   :config
+;;   ;; 只开启美国英语，不加载其他语言
+;;   (setq jinx-languages "en_US")
+;;   :bind (("M-$" . jinx-correct)
+;;          ("C-M-$" . jinx-languages)))
 
 ;; Hungry deletion
 (use-package hungry-delete
@@ -275,125 +317,47 @@
               hungry-delete-except-modes
               '(help-mode minibuffer-mode minibuffer-inactive-mode calc-mode)))
 
+
 ;; Move to the beginning/end of line or code
+;; 增强Ctrl-a (行首) 和 Ctrl-e (行尾)
 (use-package mwim
   :bind (([remap move-beginning-of-line] . mwim-beginning)
          ([remap move-end-of-line] . mwim-end)))
 
-;; Treat undo history as a tree
+                                        ; 回退管理
 (use-package vundo
   :bind ("C-x u" . vundo)
   :config (setq vundo-glyph-alist vundo-unicode-symbols))
-;; (use-package undo-tree
-;;   :diminish
-;;   :hook (after-init . global-undo-tree-mode)
-;;   :init (setq undo-tree-visualizer-timestamps t
-;;               undo-tree-visualizer-diff t
-;;               undo-tree-enable-undo-in-region nil
-;;               undo-tree-auto-save-history nil))
 
-;; Goto last change
+                                        ; 跳转到上次修改的地方
 (use-package goto-chg
   :bind ("C-," . goto-last-change))
 
-;; Handling capitalized subwords in a nomenclature
+;; 支持驼峰前进后退
 (use-package subword
   :ensure nil
   :diminish
-  :hook ((prog-mode . subword-mode)
-         (minibuffer-setup . subword-mode)))
+  :hook (prog-mode minibuffer-setup))
 
+;; 代码折叠
 ;; Flexible text folding
-(use-package hideshow
-  :ensure nil
-  :diminish hs-minor-mode
-  :pretty-hydra
-  ((:title (pretty-hydra-title "HideShow" 'octicon "nf-oct-fold")
-    :color amaranth :quit-key ("q" "C-g"))
-   ("Fold"
-    (("t" hs-toggle-all "toggle all")
-     ("a" hs-show-all "show all")
-     ("i" hs-hide-all "hide all")
-     ("g" hs-toggle-hiding "toggle hiding")
-     ("c" hs-cycle "cycle block")
-     ("s" hs-show-block "show block")
-     ("h" hs-hide-block "hide block")
-     ("l" hs-hide-level "hide level"))
-    "Move"
-    (("C-a" mwim-beginning-of-code-or-line "⭰")
-     ("C-e" mwim-end-of-code-or-line "⭲")
-     ("C-b" backward-char "←")
-     ("C-n" next-line "↓")
-     ("C-p" previous-line "↑")
-     ("C-f" forward-char "→")
-     ("C-v" pager-page-down "↘")
-     ("M-v" pager-page-up "↖")
-     ("M-<" beginning-of-buffer "⭶")
-     ("M->" end-of-buffer "⭸"))))
-  :bind (:map hs-minor-mode-map
-         ("C-~" . hideshow-hydra/body)
-         ("C-S-<escape>" . hideshow-hydra/body))
-  :hook (prog-mode . hs-minor-mode)
-  :config
-  ;; More functions
-  ;; @see https://karthinks.com/software/simple-folding-with-hideshow/
-  (defun hs-cycle (&optional level)
-    (interactive "p")
-    (let (message-log-max
-          (inhibit-message t))
-      (if (= level 1)
-          (pcase last-command
-            ('hs-cycle
-             (hs-hide-level 1)
-             (setq this-command 'hs-cycle-children))
-            ('hs-cycle-children
-             (save-excursion (hs-show-block))
-             (setq this-command 'hs-cycle-subtree))
-            ('hs-cycle-subtree
-             (hs-hide-block))
-            (_
-             (if (not (hs-already-hidden-p))
-                 (hs-hide-block)
-               (hs-hide-level 1)
-               (setq this-command 'hs-cycle-children))))
-        (hs-hide-level level)
-        (setq this-command 'hs-hide-level))))
-
-  (defun hs-toggle-all ()
-    "Toggle hide/show all."
-    (interactive)
-    (pcase last-command
-      ('hs-toggle-all
-       (save-excursion (hs-show-all))
-       (setq this-command 'hs-global-show))
-      (_ (hs-hide-all))))
-
-  ;; Display line counts
-  (defun hs-display-code-line-counts (ov)
-    "Display line counts when hiding codes."
-    (when (eq 'code (overlay-get ov 'hs))
-      (overlay-put ov 'display
-                   (concat
-                    " "
-                    (propertize
-                     (if (char-displayable-p ?⏷) "⏷" "...")
-                     'face 'shadow)
-                    (propertize
-                     (format " (%d lines)"
-                             (count-lines (overlay-start ov)
-                                          (overlay-end ov)))
-                     'face '(:inherit shadow :height 0.8))
-                    " "))))
-  (setq hs-set-up-overlay #'hs-display-code-line-counts))
-
+(use-package treesit-fold
+  :vc (:url "https://github.com/emacs-tree-sitter/treesit-fold")
+  :ensure t
+  :hook (prog-mode . treesit-fold-mode)
+  :bind (("C-c f t" . treesit-fold-toggle)
+         ("C-c f o" . treesit-fold-open)
+         ("C-c f c" . treesit-fold-close)))
 ;; Copy&paste GUI clipboard from text terminal
 (unless sys/win32p
+  (use-package sudo-edit)
   (use-package xclip
     :hook (after-init . xclip-mode)
     :config
     ;; HACK: fix bug in xclip-mode on WSL
     (when (eq xclip-method 'powershell)
       (setq xclip-program "powershell.exe"))
+
     ;; @see https://github.com/microsoft/wslg/issues/15#issuecomment-1796195663
     (when (eq xclip-method 'wl-copy)
       (set-clipboard-coding-system 'gbk) ; for wsl
@@ -401,12 +365,11 @@
             (lambda (text)
               (start-process "xclip"  nil xclip-program "--trim-newline" "--type" "text/plain;charset=utf-8" text))))))
 
-;; Open files as another user
-(unless sys/win32p
-  (use-package sudo-edit))
-
-;; Hanlde minified code
 (use-package so-long
   :hook (after-init . global-so-long-mode))
+
+;; Better performance via tramp
+(use-package tramp-hlo
+  :hook (after-init . tramp-hlo-setup))
 
 (provide 'init-edit)
