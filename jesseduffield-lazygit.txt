@@ -1,0 +1,15 @@
+https://github.com/jesseduffield/lazygit/releases/download/v0.59.0/checksums.txt
+https://github.com/jesseduffield/lazygit/releases/download/v0.59.0/lazygit_0.59.0_darwin_arm64.tar.gz
+https://github.com/jesseduffield/lazygit/releases/download/v0.59.0/lazygit_0.59.0_darwin_x86_64.tar.gz
+https://github.com/jesseduffield/lazygit/releases/download/v0.59.0/lazygit_0.59.0_freebsd_32-bit.tar.gz
+https://github.com/jesseduffield/lazygit/releases/download/v0.59.0/lazygit_0.59.0_freebsd_arm64.tar.gz
+https://github.com/jesseduffield/lazygit/releases/download/v0.59.0/lazygit_0.59.0_freebsd_armv6.tar.gz
+https://github.com/jesseduffield/lazygit/releases/download/v0.59.0/lazygit_0.59.0_freebsd_x86_64.tar.gz
+https://github.com/jesseduffield/lazygit/releases/download/v0.59.0/lazygit_0.59.0_linux_32-bit.tar.gz
+https://github.com/jesseduffield/lazygit/releases/download/v0.59.0/lazygit_0.59.0_linux_arm64.tar.gz
+https://github.com/jesseduffield/lazygit/releases/download/v0.59.0/lazygit_0.59.0_linux_armv6.tar.gz
+https://github.com/jesseduffield/lazygit/releases/download/v0.59.0/lazygit_0.59.0_linux_x86_64.tar.gz
+https://github.com/jesseduffield/lazygit/releases/download/v0.59.0/lazygit_0.59.0_windows_32-bit.zip
+https://github.com/jesseduffield/lazygit/releases/download/v0.59.0/lazygit_0.59.0_windows_arm64.zip
+https://github.com/jesseduffield/lazygit/releases/download/v0.59.0/lazygit_0.59.0_windows_armv6.zip
+https://github.com/jesseduffield/lazygit/releases/download/v0.59.0/lazygit_0.59.0_windows_x86_64.zip

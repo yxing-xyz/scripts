@@ -1,0 +1,17 @@
+https://github.com/iyear/tdl/releases/download/v0.20.1/tdl_checksums.txt
+https://github.com/iyear/tdl/releases/download/v0.20.1/tdl_Linux_32bit.tar.gz
+https://github.com/iyear/tdl/releases/download/v0.20.1/tdl_Linux_64bit.tar.gz
+https://github.com/iyear/tdl/releases/download/v0.20.1/tdl_Linux_arm64.tar.gz
+https://github.com/iyear/tdl/releases/download/v0.20.1/tdl_Linux_armv5.tar.gz
+https://github.com/iyear/tdl/releases/download/v0.20.1/tdl_Linux_armv6.tar.gz
+https://github.com/iyear/tdl/releases/download/v0.20.1/tdl_Linux_armv7.tar.gz
+https://github.com/iyear/tdl/releases/download/v0.20.1/tdl_Linux_loong64.tar.gz
+https://github.com/iyear/tdl/releases/download/v0.20.1/tdl_Linux_riscv64.tar.gz
+https://github.com/iyear/tdl/releases/download/v0.20.1/tdl_MacOS_64bit.tar.gz
+https://github.com/iyear/tdl/releases/download/v0.20.1/tdl_MacOS_arm64.tar.gz
+https://github.com/iyear/tdl/releases/download/v0.20.1/tdl_Windows_32bit.zip
+https://github.com/iyear/tdl/releases/download/v0.20.1/tdl_Windows_64bit.zip
+https://github.com/iyear/tdl/releases/download/v0.20.1/tdl_Windows_arm64.zip
+https://github.com/iyear/tdl/releases/download/v0.20.1/tdl_Windows_armv5.zip
+https://github.com/iyear/tdl/releases/download/v0.20.1/tdl_Windows_armv6.zip
+https://github.com/iyear/tdl/releases/download/v0.20.1/tdl_Windows_armv7.zip
