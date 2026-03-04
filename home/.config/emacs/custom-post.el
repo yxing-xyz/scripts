@@ -1,6 +1,6 @@
 ;; -*- lexical-binding: t; -*-
 ;; 软链接打开方式
-(setq vc-follow-symlinks t)
+;; (setq vc-follow-symlinks t)
 
 ;; 隐藏菜单栏
 ;; (menu-bar-mode -1)
@@ -29,11 +29,11 @@
 ;; key重定向
 ;; (define-key key-translation-map (kbd "M-\\") (kbd "M-g w"))
 ;; (define-key prog-mode-map (kbd "M-RET") (key-binding (kbd "M-g w")))
-(add-hook 'ace-pinyin-mode-hook (lambda () (progn
-                                             (local-set-key (kbd "M-RET") (key-binding (kbd "C-:")))
-                                             )))
-(add-hook 'prog-mode-hook (lambda () (progn
-                                       (local-set-key (kbd "C-c @ `") 'hideshow-hydra/body))))
+;; (add-hook 'ace-pinyin-mode-hook (lambda () (progn
+;;                                              (local-set-key (kbd "M-RET") (key-binding (kbd "C-:")))
+;;                                              )))
+;; (add-hook 'prog-mode-hook (lambda () (progn
+;;                                        (local-set-key (kbd "C-c @ `") 'hideshow-hydra/body))))
 
 (provide 'custom-post)
 ;;;
