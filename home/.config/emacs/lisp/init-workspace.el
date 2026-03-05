@@ -23,8 +23,8 @@
   (tabspaces-exclude-buffers '("*eat*" "*vterm*" "*shell*" "*eshell*"))
 
   ;; sessions
-  ;; (tabspaces-session (not centaur-dashboard))
-  ;; (tabspaces-session-auto-restore (not centaur-dashboard))
+  (tabspaces-session t)
+  (tabspaces-session-auto-restore t)
   (tabspaces-session-file (concat user-emacs-directory "tabspaces/tabsession.el"))
   (tabspaces-session-project-session-store (concat user-emacs-directory "tabspaces/"))
   :config
@@ -97,6 +97,8 @@
       (quit-windows-on messages-buffer-name))
     (advice-add #'tabspaces-restore-session :after #'tabspaces--bury-messages)))
 
+(use-package envrc
+  :hook (after-init . envrc-global-mode))
 (provide 'init-workspace)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

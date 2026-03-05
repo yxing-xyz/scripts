@@ -88,3 +88,4 @@ Avoid placing large files like EAF in `site-lisp` to prevent slow startup."
 (require 'init-go)
 (require 'init-rust)
 (require 'init-c)
+(require 'init-nix)

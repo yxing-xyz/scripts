@@ -17,12 +17,15 @@
          ((markdown-mode yaml-mode yaml-ts-mode) . eglot-ensure))
   :init (setq eglot-autoshutdown t
               eglot-events-buffer-config '(:size 0 :format 'short)
-              eglot-send-changes-idle-time 0.5))
+              eglot-send-changes-idle-time 0.5)
+  :config  (add-to-list 'eglot-server-programs
+                        '(nix-ts-mode . ("nixd"))))
+
 
 (use-package consult-eglot
   :after consult eglot
   :bind (:map eglot-mode-map
-              ("C-M-." . consult-eglot-symbols)))
+         ("C-M-." . consult-eglot-symbols)))
 
 (use-package flymake
   :diminish
