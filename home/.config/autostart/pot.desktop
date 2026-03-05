@@ -1,9 +1,0 @@
-[Desktop Entry]
-Type=Application
-Version=1.0
-Name=pot
-Comment=potstartup script
-Exec=pot
-StartupNotify=false
-Terminal=false
-X-GNOME-Autostart-enabled=true

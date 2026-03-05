@@ -183,6 +183,7 @@ in
     umoci
     qemu
     nixfmt
+    nix-tree
     lsof
     file
     aria2

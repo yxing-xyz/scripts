@@ -2,7 +2,6 @@
 {
   pkgs,
   lib,
-  pot-fixed,
   ...
 }:
 
@@ -177,7 +176,6 @@
     localsend # 局域网传文件工具
     xclip # 剪切板工具
     wl-clipboard # 剪贴板工具
-    pot-fixed # 划词翻译
     flameshot # 截图工具
     xournalpp # 手写笔记软件
     nautilus # GNOME 文件管理器
