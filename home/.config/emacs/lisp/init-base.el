@@ -159,7 +159,9 @@
               truncate-lines t ;; 禁止自动换行
               cursor-type 'box ;; 实心光标
               indent-tabs-mode nil)     ; Permanently indent with spaces, never with TABs
-(blink-cursor-mode -1) ;; 光标禁止闪烁
+(blink-cursor-mode 1) ;; 光标闪烁
+(setq blink-cursor-interval 0.4) ; 闪烁频率
+(setq blink-cursor-delay 0.2)    ; 停止输入后多久开始闪烁
 
 (setq visible-bell t
       inhibit-compacting-font-caches t  ; Don’t compact font caches during GC
@@ -556,6 +558,8 @@
 ;; 打开文件管理器
 (use-package reveal-in-folder)
 
-(provide 'init-base)
+;; 字体查看器
+(use-package show-font)
 
+(provide 'init-base)
 ;;; init-base.el ends here

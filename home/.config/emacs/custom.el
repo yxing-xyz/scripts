@@ -25,16 +25,16 @@
   "Setup fonts."
   (when (display-graphic-p)
     ;; Set Nerd Icons font family
-    ;; (setq nerd-icons-font-family "Symbols Nerd Font Mono")
-
+    ;;(setq nerd-icons-font-family "Symbols Nerd Font Mono")
+    (setq nerd-icons-font-family "ComicShannsMono Nerd Font")
     ;; Set default font
-    (cl-loop for font in '("Inconsolata Nerd Font Propo" "CodeNewRoman Nerd Font Propo")
+    (cl-loop for font in '("ComicShannsMono Nerd Font")
              when (font-available-p font)
              return (set-face-attribute 'default nil
                                         :family font
                                         :height (cond (sys/macp 130)
                                                       (sys/win32p 110)
-                                                      (t 120))))
+                                                      (t 115))))
 
     ;; Set mode-line font
     ;; (cl-loop for font in '("Menlo" "SF Pro Display" "Helvetica")
@@ -46,11 +46,11 @@
     ;;                   (set-face-attribute 'mode-line-inactive nil :family font :height 120)))
 
     ;; Specify font for all Unicode characters
-    (cl-loop for font in '("Inconsolata Nerd Font Propo" "CodeNewRoman Nerd Font Propo")
+    (cl-loop for font in '("ComicShannsMono Nerd Font")
              return (set-fontset-font t 'symbol (font-spec :family font) nil 'prepend))
 
     ;; Emoji
-    (cl-loop for font in '("Inconsolata Nerd Font Propo" "CodeNewRoman Nerd Font Propo")
+    (cl-loop for font in '("ComicShannsMono Nerd Font")
              when (font-available-p font)
              return  (progn
                        (set-fontset-font t
@@ -71,6 +71,7 @@
 (add-hook 'server-after-make-frame-hook #'xx-setup-fonts)
 
 
+;;你好aaaaaa
 ;;你好aaa你ac
 ;;abcdaaaabad
 ;; | 一个普通标题     | 一个普通标题 | 一个普通标题     |

@@ -10,12 +10,14 @@
       "https://mirrors.ustc.edu.cn/nix-channels/store"
       "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
       # "https://mirrors.nju.edu.cn/nix-channels/store"
-      "https://cache.nixos.org"
       "https://niri.cachix.org"
+      "https://nix-community.cachix.org"
+      "https://cache.nixos.org"
     ];
     trusted-public-keys = [
-      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
       "niri.cachix.org-1:Wv0OmO7PsuocRKzfDoJ3mulSl7Z6oezYhGhR+3W2964="
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
     ];
     download-attempts = 3;
   };
@@ -61,7 +63,6 @@
       self,
       nixpkgs,
       home-manager,
-      nur,
       nixpkgs-pot,
       rust-overlay,
       flake-utils,
@@ -148,7 +149,9 @@
       nixosConfigurations = {
         x-laptop = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
-          specialArgs = builtins.removeAttrs x86Context [ "pkgs" ];
+          specialArgs = builtins.removeAttrs x86Context [ "pkgs" ] // {
+            inherit inputs;
+          };
           modules = (mkCommonModules "x86_64-linux") ++ [
             ./hardware-configuration.nix
             { nixpkgs.config.allowUnfree = true; }
@@ -157,7 +160,9 @@
 
         x-vm = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
-          specialArgs = builtins.removeAttrs x86Context [ "pkgs" ];
+          specialArgs = builtins.removeAttrs x86Context [ "pkgs" ] // {
+            inherit inputs;
+          };
           modules = (mkCommonModules "x86_64-linux") ++ [
             {
               virtualisation.vmVariant = {

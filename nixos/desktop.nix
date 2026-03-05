@@ -89,22 +89,25 @@
 
   fonts = {
     fontDir.enable = true;
-    packages = with pkgs; [
-      wqy_zenhei
-      wqy_microhei
-      material-design-icons
-      material-icons
-      lxgw-wenkai
-      noto-fonts
-      noto-fonts-color-emoji
-      noto-fonts-cjk-sans
-      noto-fonts-cjk-serif
-      nerd-fonts.mononoki
-      nerd-fonts.inconsolata
-      nerd-fonts.dejavu-sans-mono
-      nerd-fonts.code-new-roman
-      nerd-fonts.noto
-    ];
+    packages =
+      with pkgs;
+      [
+        wqy_zenhei
+        wqy_microhei
+        material-design-icons
+        material-icons
+        lxgw-wenkai
+        noto-fonts
+        noto-fonts-color-emoji
+        noto-fonts-cjk-sans
+        noto-fonts-cjk-serif
+        nerd-fonts.mononoki
+        nerd-fonts.inconsolata
+        nerd-fonts.dejavu-sans-mono
+        nerd-fonts.code-new-roman
+        nerd-fonts.noto
+      ]
+      ++ builtins.filter lib.isDerivation (builtins.attrValues pkgs.nerd-fonts);
     fontconfig = {
       enable = true;
       defaultFonts = {
@@ -203,7 +206,7 @@
   programs.clash-verge = {
     enable = true;
     tunMode = true;
-    serviceMode=true;
+    serviceMode = true;
   };
   # 3. 确保 Polkit 服务运行
   security.polkit.enable = true;

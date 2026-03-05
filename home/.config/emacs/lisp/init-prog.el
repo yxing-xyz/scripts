@@ -35,9 +35,13 @@
     (eldoc-box-border ((t (:inherit posframe-border :background unspecified))))
     (eldoc-box-body ((t (:inherit tooltip))))
     :hook (eglot-managed-mode . (lambda ()
-                                  (if (childframe-workable-p)
-                                      (eldoc-box-hover-mode 1)
-                                    (eldoc-box-hover-mode -1))))))
+                                  (if (and (display-graphic-p)      ; 检查是否为图形界面
+                                           (fboundp 'childframe-workable-p)
+                                           (childframe-workable-p))
+                                      (eldoc-box-hover-at-point-mode 1)
+                                    ;; TUI 模式下：确保默认 eldoc 开启，并关闭 eldoc-box
+                                    (eldoc-box-hover-at-point-mode -1)
+                                    (eldoc-mode 1))))))
 
 ;; Cross-referencing commands
 (use-package xref
