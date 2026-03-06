@@ -9,17 +9,9 @@
 (setq xx-full-name "Ethan")
 (setq xx-mail-address "yxing.xyz@gmail.com")
 (setq xx-server nil)
-(setq xx-theme 'doom-nord)
 (setq xx-tree-sitter t)
+(setq xx-theme 'doom-tokyo-night)
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-vc-selected-packages
-   '((treesit-fold :url "https://github.com/emacs-tree-sitter/treesit-fold")
-     (ultra-scroll :vc-backend Git :url "https://github.com/jdtsmith/ultra-scroll"))))
 
 (defun xx-setup-fonts ()
   "Setup fonts."
@@ -69,8 +61,6 @@
 (xx-setup-fonts)
 (add-hook 'window-setup-hook #'xx-setup-fonts)
 (add-hook 'server-after-make-frame-hook #'xx-setup-fonts)
-
-
 ;;你好aaaaaa
 ;;你好aaa你ac
 ;;abcdaaaabad
@@ -78,10 +68,3 @@
 ;; | ---------------- | ------------ | ---------------- |
 ;; | 短文本           | 中等文本     | 稍微长一点的文本 |
 ;; | 稍微长一点的文本 | 短文本       | 中等文本         |
-;;; custom.el ends here
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
