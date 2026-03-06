@@ -46,14 +46,14 @@
   (advice-add 'elisp-flymake-byte-compile :around #'my/elisp-flymake-byte-compile))
 
 ;; Display Flymake errors with overlays
-(use-package flyover
-  :diminish
-  :custom
-  (flyover-checkers '(flymake))
-  (flyover-background-lightness 60)
-  (flyover-icon-background-tint-percent 50)
-  (flyover-display-mode 'hide-on-same-line)
-  :hook flymake-mode)
+;; (use-package flyover
+;;   :diminish
+;;   :custom
+;;   (flyover-checkers '(flymake))
+;;   (flyover-background-lightness 60)
+;;   (flyover-icon-background-tint-percent 50)
+;;   (flyover-display-mode 'hide-on-same-line)
+;;   :hook flymake-mode)
 
 (provide 'init-lsp)
 
