@@ -9,7 +9,7 @@
 (setq xx-full-name "Ethan")
 (setq xx-mail-address "yxing.xyz@gmail.com")
 (setq xx-server nil)
-(setq xx-theme 'doom-dark+)
+(setq xx-theme 'doom-nord)
 (setq xx-tree-sitter t)
 
 (custom-set-variables

@@ -457,10 +457,6 @@ Return the fastest package archive."
   (or (featurep 'nerd-icons)
       (require 'nerd-icons nil t)))
 
-(defun centaur-commitid ()
-  (interactive)
-  (async-shell-command "git ls-remote --heads https://github.com/seagle0128/.emacs.d master > ~/.config/emacs/centaur" "*Async Shell Output*"))
-
 ;; Rearrange split windows
 (defun split-window-horizontally-instead ()
   "Kill other windows and split the current window is on the top half of the frame."
