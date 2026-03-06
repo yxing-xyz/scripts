@@ -5,6 +5,18 @@
 (eval-when-compile
   (require 'init-custom))
 
+(defun my/project-find-root (dir)
+  "在 DIR 中寻找 go.mod 或 .project 文件，将其识别为项目根目录。"
+  (let* ((files '("go.mod" ".project"))
+         ;; 寻找列表中任意一个文件所在的目录
+         (root (cl-some (lambda (f) (locate-dominating-file dir f)) files)))
+    (when root
+      (cons 'transient root))))
+
+;; 确保在 project.el 加载后注入
+(with-eval-after-load 'project
+  (add-hook 'project-find-functions #'my/project-find-root))
+
 (use-package tabspaces
   :bind (:map tabspaces-command-map
          ("C-r"   . tabspaces-restore-session)
@@ -97,6 +109,7 @@
       (quit-windows-on messages-buffer-name))
     (advice-add #'tabspaces-restore-session :after #'tabspaces--bury-messages)))
 
+;; 配合direnv allow实现emacs自动进入开发环境
 (use-package envrc
   :hook (after-init . envrc-global-mode))
 (provide 'init-workspace)
