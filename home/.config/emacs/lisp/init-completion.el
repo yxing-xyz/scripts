@@ -344,7 +344,7 @@ targets."
   (corfu-preview-current nil)
   (corfu-on-exact-match nil)
   (corfu-auto-delay 0.1)
-  (corfu-popupinfo-delay '(0.1 . 0.1))
+  (corfu-popupinfo-delay '(0.5 . 0.2))
   (global-corfu-modes '((not erc-mode
                              circe-mode
                              help-mode
