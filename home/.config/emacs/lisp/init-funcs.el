@@ -487,6 +487,50 @@ Return the fastest package archive."
            (featurep 'tty-child-frames))
        (eq (frame-parameter (selected-frame) 'minibuffer) 't)))
 
+
+(defun my/update-config (key value)
+  "以语法树逻辑更新 (setq KEY VALUE) 或 (defcustom KEY VALUE ...)。
+支持识别并精准替换手写的配置项，不破坏原有注释和格式。"
+  (let* ((path (expand-file-name "custom.el" user-emacs-directory))
+         (key-name (symbol-name key))
+         (new-val-str (if (symbolp value) (format "'%s" value) (format "%S" value))))
+    (with-current-buffer (find-file-noselect path)
+      (save-excursion
+        (goto-char (point-min))
+        (let ((found nil))
+          ;; 1. 语义扫描：寻找顶层表达式
+          (while (and (not found) (not (eobp)))
+            (let ((expr-start (point)))
+              (condition-case nil
+                  (let ((sexp (read (current-buffer))))
+                    ;; 2. 逻辑理解：匹配 setq 或 defcustom
+                    (when (and (listp sexp)
+                               (memq (car sexp) '(setq defcustom)) ; 同时支持两种
+                               (eq (nth 1 sexp) key))
+                      (setq found t)
+                      ;; 3. 语法树导航
+                      (goto-char expr-start)
+                      (down-list 1)           ; 进入 (
+                      (forward-sexp 1)        ; 跳过 setq 或 defcustom
+                      (forward-sexp 1)        ; 跳过 key (例如 xx-theme)
+
+                      ;; 4. 节点间隙保护：定位到 Value 的物理起点
+                      (forward-comment (point-max))
+                      (let ((v-beg (point)))
+                        (forward-sexp 1)      ; 跳过旧 Value 节点
+                        ;; 5. 原子替换
+                        (delete-region v-beg (point))
+                        (insert new-val-str))))
+                ;; 读取失败跳过
+                (error (forward-comment (point-max))))))
+
+          ;; 6. 兜底逻辑：如果没找到，默认以 setq 形式追加
+          ;; 因为手动配置通常以 setq 最为简洁
+          (unless found
+            (goto-char (point-max))
+            (unless (bolp) (insert "\n"))
+            (insert (format "(setq %s %s)\n" key-name new-val-str)))))
+      (save-buffer))))
 (provide 'init-funcs)
 
 
