@@ -41,7 +41,8 @@
 
 (use-package doom-modeline
   :custom
-  (doom-modeline-minor-modes t)              ;; 默认显示副模式（Minor Modes）
+  (doom-modeline-minor-modes nil)              ;; 不显示minor mode
+  (doom-modeline-buffer-file-name-style 'relative-from-project)
   :hook after-init                            ;; 在 Emacs 初始化完成后启用
   :bind (:map doom-modeline-mode-map          ;; 绑定快捷键到 doom-modeline 映射表中
          ("C-<f6>" . doom-modeline-hydra/body)) ;; 按 Ctrl + F6 呼出 Hydra 配置菜单
@@ -247,6 +248,8 @@
       mouse-wheel-scroll-amount-horizontal 1 ; 鼠标水平滚轮每次滚动 1 个单位
       mouse-wheel-progressive-speed nil)    ; 关闭加速滚动。如果你快速拨动滚轮，
                                         ; 滚动速度保持线性，而不是越来越快。
+
+(set-display-table-slot standard-display-table 0 ?\ ) ; 终端模式下屏宽$符号取消显示
 
 ;; 当你开启 mixed-pitch-mode 时，它会实现以下效果：
 ;; 正文部分：使用你设置的比例字体（通常更像书本排版，阅读感好）。

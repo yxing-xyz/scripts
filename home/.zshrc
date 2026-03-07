@@ -247,7 +247,7 @@ alias -- cat=bat
 alias -- diff='difft --display inline'
 alias -- docker='TERM=xterm-256color $TRZSZ_ENABLE docker'
 alias -- eq='emacs -nw -q'
-alias -- er='emacsclient -r'
+alias -- er='emacsclient -r -n'
 alias -- et='emacsclient -t'
 alias -- hz='sshuttle --dns -vr root@112.124.55.199 10.0.0.0/8 192.168.0.0/16 --ssh-cmd "ssh -i $HOME/.ssh/品牌中心.key"'
 alias -- k9s='$TRZSZ_ENABLE k9s'

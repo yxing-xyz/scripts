@@ -154,7 +154,10 @@
           };
           modules = (mkCommonModules "x86_64-linux") ++ [
             ./hardware-configuration.nix
-            { nixpkgs.config.allowUnfree = true; }
+            {
+              nixpkgs.config.allowUnfree = true;
+              networking.hostName = "zen";
+            }
           ];
         };
 
@@ -181,7 +184,10 @@
               # 确保虚拟机内部驱动支持
               hardware.graphics.enable = true;
             }
-            { nixpkgs.config.allowUnfree = true; }
+            {
+              nixpkgs.config.allowUnfree = true;
+              networking.hostName = "void";
+            }
           ];
         };
       };

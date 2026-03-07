@@ -370,6 +370,6 @@
 
 ;; Better performance via tramp
 (use-package tramp-hlo
+  :init
   :hook (after-init . tramp-hlo-setup))
-
 (provide 'init-edit)
