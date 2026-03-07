@@ -161,7 +161,7 @@
               cursor-type 'box ;; 实心光标
               indent-tabs-mode nil)     ; Permanently indent with spaces, never with TABs
 (blink-cursor-mode 1) ;; 光标闪烁
-(setq blink-cursor-interval 0.4) ; 闪烁频率
+(setq blink-cursor-interval 0.5) ; 闪烁频率
 (setq blink-cursor-delay 0.2)    ; 停止输入后多久开始闪烁
 
 (setq visible-bell t

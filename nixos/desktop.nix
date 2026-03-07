@@ -172,7 +172,33 @@
     wireshark # 网络抓包工具
     clash-verge-rev # vpn
     wpsoffice-cn # WPS 中文版
-    emacs-pgtk # 图形版 Emacs
+    (pkgs.emacs-pgtk.overrideAttrs (old: {
+      # --- 修正 1: 属性必须放在这里，确保 Nix 知道这台机器必须支持 v4 ---
+      requiredSystemFeatures = [ "gccarch-x86-64-v4" ];
+
+      # --- 修正 2: 环境变量注入 ---
+      env = (old.env or { }) // {
+        # 强制注入 NIX_CFLAGS_COMPILE，确保 C 代码和 Lisp 编译后端都吃到优化
+        NIX_CFLAGS_COMPILE =
+          (old.env.NIX_CFLAGS_COMPILE or "")
+          + " -O3 -march=x86-64-v4 -fomit-frame-pointer -fno-semantic-interposition";
+      };
+
+      # --- 修正 3: 显式传递给 Configure ---
+      # 这样 system-configuration-options 里就会留下证据
+      preConfigure = (old.preConfigure or "") + ''
+        export CFLAGS="-O3 -march=x86-64-v4 -fomit-frame-pointer"
+        export CXXFLAGS="$CFLAGS"
+        export LDFLAGS="-O3 -march=x86-64-v4 -flto=auto -Wl,-O1 -Wl,--as-needed"
+      '';
+
+      # --- 修正 4: 确保构建系统开启全量 AOT ---
+      # Emacs 30+ 建议通过 configureFlags 明确 AOT 行为
+      configureFlags = (old.configureFlags or [ ]) ++ [
+        "--with-native-compilation=aot"
+      ];
+      # makeFlags = (old.makeFlags or [ ]) ++ [];
+    }))
     localsend # 局域网传文件工具
     xclip # 剪切板工具
     wl-clipboard # 剪贴板工具
@@ -213,4 +239,38 @@
   programs.niri.enable = true;
   services.displayManager.gdm.enable = true;
   services.desktopManager.gnome.enable = true;
+
+  services.ananicy = {
+    enable = true;
+    package = pkgs.ananicy-cpp;
+    rulesProvider = pkgs.ananicy-rules-cachyos;
+    extraRules = [
+      {
+        name = "niri";
+        nice = -15;
+        ioclass = "best-effort";
+        ioprio = 0;
+      }
+      {
+        name = "dms";
+        nice = -10;
+      }
+      {
+        name = "cc1";
+        nice = 19;
+      } # 顺便把编译器打入“冷宫”
+      {
+        name = "cc1plus";
+        nice = 19;
+      }
+      {
+        name = "go";
+        nice = 19;
+      }
+      {
+        name = "rustc";
+        nice = 19;
+      }
+    ];
+  };
 }

@@ -20,6 +20,9 @@
       "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
     ];
     download-attempts = 3;
+    system-features = [
+      "gccarch-x86-64-v4"
+    ];
   };
   inputs = {
     # 主系统通道
@@ -77,7 +80,38 @@
         home.homeDirectory = "/home/x";
         home.stateVersion = "25.11";
       };
+      myOverlays = [
+        (final: prev: {
+          makeNative =
+            pkg:
+            pkg.overrideAttrs (old: {
+              # 处理 env 内部的冲突
+              env = (old.env or { }) // {
+                NIX_CFLAGS_COMPILE = final.lib.concatStringsSep " " (
+                  (final.lib.toList (old.env.NIX_CFLAGS_COMPILE or [ ]))
+                  ++ [
+                    "-O3"
+                    "-march=native"
+                    "-g"
+                  ]
+                );
+              };
+              # 处理可能存在的顶层 CFLAGS（这里通常支持列表，但为了保险也转成字符串）
+              CFLAGS = final.lib.concatStringsSep " " (
+                (final.lib.toList (old.CFLAGS or [ ]))
+                ++ [
+                  "-O3"
+                  "-march=native"
+                  "-g"
+                ]
+              );
 
+              # Go 环境变量通常是字符串，直接给 v4
+              GOAMD64 = "v4";
+              dontStrip = true;
+            });
+        })
+      ];
       makeSystemContext =
         system:
         let
@@ -87,8 +121,8 @@
             config.allowUnfree = true;
             overlays = [
               rust-overlay.overlays.default # 加上这一行
-              # 你其他的 overlay 也可以放这里
-            ];
+            ]
+            ++ myOverlays;
           };
         in
         {
@@ -157,6 +191,11 @@
             {
               nixpkgs.config.allowUnfree = true;
               networking.hostName = "zen";
+
+              nixpkgs.overlays = [
+                inputs.rust-overlay.overlays.default
+              ]
+              ++ myOverlays;
             }
           ];
         };
@@ -187,6 +226,10 @@
             {
               nixpkgs.config.allowUnfree = true;
               networking.hostName = "void";
+              nixpkgs.overlays = [
+                inputs.rust-overlay.overlays.default
+              ]
+              ++ myOverlays;
             }
           ];
         };

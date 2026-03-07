@@ -64,6 +64,7 @@ in
       dates = "weekly";
       options = "--delete-older-than 30d";
     };
+
     # 它会将 'nixpkgs' 别名直接指向你当前系统构建所用的源码路径
     registry.nixpkgs.flake = inputs.nixpkgs;
     settings = {
@@ -94,6 +95,9 @@ in
       # 自动合并
       auto-optimise-store = true;
       use-xdg-base-directories = true;
+      system-features = [
+        "gccarch-x86-64-v4"
+      ];
     };
   };
 
