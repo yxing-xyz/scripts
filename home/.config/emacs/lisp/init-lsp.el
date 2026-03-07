@@ -22,10 +22,12 @@
                         '(nix-ts-mode . ("nixd"))))
 
 
-(use-package consult-eglot
-  :after consult eglot
-  :bind (:map eglot-mode-map
-         ("C-M-." . consult-eglot-symbols)))
+(with-eval-after-load 'consult
+  (use-package consult-eglot
+    :after eglot
+    :bind (:map eglot-mode-map
+           ("C-M-." . consult-eglot-symbols))))
+
 
 (use-package flymake
   :diminish

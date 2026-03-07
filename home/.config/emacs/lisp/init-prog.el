@@ -11,9 +11,13 @@
 ;; Code Display & Utilities
 ;; ---------------------------------------------------------------------------
 
-;; Prettify Symbols (e.g., display “lambda” as “λ”)
 (use-package prog-mode :ensure nil)
 
+(use-package treesit
+  :ensure nil
+  :init
+  ;; 确保开启最高等级高亮
+  (setq-default treesit-font-lock-level 4))
 ;; Tree-sitter support
 (use-package treesit-auto
   :hook (after-init . global-treesit-auto-mode)
@@ -150,6 +154,8 @@ Install the doc if it's not installed."
   :mode ("\\.swift\\'" . swift-ts-mode))
 (use-package yaml-ts-mode
   :mode ("\\.ya?ml\\'" . yaml-ts-mode))
+(use-package kdl-mode
+  :mode ("\\.kdl\\'" . kdl-mode))
 
 
 ;; Protobuf item configuration

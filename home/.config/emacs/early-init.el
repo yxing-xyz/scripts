@@ -24,19 +24,17 @@
 ;;
 
 ;;; Commentary:
-;;
-;; Emacs 27 introduces early-init.el, which is run before init.el,
-;; before package and UI initialization happens.
-;;
-
 ;;; Code:
 
-;; Defer garbage collection further back in the startup process
 (if noninteractive  ; in CLI sessions
     (setq gc-cons-threshold #x8000000   ; 128MB
           ;; Backport from 29 (see emacs-mirror/emacs@73a384a98698)
           gc-cons-percentage 1.0)
   (setq gc-cons-threshold most-positive-fixnum))
+
+
+(defvar my--file-name-handler-alist file-name-handler-alist)
+(setq file-name-handler-alist nil)
 
 ;; Prevent unwanted runtime compilation for gccemacs (native-comp) users;
 ;; packages are compiled ahead-of-time when they are installed and site files
@@ -45,10 +43,8 @@
       native-comp-jit-compilation nil)
 
 ;; To speedup the Emacs windows, reducing the count on searching `load-path'
-(when (eq system-type 'windows-nt)
-  (setq load-suffixes '(".elc" ".el")) ;; to avoid searching .so/.dll
-  (setq load-file-rep-suffixes '(""))) ;; to avoid searching *.gz
-
+(setq load-suffixes '(".elc" ".el")
+      load-file-rep-suffixes '(""))
 ;; Package initialize occurs automatically, before `user-init-file' is
 ;; loaded, but after `early-init-file'. We handle package
 ;; initialization, so we must prevent Emacs from doing it early!

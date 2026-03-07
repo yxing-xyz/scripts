@@ -67,7 +67,8 @@
          ;; 删除字符时，如果是路径分隔符（/），则智能删除整级目录
          ("DEL" . vertico-directory-delete-char)
          ;; 一次性删除一级目录名（比如将 /home/user/ 删至 /home/）
-         ("M-DEL" . vertico-directory-delete-word))
+         ("M-DEL" . vertico-directory-delete-word)
+         ("C-j" . vertico-exit-input))
 
   ;; ---------------------------------------------------------
   ;; 钩子函数（在特定时机自动执行）
@@ -95,7 +96,7 @@
   :defines (xref-show-xrefs-function xref-show-definitions-function)
   :defines shr-color-html-colors-alist
   :autoload (consult-register-format consult-register-window consult-xref)
-  :autoload (consult--read consult--customize-put)
+  :autoload (consult--read consult--customize-put consult--grep)
   :commands (consult-narrow-help)
   :functions (list-colors-duplicates consult-colors--web-list)
   :bind (;; C-c bindings in `mode-specific-map'
@@ -227,12 +228,23 @@ value of the selected COLOR."
   ;; For some commands and buffer sources it is useful to configure the
   ;; :preview-key on a per-command basis using the `consult-customize' macro.
   (consult-customize
-   consult-line consult-line-multi :preview-key 'any
-   consult-buffer consult-recent-file consult-theme :preview-key '(:debounce 1.0 any)
-   consult-goto-line :preview-key '(:debounce 0.5 any)
+   consult-goto-line :preview-key 'any
+   consult-buffer consult-recent-file :preview-key '("M-.")
+   consult-theme :preview-key '("M-." :debounce 0.5 "<up>" "<down>")
+   consult-line consult-line-multi
    consult-ripgrep consult-git-grep consult-grep
    :initial (selected-region-or-symbol-at-point)
-   :preview-key '(:debounce 0.5 any))
+   :preview-key 'any)
+
+  (defun my/consult--read (fn &rest args)
+    "Select initial texts in `consult--read'."
+    (minibuffer-with-setup-hook
+        (lambda ()
+          "Select initial texts."
+          (set-mark (point-max))
+          (goto-char (minibuffer-prompt-end)))
+      (apply fn args)))
+  (advice-add #'consult--read :around #'my/consult--read)
 
   ;; Optionally configure the narrowing key.
   ;; Both < and C-+ work reasonably well.
@@ -348,8 +360,7 @@ targets."
   (global-corfu-modes '((not erc-mode
                              circe-mode
                              help-mode
-                             gud-mode
-                             vterm-mode)
+                             gud-mode)
                         t))
   :custom-face
   (corfu-border ((t (:inherit region :background unspecified))))
@@ -371,12 +382,12 @@ targets."
              completion-cycle-threshold completion-cycling)
          (consult-completion-in-region beg end table pred)))))
   (keymap-set corfu-map "M-m" #'corfu-move-to-minibuffer)
+  (keymap-set corfu-map "RET" nil)      ; 解除普通回车上屏
+  (keymap-set corfu-map "<return>" nil) ; 解除小键盘/部分终端回车上屏
   (add-to-list 'corfu-continue-commands #'corfu-move-to-minibuffer))
 
-(unless (or (display-graphic-p)
-            (featurep 'tty-child-frames))
-  (use-package corfu-terminal
-    :hook (global-corfu-mode . corfu-terminal-mode)))
+(use-package corfu-terminal
+  :hook (global-corfu-mode . corfu-terminal-mode))
 
 (use-package nerd-icons-corfu
   :autoload nerd-icons-corfu-formatter

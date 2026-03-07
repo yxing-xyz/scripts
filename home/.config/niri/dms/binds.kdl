@@ -175,7 +175,7 @@ binds {
     XF86Launch1 { screenshot; } // 区域截图
     Ctrl+XF86Launch1 { screenshot-screen; } // 全屏截图
     Alt+XF86Launch1 { screenshot-window; } // 窗口截图
-    Print { screenshot; } // 截图(Print)
+    Print { spawn "sh" "-c" "grim -g \"$(slurp)\" - | swappy -f -"; }
     Ctrl+Print { screenshot-screen; } // 全屏截图(Print)
     Alt+Print { screenshot-window; } // 窗口截图(Print)
     // === System Controls ===

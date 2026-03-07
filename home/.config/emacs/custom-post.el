@@ -1,39 +1,36 @@
-;; -*- lexical-binding: t; -*-
-;; 软链接打开方式
-;; (setq vc-follow-symlinks t)
+;;; custom-post.el --- 配置 -*- lexical-binding: t -*-
 
-;; 隐藏菜单栏
-;; (menu-bar-mode -1)
-;; 隐藏工具栏
-;;(tool-bar-mode -1)
-;; 隐藏滚动条
-;;(scroll-bar-mode -1)
-;; 隐藏侧边栏
-;;(fringe-mode 0)
-;; 关闭鼠标滚动
-;;(mouse-wheel-mode -1)
-;; 打开软链接文件
+;; Author: Ethan
+;; Maintainer: Ethan
+;; Version: version
+;; Package-Requires: (dependencies)
+;; Homepage: homepage
+;; Keywords: keywords
 
-;; 关闭自动换行
-;; (set-default 'truncate-lines t)
 
-;; 隐藏长行被截断时的“指示符”
-;; (set-display-table-slot standard-display-table 0 ?\ )
+;; This file is not part of GNU Emacs
 
-;; 光标实心
-;; (setq-default cursor-type 'box)
+;; This program is free software: you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
 
-;; 禁止闪烁光标
-;; (setq blink-cursor-mode nil)
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
 
-;; key重定向
-;; (define-key key-translation-map (kbd "M-\\") (kbd "M-g w"))
-;; (define-key prog-mode-map (kbd "M-RET") (key-binding (kbd "M-g w")))
-;; (add-hook 'ace-pinyin-mode-hook (lambda () (progn
-;;                                              (local-set-key (kbd "M-RET") (key-binding (kbd "C-:")))
-;;                                              )))
-;; (add-hook 'prog-mode-hook (lambda () (progn
-;;                                        (local-set-key (kbd "C-c @ `") 'hideshow-hydra/body))))
+;; You should have received a copy of the GNU General Public License
+;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+
+;;; Commentary:
+
+;; commentary
+
+;;; Code:
+
 
 (provide 'custom-post)
-;;;
+
+;;; custom-post.el ends here

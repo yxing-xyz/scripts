@@ -1,0 +1,183 @@
+{
+  "nodes": {
+    "clash-verge": {
+      "locked": {
+        "lastModified": 1774264777,
+        "narHash": "sha256-p+qNITjbn8HO9v1aZjs+VYAH2WxYGPI6h7Uqi8JX31M=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "6da45c91d53dc318df7482a0be7c7bf47515e1e2",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "6da45c91d53dc318df7482a0be7c7bf47515e1e2",
+        "type": "github"
+      }
+    },
+    "dms": {
+      "inputs": {
+        "flake-compat": "flake-compat",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1785111455,
+        "narHash": "sha256-aTNuC9NDBnYAeEtFsleeUwmGX3AZlKOutbl+LQRPkmQ=",
+        "ref": "stable",
+        "rev": "069ddab041c738236a8910e4c39b65d9628d3018",
+        "shallow": true,
+        "type": "git",
+        "url": "https://github.com/AvengeMedia/DankMaterialShell.git"
+      },
+      "original": {
+        "ref": "stable",
+        "shallow": true,
+        "type": "git",
+        "url": "https://github.com/AvengeMedia/DankMaterialShell.git"
+      }
+    },
+    "docker-nixpkgs": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1783506177,
+        "narHash": "sha256-JMuZFTPNxPAyvivs2lgiNAcQ/8PGxCLyU3cxuVjCbZk=",
+        "ref": "refs/heads/main",
+        "rev": "9921dde7bfe7405cdd6473c49411a04a6aa17843",
+        "shallow": true,
+        "type": "git",
+        "url": "https://github.com/nix-community/docker-nixpkgs.git"
+      },
+      "original": {
+        "shallow": true,
+        "type": "git",
+        "url": "https://github.com/nix-community/docker-nixpkgs.git"
+      }
+    },
+    "flake-compat": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1767039857,
+        "narHash": "sha256-vNpUSpF5Nuw8xvDLj2KCwwksIbjua2LZCqhV1LNRDns=",
+        "owner": "NixOS",
+        "repo": "flake-compat",
+        "rev": "5edf11c44bc78a0d334f6334cdaf7d60d732daab",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "repo": "flake-compat",
+        "type": "github"
+      }
+    },
+    "flake-parts": {
+      "inputs": {
+        "nixpkgs-lib": "nixpkgs-lib"
+      },
+      "locked": {
+        "lastModified": 1785627969,
+        "narHash": "sha256-4dtXQk/NMePegK/nWp5NSeuZKLATItOq61lpEvmXqGw=",
+        "ref": "refs/heads/main",
+        "rev": "427bf4bd9435fdf21321c8cc628c24efc14c0f7a",
+        "shallow": true,
+        "type": "git",
+        "url": "https://github.com/hercules-ci/flake-parts.git"
+      },
+      "original": {
+        "shallow": true,
+        "type": "git",
+        "url": "https://github.com/hercules-ci/flake-parts.git"
+      }
+    },
+    "home-manager": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1785119570,
+        "narHash": "sha256-Rgs2xKnGLFWQscxUaXX07oyZeuMDOHEbqDOsgliLFGM=",
+        "ref": "release-26.05",
+        "rev": "d4fd24667c8cbef124bb70a20380cab75ec8474d",
+        "shallow": true,
+        "type": "git",
+        "url": "https://github.com/nix-community/home-manager.git"
+      },
+      "original": {
+        "ref": "release-26.05",
+        "shallow": true,
+        "type": "git",
+        "url": "https://github.com/nix-community/home-manager.git"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1785491804,
+        "narHash": "sha256-p00vplVOyfKGlhju0+eGGPAxyYYKaY0lpyuoHLFIx2Y=",
+        "ref": "nixos-26.05",
+        "rev": "5b4f72e1705a63aace42900610c4db82cb4af0ec",
+        "shallow": true,
+        "type": "git",
+        "url": "https://mirrors.nju.edu.cn/git/nixpkgs.git"
+      },
+      "original": {
+        "ref": "nixos-26.05",
+        "shallow": true,
+        "type": "git",
+        "url": "https://mirrors.nju.edu.cn/git/nixpkgs.git"
+      }
+    },
+    "nixpkgs-lib": {
+      "locked": {
+        "lastModified": 1785031560,
+        "narHash": "sha256-OmshNvn2vupOFpYinLUu+1Dnpu4n7Q5N3ggGVNHpkUI=",
+        "owner": "nix-community",
+        "repo": "nixpkgs.lib",
+        "rev": "0e79af5e3d4dcfcd676ab5ba3f95d2e3352e078c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "nixpkgs.lib",
+        "type": "github"
+      }
+    },
+    "root": {
+      "inputs": {
+        "clash-verge": "clash-verge",
+        "dms": "dms",
+        "docker-nixpkgs": "docker-nixpkgs",
+        "flake-parts": "flake-parts",
+        "home-manager": "home-manager",
+        "nixpkgs": "nixpkgs",
+        "rust-overlay": "rust-overlay"
+      }
+    },
+    "rust-overlay": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1785648791,
+        "narHash": "sha256-4wZa7NDOxbcm9pTNNcg88nvvPb9uVcWsJ+Ncil8eB1I=",
+        "ref": "refs/heads/master",
+        "rev": "32346a8154e65fa10bac36f7b476a5294cb8b150",
+        "shallow": true,
+        "type": "git",
+        "url": "https://github.com/oxalica/rust-overlay.git"
+      },
+      "original": {
+        "shallow": true,
+        "type": "git",
+        "url": "https://github.com/oxalica/rust-overlay.git"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}

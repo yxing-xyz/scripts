@@ -7,25 +7,15 @@
 ;;
 ;; Speed up Startup Process
 ;;
-
-;; Optimize Garbage Collection for Startup
-(setq gc-cons-threshold most-positive-fixnum)
-
-;; Optimize `auto-mode-alist`
 (setq auto-mode-case-fold nil)
 
 (unless (or (daemonp) noninteractive init-file-debug)
-  ;; Temporarily suppress file-handler processing to speed up startup
-  (let ((default-handlers file-name-handler-alist))
-    (setq file-name-handler-alist nil)
-    ;; Recover handlers after startup
-    (add-hook 'emacs-startup-hook
-              (lambda ()
-                (setq file-name-handler-alist
-                      (delete-dups (append file-name-handler-alist default-handlers))))
-              101)))
-
-;;
+  (add-hook 'emacs-startup-hook
+            (lambda ()
+              (setq file-name-handler-alist
+                    (delete-dups (append file-name-handler-alist
+                                         my--file-name-handler-alist))))
+            101))
 ;; Configure Load Path
 ;;
 
@@ -79,10 +69,11 @@ Avoid placing large files like EAF in `site-lisp` to prevent slow startup."
 (require 'init-treemacs)
 (require 'init-dict)
 (require 'init-org)
-
+(require 'init-markdown)
+(require 'init-shell)
 
 ;; Programming
-(require 'init-vcs)
+(require 'init-vc)
 (require 'init-prog)
 (require 'init-lsp)
 (require 'init-elisp)
