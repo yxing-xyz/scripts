@@ -34,7 +34,7 @@
 (advice-add 'package--save-selected-packages :override #'my/package--save-selected-packages)
 
 ;; Set ELPA packages
-(set-package-archives xx-package-archives nil nil t)
+(customize-set-variable 'xx-package-archives xx-package-archives)
 
 ;; Initialize packages
 (package-initialize)

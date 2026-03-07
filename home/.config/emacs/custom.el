@@ -5,11 +5,9 @@
 ;;; Code:
 
 ;; (setq debug-on-error t)
-(setq xx-package-archives 'ustc)
 (setq xx-full-name "Ethan")
 (setq xx-mail-address "yxing.xyz@gmail.com")
-(setq xx-server nil)
-(setq xx-tree-sitter t)
+(setq xx-package-archives 'ustc)
 (setq xx-theme 'doom-tokyo-night)
 
 

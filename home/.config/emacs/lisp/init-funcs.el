@@ -15,6 +15,54 @@
 (declare-function xwidget-buffer "xwidget")
 (declare-function xwidget-webkit-current-session "xwidget")
 
+
+
+
+
+(defun my/update-config (key value)
+  "以语法树逻辑更新 (setq KEY VALUE) 或 (defcustom KEY VALUE ...)。
+支持识别并精准替换手写的配置项，不破坏原有注释和格式。"
+  (let* ((path (expand-file-name "custom.el" user-emacs-directory))
+         (key-name (symbol-name key))
+         (new-val-str (if (symbolp value) (format "'%s" value) (format "%S" value))))
+    (with-current-buffer (find-file-noselect path)
+      (save-excursion
+        (goto-char (point-min))
+        (let ((found nil))
+          ;; 1. 语义扫描：寻找顶层表达式
+          (while (and (not found) (not (eobp)))
+            (let ((expr-start (point)))
+              (condition-case nil
+                  (let ((sexp (read (current-buffer))))
+                    ;; 2. 逻辑理解：匹配 setq 或 defcustom
+                    (when (and (listp sexp)
+                               (memq (car sexp) '(setq defcustom)) ; 同时支持两种
+                               (eq (nth 1 sexp) key))
+                      (setq found t)
+                      ;; 3. 语法树导航
+                      (goto-char expr-start)
+                      (down-list 1)           ; 进入 (
+                      (forward-sexp 1)        ; 跳过 setq 或 defcustom
+                      (forward-sexp 1)        ; 跳过 key (例如 xx-theme)
+
+                      ;; 4. 节点间隙保护：定位到 Value 的物理起点
+                      (forward-comment (point-max))
+                      (let ((v-beg (point)))
+                        (forward-sexp 1)      ; 跳过旧 Value 节点
+                        ;; 5. 原子替换
+                        (delete-region v-beg (point))
+                        (insert new-val-str))))
+                ;; 读取失败跳过
+                (error (forward-comment (point-max))))))
+
+          ;; 6. 兜底逻辑：如果没找到，默认以 setq 形式追加
+          ;; 因为手动配置通常以 setq 最为简洁
+          (unless found
+            (goto-char (point-max))
+            (unless (bolp) (insert "\n"))
+            (insert (format "(setq %s %s)\n" key-name new-val-str)))))
+      (save-buffer))))
+
 ;; Font
 (defun font-available-p (font-name)
   "Check if font with FONT-NAME is available."
@@ -188,24 +236,6 @@ interactively.  Turn the filename into a URL with function
         (native-compile-async dir t))))
 
 
-(defun xx-set-variable (variable value &optional no-save)
-  "Set the VARIABLE to VALUE, and return VALUE.
-
-If NO-SAVE is non-nil, don't save to the custom file.
-This function both sets the variable in the current session and persists it to
-the custom file."
-  (customize-set-variable variable value)
-  (when (and (not no-save)
-             (file-writable-p custom-file))
-    (with-temp-buffer
-      (insert-file-contents custom-file)
-      (goto-char (point-min))
-      (while (re-search-forward
-              (format "^[\t ]*[;]*[\t ]*(setq %s .*)" variable)
-              nil t)
-        (replace-match (format "(setq %s '%s)" variable value) nil nil))
-      (write-region nil nil custom-file)
-      (message "Saved %s (%s) to %s" variable value custom-file))))
 
 (defun file-too-long-p ()
   "Check whether the file is too long.
@@ -227,7 +257,7 @@ if NO-SAVE is nil.  This function updates `xx-package-archives'."
      (completing-read "Select package archives: "
                       (mapcar #'car xx-package-archives-alist)))))
   ;; Set option
-  (xx-set-variable 'xx-package-archives archives no-save)
+  (my/update-config 'xx-package-archives archives)
 
   ;; Refresh if need
   (and refresh (package-refresh-contents async))
@@ -439,17 +469,21 @@ Return the fastest package archive."
   (run-hooks 'after-load-theme-hook))
 (add-hook 'enable-theme-functions #'run-after-load-theme-hook)
 
-(defun xx-load-theme (theme &optional no-save)
-  "Load color THEME. Save setting to `custom-file' if NO-SAVE is nil."
+(defun xx-apply-theme-logic (theme)
+  (unless (memq theme custom-enabled-themes)
+    (mapc #'disable-theme custom-enabled-themes)
+    (load-theme theme t)))
+
+(defun xx-load-theme (theme &optional _no-save)
+  "交互式切换主题。
+注意：我们不再直接调用 my/update-config，
+而是通过修改变量来触发 defcustom 里的 :set 逻辑。"
   (interactive
-   (list
-    (intern
-     (completing-read "Load theme: "
-                      (mapcar #'symbol-name (custom-available-themes))
-                      ))))
-  (mapc #'disable-theme custom-enabled-themes)
-  (load-theme theme t)
-  (xx-set-variable 'xx-doom-theme theme no-save))
+   (list (intern (completing-read "Load theme: "
+                                  (mapcar #'symbol-name (custom-available-themes))))))
+  ;; 核心改动：用这个函数改变量，它会自动触发你定义的 :set 逻辑
+  ;; 从而完成：1. 物理存盘  2. 真正加载主题
+  (customize-set-variable 'xx-theme theme))
 
 
 (defun icons-displayable-p ()
@@ -487,50 +521,6 @@ Return the fastest package archive."
            (featurep 'tty-child-frames))
        (eq (frame-parameter (selected-frame) 'minibuffer) 't)))
 
-
-(defun my/update-config (key value)
-  "以语法树逻辑更新 (setq KEY VALUE) 或 (defcustom KEY VALUE ...)。
-支持识别并精准替换手写的配置项，不破坏原有注释和格式。"
-  (let* ((path (expand-file-name "custom.el" user-emacs-directory))
-         (key-name (symbol-name key))
-         (new-val-str (if (symbolp value) (format "'%s" value) (format "%S" value))))
-    (with-current-buffer (find-file-noselect path)
-      (save-excursion
-        (goto-char (point-min))
-        (let ((found nil))
-          ;; 1. 语义扫描：寻找顶层表达式
-          (while (and (not found) (not (eobp)))
-            (let ((expr-start (point)))
-              (condition-case nil
-                  (let ((sexp (read (current-buffer))))
-                    ;; 2. 逻辑理解：匹配 setq 或 defcustom
-                    (when (and (listp sexp)
-                               (memq (car sexp) '(setq defcustom)) ; 同时支持两种
-                               (eq (nth 1 sexp) key))
-                      (setq found t)
-                      ;; 3. 语法树导航
-                      (goto-char expr-start)
-                      (down-list 1)           ; 进入 (
-                      (forward-sexp 1)        ; 跳过 setq 或 defcustom
-                      (forward-sexp 1)        ; 跳过 key (例如 xx-theme)
-
-                      ;; 4. 节点间隙保护：定位到 Value 的物理起点
-                      (forward-comment (point-max))
-                      (let ((v-beg (point)))
-                        (forward-sexp 1)      ; 跳过旧 Value 节点
-                        ;; 5. 原子替换
-                        (delete-region v-beg (point))
-                        (insert new-val-str))))
-                ;; 读取失败跳过
-                (error (forward-comment (point-max))))))
-
-          ;; 6. 兜底逻辑：如果没找到，默认以 setq 形式追加
-          ;; 因为手动配置通常以 setq 最为简洁
-          (unless found
-            (goto-char (point-max))
-            (unless (bolp) (insert "\n"))
-            (insert (format "(setq %s %s)\n" key-name new-val-str)))))
-      (save-buffer))))
 (provide 'init-funcs)
 
 

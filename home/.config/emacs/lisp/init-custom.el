@@ -18,12 +18,24 @@
 
 (defcustom xx-package-archives-alist
   (let ((proto (if (gnutls-available-p) "https" "http")))
-    `((melpa    . (("gnu"    . ,(format "%s://elpa.gnu.org/packages/" proto))
-                   ("nongnu" . ,(format "%s://elpa.nongnu.org/nongnu/" proto))
-                   ("melpa"  . ,(format "%s://melpa.org/packages/" proto))))
-      (ustc     .  (("gnu"    . ,(format "%s://mirrors.ustc.edu.cn/elpa/gnu/" proto))
-                   ("nongnu" . ,(format "%s://mirrors.ustc.edu.cn/elpa/nongnu/" proto))
-                   ("melpa"  . ,(format "%s://mirrors.ustc.edu.cn/elpa/melpa/" proto))))))
+    `((melpa   . (("gnu"    . ,(format "%s://elpa.gnu.org/packages/" proto))
+                  ("nongnu" . ,(format "%s://elpa.nongnu.org/nongnu/" proto))
+                  ("melpa"  . ,(format "%s://melpa.org/packages/" proto))))
+      (ustc    . (("gnu"    . ,(format "%s://mirrors.ustc.edu.cn/elpa/gnu/" proto))
+                  ("nongnu" . ,(format "%s://mirrors.ustc.edu.cn/elpa/nongnu/" proto))
+                  ("melpa"  . ,(format "%s://mirrors.ustc.edu.cn/elpa/melpa/" proto))))
+      ;; 增加清华大学 (TUNA) 镜像源
+      (tuna    . (("gnu"    . ,(format "%s://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/" proto))
+                  ("nongnu" . ,(format "%s://mirrors.tuna.tsinghua.edu.cn/elpa/nongnu/" proto))
+                  ("melpa"  . ,(format "%s://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/" proto))))
+      ;; 增加北京外国语大学 (BFSU) 镜像源
+      (bfsu    . (("gnu"    . ,(format "%s://mirrors.bfsu.edu.cn/elpa/gnu/" proto))
+                  ("nongnu" . ,(format "%s://mirrors.bfsu.edu.cn/elpa/nongnu/" proto))
+                  ("melpa"  . ,(format "%s://mirrors.bfsu.edu.cn/elpa/melpa/" proto))))
+      ;; 增加腾讯云 (Tencent) 镜像源
+      (tencent . (("gnu"    . ,(format "%s://mirrors.cloud.tencent.com/elpa/gnu/" proto))
+                  ("nongnu" . ,(format "%s://mirrors.cloud.tencent.com/elpa/nongnu/" proto))
+                  ("melpa"  . ,(format "%s://mirrors.cloud.tencent.com/elpa/melpa/" proto))))))
   "A list of the package archives."
   :group 'xx
   :type '(alist :key-type (symbol :tag "Archive group name")
@@ -45,12 +57,17 @@
                               :tag (capitalize (symbol-name name))
                               name)))
                     xx-package-archives-alist)))
-
-(defcustom xx-theme 'doom-one
+(defcustom xx-theme 'doom-dark+
   "The color theme."
   :group 'xx
-  :type  'symbol)
-
+  :type  'symbol
+  :set (lambda (symbol value)
+         (set-default symbol value) ; 1. 更新内存值
+         (when (and (boundp 'after-init-time) after-init-time)
+           (when (fboundp 'my/update-config)
+             (my/update-config symbol value))
+           ;; 3. 实时生效 (直接调用底层加载)
+           (xx-apply-theme-logic value))))
 
 (defcustom xx-prettify-symbols-alist
   '(("lambda" . ?λ)
