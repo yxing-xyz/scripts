@@ -44,6 +44,3 @@ pacman -r /rootfs -Sy --noconfirm $PACKAGE_GROUP
 pacman -r /rootfs -Sy --noconfirm $BOOTSTRAP_EXTRA_PACKAGES
 cp /etc/pacman.conf /rootfs/etc/pacman.conf
 cp /etc/makepkg.conf /rootfs/etc/makepkg.conf
-sed -i 's/#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/g' /rootfs/etc/locale.gen
-echo "LANG=en_US.UTF-8" >/rootfs/etc/locale.conf
-chroot /rootfs locale-gen
