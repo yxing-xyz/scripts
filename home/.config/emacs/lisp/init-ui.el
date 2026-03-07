@@ -42,7 +42,8 @@
 (use-package doom-modeline
   :custom
   (doom-modeline-minor-modes nil)              ;; 不显示minor mode
-  (doom-modeline-buffer-file-name-style 'relative-from-project)
+  (doom-modeline-buffer-file-name-style 'truncate-nil) ;; 显示全路径
+  (doom-modeline-check 'simple)
   :hook after-init                            ;; 在 Emacs 初始化完成后启用
   :bind (:map doom-modeline-mode-map          ;; 绑定快捷键到 doom-modeline 映射表中
          ("C-<f6>" . doom-modeline-hydra/body)) ;; 按 Ctrl + F6 呼出 Hydra 配置菜单
