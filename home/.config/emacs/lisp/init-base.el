@@ -9,6 +9,7 @@
       user-mail-address xx-mail-address)
 
 ;; Compatibility
+;; 允许你在旧版本的 Emacs 上使用新版本才有的函数和宏
 (use-package compat :demand t)
 
 ;; 禁止linux X参数

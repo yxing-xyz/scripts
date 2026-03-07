@@ -31,12 +31,13 @@
 
       ;; Excellent themes
       (use-package doom-themes
-        :functions xx-load-theme doom-themes-visual-bell-config
-        :init (xx-load-theme xx-theme t)
+        :functions xx-apply-theme-logic doom-themes-visual-bell-config
+        :init
+        (xx-apply-theme-logic xx-theme)
         :config (doom-themes-visual-bell-config)))
   (progn
     (warn "The current theme may be incompatible!")
-    (xx-load-theme xx-theme t)))
+    (xx-apply-theme-logic xx-theme)))
 
 (use-package doom-modeline
   :custom
@@ -238,14 +239,14 @@
       scroll-step 1                         ; 垂直滚动时，每次只移动 1 行
       scroll-margin 0                       ; 离上下边界剩 0 行时才滚动（设为 3-5 会更有呼吸感）
       scroll-conservatively 100000          ; 核心设置：只要滚动超过此行数就逐行移动。
-                                            ; 设为一个极大的值可避免光标到边界时页面猛跳。
+                                        ; 设为一个极大的值可避免光标到边界时页面猛跳。
       scroll-preserve-screen-position t     ; 翻页时，光标保持在屏幕中的相对位置（不随翻页乱跳）
       auto-window-vscroll nil               ; 禁止自动调整窗口垂直滚动比例，提升渲染性能
 
       ;; Mouse - 鼠标滚轮设置
       mouse-wheel-scroll-amount-horizontal 1 ; 鼠标水平滚轮每次滚动 1 个单位
       mouse-wheel-progressive-speed nil)    ; 关闭加速滚动。如果你快速拨动滚轮，
-                                            ; 滚动速度保持线性，而不是越来越快。
+                                        ; 滚动速度保持线性，而不是越来越快。
 
 ;; 当你开启 mixed-pitch-mode 时，它会实现以下效果：
 ;; 正文部分：使用你设置的比例字体（通常更像书本排版，阅读感好）。
