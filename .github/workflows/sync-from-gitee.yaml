@@ -1,9 +1,9 @@
-name: Synchronize from Gitee
+name: sync from gitee
 on:
   workflow_dispatch: # 添加这一行以支持手动触发
       inputs: # 可选：定义输入参数
         exampleInput:
-          description: 'Progressive synchronization of data .(true/false)'
+          description: 'Enable incremental data synchronization (true/false)'
           required: true
           default: 'true'
   schedule:
@@ -17,7 +17,7 @@ jobs:
       - uses: szenius/set-timezone@v2.0
         with:
           timezoneLinux: "Asia/Shanghai"
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
           token: ${{ secrets.ADMIN_TOKEN }}

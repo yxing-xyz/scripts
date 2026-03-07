@@ -83,3 +83,5 @@
 [rebase]
     # 在 rebase 时自动执行 stash push 和 stash pop
     autoStash = true
+[safe]
+    directory = /opt/scripts

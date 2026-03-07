@@ -10,7 +10,7 @@ apt install -y gcc-aarch64-linux-gnu
 apt install -y libpcap-dev:arm64 libcephfs-dev:arm64 librbd-dev:arm64 librados-dev:arm64
 apt install -y gcc g++ make automake autoconf libtool perl bash git lrzsz procps netcat-openbsd jq \
     sudo vim tmux htop locales
-apt install -y openssh-server zlib1g-dev libssl-dev libpcre2-dev libpcre3-dev
+apt install -y openssh-server zlib1g-dev libssl-dev libpcre2-dev
 apt install -y tcpdump lsof net-tools bind9-utils bind9-dnsutils mtr wget curl
 
 echo "zh_CN.UTF-8 UTF-8" >> /etc/locale.gen

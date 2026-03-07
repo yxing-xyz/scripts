@@ -84,7 +84,6 @@
                                               extended-command-history)
               savehist-autosave-interval 300))
 
-;; Misc.
 (use-package simple
   :diminish visual-line-mode
   :ensure nil
@@ -161,7 +160,7 @@
               cursor-type 'box ;; 实心光标
               indent-tabs-mode nil)     ; Permanently indent with spaces, never with TABs
 (blink-cursor-mode 1) ;; 光标闪烁
-(setq blink-cursor-interval 0.4) ; 闪烁频率
+(setq blink-cursor-interval 0.5) ; 闪烁频率
 (setq blink-cursor-delay 0.2)    ; 停止输入后多久开始闪烁
 
 (setq visible-bell t
@@ -176,13 +175,6 @@
       sentence-end "\\([。！？]\\|……\\|[.?!][]\"')}]*\\($\\|[ \t]\\)\\)[ \t\n]*"
       sentence-end-double-space nil
       word-wrap-by-category t)
-
-;; Asynchronous processing
-(use-package async
-  :diminish (async-bytecomp-package-mode dired-async-mode)
-  :functions async-bytecomp-package-mode
-  :hook (after-init . dired-async-mode)
-  :init (unless sys/win32p (async-bytecomp-package-mode 1)))
 
 (defface posframe-border
   `((t (:inherit region)))
@@ -376,11 +368,10 @@
           "^\\*gt-result\\*$" "^\\*gt-log\\*$"
           "^\\*Process List\\*$" process-menu-mode cargo-process-mode
 
-          "^\\*.*eat.*\\*.*$" eat-mode
           "^\\*.*eshell.*\\*.*$" eshell-mode
+          "^\\*ghostel\\*$" ghostel-mode
           "^\\*.*shell.*\\*.*$" shell-mode
           "^\\*.*terminal.*\\*.*$" term-mode
-          "^\\*.*vterm[inal]*.*\\*.*$" vterm-mode
 
           "\\*DAP Templates\\*$" dap-server-log-mode
           "\\*ELP Profiling Results\\*" profiler-report-mode
@@ -417,9 +408,8 @@
                      (buffer-live-p buffer)
                      (not (with-current-buffer buffer
                             (derived-mode-p 'eshell-mode
-                                            'shell-mode
-                                            'term-mode
-                                            'vterm-mode))))
+                                            'ghostel-mode
+                                            'shell-mode))))
             (delete-window window)))))
     (advice-add #'keyboard-quit :before #'popper-close-window-hack)
     (popper-mode 1)

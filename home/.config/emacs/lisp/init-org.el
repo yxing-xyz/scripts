@@ -12,7 +12,7 @@
   (require 'init-const)      ;; 编译时加载常量定义（如文件路径）
   (require 'init-custom))     ;; 编译时加载用户自定义设置
 
-(setq org-directory (expand-file-name "org" user-emacs-directory))
+(setq org-directory "~/Documents/")
 (use-package org
   :ensure nil                 ;; 使用内置的 Org 模式，无需另外安装
   :custom-face (org-ellipsis ((t (:foreground unspecified)))) ;; 设置标题折叠符号的样式，不指定特定颜色
@@ -175,10 +175,17 @@
 
 ;; UI 美化：将 Org 界面变得现代化（复选框、进度条、美化标签等）
 (use-package org-modern
-  :after org
   :diminish
-  :autoload global-org-modern-mode
-  :init (global-org-modern-mode 1))
+  :autoload org-modern-mode org-modern-agenda
+  :hook ((org-mode . (lambda ()
+                       "Display org modern looks in GUI."
+                       (if (display-graphic-p)
+                           (org-modern-mode 1)
+                         (org-modern-mode -1))))
+         (org-agenda-finalize . (lambda ()
+                                  "Display org modern agenda in GUI."
+                                  (when (display-graphic-p)
+                                    (org-modern-agenda))))))
 
 ;; 功能增强：粘贴时自动带上源码块标记和原始链接
 (use-package org-rich-yank
