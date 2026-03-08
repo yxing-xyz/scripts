@@ -174,22 +174,22 @@
     wpsoffice-cn # WPS 中文版
     (pkgs.emacs-pgtk.overrideAttrs (old: {
       # --- 修正 1: 属性必须放在这里，确保 Nix 知道这台机器必须支持 v4 ---
-      requiredSystemFeatures = [ "gccarch-x86-64-v4" ];
+      # requiredSystemFeatures = [ "gccarch-x86-64-native" ];
 
       # --- 修正 2: 环境变量注入 ---
       env = (old.env or { }) // {
         # 强制注入 NIX_CFLAGS_COMPILE，确保 C 代码和 Lisp 编译后端都吃到优化
         NIX_CFLAGS_COMPILE =
           (old.env.NIX_CFLAGS_COMPILE or "")
-          + " -O3 -march=x86-64-v4 -fomit-frame-pointer -fno-semantic-interposition";
+          + " -O3 -march=native -fomit-frame-pointer -fno-semantic-interposition";
       };
 
       # --- 修正 3: 显式传递给 Configure ---
       # 这样 system-configuration-options 里就会留下证据
       preConfigure = (old.preConfigure or "") + ''
-        export CFLAGS="-O3 -march=x86-64-v4 -fomit-frame-pointer"
+        export CFLAGS="-O3 -march=native -fomit-frame-pointer"
         export CXXFLAGS="$CFLAGS"
-        export LDFLAGS="-O3 -march=x86-64-v4 -flto=auto -Wl,-O1 -Wl,--as-needed"
+        export LDFLAGS="-O3 -march=native -flto=auto -Wl,-O1 -Wl,--as-needed"
       '';
 
       # --- 修正 4: 确保构建系统开启全量 AOT ---

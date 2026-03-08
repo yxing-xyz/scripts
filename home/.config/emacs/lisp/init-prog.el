@@ -77,8 +77,8 @@
   :autoload devdocs--available-docs
   :commands (devdocs-install devdocs-lookup)
   :bind (:map prog-mode-map
-         ("M-<f1>" . devdocs-dwim)
-         ("C-h D"  . devdocs-dwim))
+              ("M-<f1>" . devdocs-dwim)
+              ("C-h D"  . devdocs-dwim))
   :init
   (defvar devdocs-major-mode-docs-alist
     '(((c-mode c-ts-mode)           . ("c"))
@@ -150,6 +150,8 @@ Install the doc if it's not installed."
   :mode ("\\.swift\\'" . swift-ts-mode))
 (use-package yaml-ts-mode
   :mode ("\\.ya?ml\\'" . yaml-ts-mode))
+(use-package kdl-mode
+  :mode ("\\.kdl\\'" . kdl-mode))
 
 
 ;; Protobuf item configuration

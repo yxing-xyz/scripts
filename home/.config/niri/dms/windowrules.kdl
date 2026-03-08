@@ -1,0 +1,26 @@
+// DMS Window Rules - Managed by DankMaterialShell
+// Do not edit manually - changes may be overwritten
+
+// @id=dms_rule_0 @name=Alacritty
+window-rule {
+    match app-id="Alacritty"
+    open-on-workspace "1"
+}
+
+// @id=dms_rule_1 @name=google-chrome
+window-rule {
+    match app-id="google-chrome"
+    open-on-workspace "2"
+}
+
+// @id=dms_rule_2 @name=
+window-rule {
+    match app-id="Emacs"
+    open-on-workspace "3"
+}
+
+// @id=dms_rule_3 @name=code
+window-rule {
+    match app-id="code"
+    open-on-workspace "3"
+}
