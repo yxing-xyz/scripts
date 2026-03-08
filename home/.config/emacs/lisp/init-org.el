@@ -12,7 +12,7 @@
   (require 'init-const)      ;; 编译时加载常量定义（如文件路径）
   (require 'init-custom))     ;; 编译时加载用户自定义设置
 
-(setq org-directory (expand-file-name "org" user-emacs-directory))
+(setq org-directory "~/Documents/")
 (use-package org
   :ensure nil                 ;; 使用内置的 Org 模式，无需另外安装
   :custom-face (org-ellipsis ((t (:foreground unspecified)))) ;; 设置标题折叠符号的样式，不指定特定颜色

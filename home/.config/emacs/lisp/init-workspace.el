@@ -17,6 +17,7 @@
 (with-eval-after-load 'project
   (add-hook 'project-find-functions #'my/project-find-root))
 
+
 (use-package tabspaces
   :bind (:map tabspaces-command-map
          ("C-r"   . tabspaces-restore-session)
@@ -26,93 +27,55 @@
   :hook ((after-init . tabspaces-mode)
          (tabspaces-mode . tab-bar-history-mode))
   :custom
-  (tab-bar-show nil)                    ; don't display tab-bar
+  (tab-bar-show nil)
   (tab-bar-history-limit 30)
-
   (tabspaces-use-filtered-buffers-as-default t)
   (tabspaces-default-tab "Default")
   (tabspaces-remove-to-default t)
   (tabspaces-exclude-buffers '("*eat*" "*vterm*" "*shell*" "*eshell*"))
-
+  (tabspaces-include-buffers '("*scratch*"))
+  (tab-bar-new-tab-choice "*scratch*")
+  (tabspaces-fully-resolve-paths t)
+  ;; project todo
+  (tabspaces-initialize-project-with-todo t)
+  (tabspaces-todo-file-name "project-todo.org")
   ;; sessions
   (tabspaces-session t)
   (tabspaces-session-auto-restore t)
   (tabspaces-session-file (concat user-emacs-directory "tabspaces/tabsession.el"))
   (tabspaces-session-project-session-store (concat user-emacs-directory "tabspaces/"))
-  :config
-  (defun tabspaces-restore-session-alt ()
-    "Select file to restore tabspaces session."
-    (interactive)
-    (let ((project-or-session-file (read-file-name
-                                    "Select project or session file: "
-                                    tabspaces-session-project-session-store)))
-      (tabspaces-restore-session project-or-session-file)))
 
-  (with-no-warnings
-    ;; Filter Buffers for Consult-Buffer
+  :config
+  ;; --- 1. 项目切换逻辑覆盖 ---
+  (with-eval-after-load 'project
+    (keymap-set project-prefix-map "p" #'tabspaces-open-or-create-project-and-workspace))
+
+    ;; --- 2. Consult 数据源定义 ---
     (with-eval-after-load 'consult
       ;; hide full buffer list (still available with "b" prefix)
-      (consult-customize consult-source-buffer :hidden t :default nil)
+      (plist-put consult-source-buffer :hidden t)
+      (plist-put consult-source-buffer :default nil)
       ;; set consult-workspace buffer list
-      (defvar consult-source-workspace
-        (list :name     "Workspace Buffer"
+      (defvar consult--source-workspace
+        (list :name     "Workspace Buffers"
               :narrow   ?w
               :history  'buffer-name-history
               :category 'buffer
               :state    #'consult--buffer-state
               :default  t
-              :items    (lambda ()
-                          (consult--buffer-query
-                           :predicate #'tabspaces--local-buffer-p
-                           :sort 'visibility
-                           :as #'buffer-name)))
+              :items    (lambda () (consult--buffer-query
+                                    :predicate #'tabspaces--local-buffer-p
+                                    :sort 'visibility
+                                    :as #'buffer-name)))
+
         "Set workspace buffer list for consult-buffer.")
-      (add-to-list 'consult-buffer-sources 'consult-source-workspace))
+      (add-to-list 'consult-buffer-sources 'consult--source-workspace)))
 
-    (defun tabspaces--delete-old-files (dir days)
-      "Delete backup files of DIR, with timestamp suffix older than DAYS days."
-      (let ((cutoff (time-subtract (current-time)
-                                   (seconds-to-time (* days 24 60 60)))))
-        (dolist (file (directory-files dir 'full "\\.[0-9]\\{8\\}\\'"))
-          (when-let ((timestamp-str (substring file (string-match "\\([0-9]\\{8\\}\\)\\'" file))))
-            (when (time-less-p (date-to-time timestamp-str) cutoff)
-              (delete-file file 'trash))))))
 
-    (defun tabspaces--prepare-save-session (&rest _)
-      "Prepare for saving session."
-      ;; Backup session
-      (when tabspaces-session
-        (let ((dir (expand-file-name "tabspaces" user-emacs-directory)))
-          (unless (file-exists-p dir)
-            (mkdir dir))
-          ;; Delete the sessions that are older than 14 days
-          (tabspaces--delete-old-files dir 14))
-
-        (when (file-exists-p tabspaces-session-file)
-          (copy-file tabspaces-session-file
-                     (format "%s.%s" tabspaces-session-file (format-time-string "%Y%m%d"))
-                     t)))
-
-      ;; Cleanup
-      (and (fboundp 'helpful-kill-buffers)
-           (helpful-kill-buffers))
-
-      (and (fboundp 'magit-mode-get-buffers)
-           (mapc #'kill-buffer (magit-mode-get-buffers)))
-
-      (and (fboundp 'posframe-delete-all)
-           (posframe-delete-all)))
-    (advice-add #'tabspaces--save-session-smart :before #'tabspaces--prepare-save-session)
-
-    (defun tabspaces--bury-messages (&rest _)
-      "Bury *Messages* buffer."
-      (quit-windows-on messages-buffer-name))
-    (advice-add #'tabspaces-restore-session :after #'tabspaces--bury-messages)))
-
-;; 配合direnv allow实现emacs自动进入开发环境
-(use-package envrc
-  :hook (after-init . envrc-global-mode))
-(provide 'init-workspace)
+  ;; 配合direnv allow实现emacs自动进入开发环境
+  (use-package envrc
+    :hook (after-init . envrc-global-mode))
+  (provide 'init-workspace)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; init-workspace.el ends here

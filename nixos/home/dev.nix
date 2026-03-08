@@ -8,6 +8,7 @@
 {
   home.packages = with pkgs; [
     gcc
+    gdb
     gnumake # Nix 中通常使用 gnumake 而不是 make
     autoconf
     automake

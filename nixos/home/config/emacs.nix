@@ -7,6 +7,12 @@
 
 {
   home.packages = with pkgs; [
+    # doc
+    pandoc
+    multimarkdown
+    # 建议同时安装 mermaid-cli，如果你后续想用它做离线转换
+    mermaid-cli
+
     # spellcheck
     enchant
     emacsPackages.jinx
