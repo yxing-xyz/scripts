@@ -8,6 +8,18 @@
 (setq xx-full-name "Ethan")
 (setq xx-mail-address "yxing.xyz@gmail.com")
 (setq xx-package-archives 'ustc)
+;; doom-one
+;; doom-tokyo-night
+;; doom-nord
+;; doom-nord-aurora
+;; captppuccin
+;; doom-palenight
+;; doom-dark+
+;; doom-vibrant
+;; doom-tomorrow-night
+;; doom-moonight
+;; doom-spacegrey
+;; doom-horizon
 (setq xx-theme 'doom-tokyo-night)
 
 

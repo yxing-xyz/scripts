@@ -11,9 +11,13 @@
 ;; Code Display & Utilities
 ;; ---------------------------------------------------------------------------
 
-;; Prettify Symbols (e.g., display “lambda” as “λ”)
 (use-package prog-mode :ensure nil)
 
+(use-package treesit
+  :ensure nil
+  :init
+  ;; 确保开启最高等级高亮
+  (setq-default treesit-font-lock-level 4))
 ;; Tree-sitter support
 (use-package treesit-auto
   :hook (after-init . global-treesit-auto-mode)
@@ -77,8 +81,8 @@
   :autoload devdocs--available-docs
   :commands (devdocs-install devdocs-lookup)
   :bind (:map prog-mode-map
-              ("M-<f1>" . devdocs-dwim)
-              ("C-h D"  . devdocs-dwim))
+         ("M-<f1>" . devdocs-dwim)
+         ("C-h D"  . devdocs-dwim))
   :init
   (defvar devdocs-major-mode-docs-alist
     '(((c-mode c-ts-mode)           . ("c"))
