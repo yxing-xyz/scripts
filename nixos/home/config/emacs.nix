@@ -39,6 +39,10 @@
     cargo
     rustc
 
+    # c
+    gcc
+    gdb
+
     # workspace
     direnv
   ];

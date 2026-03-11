@@ -22,7 +22,6 @@
     clang-tools
     # vcpkg
     # musl
-    # pkgsMusl.stdenv.cc
   ];
 
   home.sessionVariables = {

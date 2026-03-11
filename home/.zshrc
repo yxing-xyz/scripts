@@ -7,10 +7,6 @@ if [ ! -d "$ZINIT_HOME" ]; then
 fi
 source "${ZINIT_HOME}/zinit.zsh"
 TRZSZ_ENABLE=trzsz
-OMZTHEME=OMZT::robbyrussell
-# OMZTHEME=OMZT::eastwood
-# OMZTHEME=OMZT::garyblessington
-# OMZTHEME=OMZT::imajes
 
 HISTSIZE="1000000"
 SAVEHIST="1000000"
@@ -34,17 +30,12 @@ for opt in "${disabled_opts[@]}"; do
 done
 unset opt disabled_opts
 
-# # 快速跳转
-zinit snippet OMZ::plugins/svn # svn
-zinit snippet OMZ::lib/git.zsh # git
-zinit snippet OMZ::lib/async_prompt.zsh
-zinit snippet OMZ::lib/history.zsh
-zinit snippet OMZ::lib/key-bindings.zsh
-zinit snippet OMZ::lib/clipboard.zsh # 剪剪切板
-
+# ohmyzsh
 zinit snippet OMZ::plugins/colored-man-pages/colored-man-pages.plugin.zsh
 zinit snippet OMZ::plugins/extract # 后缀解压
-
+zinit snippet OMZ::lib/history.zsh
+zinit snippet OMZ::lib/clipboard.zsh # 剪剪切板
+zinit snippet OMZ::lib/key-bindings.zsh
 zinit snippet OMZ::lib/completion.zsh
 
 # # 快速语法高亮
@@ -56,8 +47,7 @@ zinit wait lucid for \
     atload"!_zsh_autosuggest_start" \
     zsh-users/zsh-autosuggestions
 
-zinit snippet OMZ::lib/theme-and-appearance.zsh
-zinit snippet ${OMZTHEME}
+# fzf
 zinit wait lucid for \
   Aloxaf/fzf-tab
 zstyle ':fzf-tab:complete:*:*' fzf-preview \
@@ -67,6 +57,7 @@ zstyle ':fzf-tab:complete:*:*' fzf-preview \
         bat --style=numbers --color=always --line-range :500 --wrap character --terminal-width $FZF_PREVIEW_COLUMNS $realpath; \
      fi'
 zstyle ':fzf-tab:complete:(-command-|-parameter-|-brace-parameter-):*' fzf-preview 'echo ${(P)word}'
+
 export COLORTERM=truecolor
 # 2. 设置 环境变量 (使用 export)
 export FZF_DEFAULT_OPTS="--no-mouse --height 70% --reverse --multi --inline-info \
@@ -273,3 +264,25 @@ if [ ! -z "${ALACRITTY_LOG+x}" ]; then
 fi
 # eval "$(vfox activate zsh)"
 eval "$(zoxide init zsh)"
+eval "$(direnv hook zsh)"
+
+#eval "$(oh-my-posh init zsh --config 'star')"
+#eval "$(oh-my-posh init zsh --config 'negligible')"
+#eval "$(oh-my-posh init zsh --config 'space')"
+#eval "$(oh-my-posh init zsh --config 'spaceship')"
+#eval "$(oh-my-posh init zsh --config 'catppuccin_mocha')"
+#eval "$(oh-my-posh init zsh --config 'amro')"
+#eval "$(oh-my-posh init zsh --config 'material')"
+#eval "$(oh-my-posh init zsh --config 'zash')"
+
+#eval "$(oh-my-posh init zsh --config 'gruvbox')"
+#eval "$(oh-my-posh init zsh --config 'agnoster')"
+#eval "$(oh-my-posh init zsh --config 'catppuccin')"
+#eval "$(oh-my-posh init zsh --config 'mt')"
+eval "$(oh-my-posh init zsh --config 'cinnamon')"
+# zinit snippet ~/.config/zsh/themes/material.zsh-theme
+zinit ice wait"0" lucid \
+    as"null" \
+    atclone"fast-theme ./catppuccin-frappe.ini" \
+    atpull"%atclone"
+zinit snippet https://raw.githubusercontent.com/catppuccin/zsh-fsh/refs/heads/main/themes/catppuccin-frappe.ini

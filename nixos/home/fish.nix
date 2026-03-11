@@ -4,6 +4,7 @@
   # 1. 软件包安装
   home.packages = with pkgs; [
     fish
+    pkgs.oh-my-posh
   ];
   programs.starship = {
     enable = true;

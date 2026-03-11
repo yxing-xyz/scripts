@@ -38,6 +38,7 @@
     sshuttle
     yazi
     tealdeer
+    direnv
     (pkgs.callPackage ./package/trzsz.nix { })
   ];
 }
