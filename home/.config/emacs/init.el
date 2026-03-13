@@ -80,6 +80,7 @@ Avoid placing large files like EAF in `site-lisp` to prevent slow startup."
 (require 'init-dict)
 (require 'init-org)
 (require 'init-markdown)
+(require 'init-shell)
 
 ;; Programming
 (require 'init-vcs)
