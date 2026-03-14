@@ -215,7 +215,7 @@
   "launcherLogoContrast": 1,
   "launcherLogoSizeOffset": 0,
   "fontFamily": "Noto Sans CJK SC",
-  "monoFontFamily": "NotoSansM Nerd Font Mono",
+  "monoFontFamily": "Noto Sans Mono CJK SC",
   "fontWeight": 400,
   "fontScale": 1,
   "notepadUseMonospace": true,

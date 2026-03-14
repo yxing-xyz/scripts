@@ -1,8 +1,9 @@
+import = [
+  "theme.toml"
+]
+
 [general]
 live_config_reload = true
-
-#[terminal.shell]
-#program = "/bin/zsh"
 
 [env]
 TERM = "xterm-256color"
@@ -29,8 +30,11 @@ x = 0
 y = 0
 
 [cursor]
-style = { shape = "Block", blinking = "Always" }
 blink_interval = 500
+
+[cursor.style]
+shape = "Block"
+blinking = "Always"
 
 [font]
 size = 11
@@ -66,28 +70,4 @@ key = "Insert"
 mods = "Shift"
 
 [colors]
-draw_bold_text_with_bright_colors = true
-
-[colors.primary]
-background = "#000000"
-foreground = "#dddddd"
-
-[colors.normal]
-black = "#000000"
-red = "#cc0403"
-green = "#19cb00"
-yellow = "#cecb00"
-blue = "#0d73cc"
-magenta = "#cb1ed1"
-cyan = "#0dcdcd"
-white = "#dddddd"
-
-[colors.bright]
-black = "#767676"
-red = "#f2201f"
-green = "#23fd00"
-yellow = "#fffd00"
-blue = "#1a8fff"
-magenta = "#fd28ff"
-cyan = "#14ffff"
-white = "#ffffff"
+draw_bold_text_with_bright_colors = false

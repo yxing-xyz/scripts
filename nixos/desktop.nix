@@ -88,25 +88,22 @@
 
   fonts = {
     fontDir.enable = true;
-    packages =
-      with pkgs;
-      [
-        wqy_zenhei
-        wqy_microhei
-        material-design-icons
-        material-icons
-        lxgw-wenkai
-        noto-fonts
-        noto-fonts-color-emoji
-        noto-fonts-cjk-sans
-        noto-fonts-cjk-serif
-        nerd-fonts.mononoki
-        nerd-fonts.inconsolata
-        nerd-fonts.dejavu-sans-mono
-        nerd-fonts.code-new-roman
-        nerd-fonts.noto
-      ]
-      ++ builtins.filter lib.isDerivation (builtins.attrValues pkgs.nerd-fonts);
+    packages = with pkgs; [
+      wqy_zenhei
+      wqy_microhei
+      material-design-icons
+      material-icons
+      lxgw-wenkai
+      # noto-fonts
+      noto-fonts-color-emoji
+      noto-fonts-cjk-sans
+      noto-fonts-cjk-serif
+      nerd-fonts.comic-shanns-mono
+      nerd-fonts.inconsolata
+      # nerd-fonts.noto
+      nerd-fonts.dejavu-sans-mono
+      nerd-fonts.mononoki
+    ]; # ++ builtins.filter lib.isDerivation (builtins.attrValues pkgs.nerd-fonts);
     fontconfig = {
       enable = true;
       defaultFonts = {
