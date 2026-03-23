@@ -13,6 +13,24 @@
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
+
+  hardware.bluetooth.enable = true;
+  hardware.bluetooth.powerOnBoot = true; # 开机自动给适配器通电
+  # 2. 开启音频服务（PipeWire 是现在的王道，对蓝牙耳机兼容性最好）
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    pulse.enable = true;
+    # 关键：开启 PipeWire 的蓝牙支持
+    wireplumber.enable = true; # 负责管理蓝牙连接逻辑的“大脑”
+    wireplumber.extraConfig."10-bluez" = {
+      "monitor.bluez5.properties" = {
+        "bluez5.enable-sbc-xq" = true;
+        "bluez5.enable-msbc" = true;
+        "bluez5.enable-hw-volume" = true;
+      };
+    };
+  };
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.enableRedistributableFirmware = true;
   hardware.cpu.amd.updateMicrocode = true;
