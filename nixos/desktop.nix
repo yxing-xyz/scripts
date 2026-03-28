@@ -2,6 +2,7 @@
 {
   pkgs,
   lib,
+  clashPkgs,
   ...
 }:
 
@@ -148,84 +149,90 @@
     };
   };
   # 3. 基础 GUI 软件包
-  environment.systemPackages = with pkgs; [
-    brightnessctl # 屏幕亮度
-    google-chrome # Google 浏览器
-    (pkgs.symlinkJoin {
-      name = "vscode-fhs-wrapped";
-      paths = [ vscode-fhs ]; # 引用原始包
-      nativeBuildInputs = [ pkgs.makeWrapper ];
-      postBuild = ''
-        # 包装 bin 目录下的所有可执行文件
-        # 对于 vscode-fhs，其二进制文件名通常是 code
-        wrapProgram $out/bin/code \
-          --add-flags "--password-store=gnome-libsecret"
-      '';
-    })
-    sing-box # Sing-Box 客户端
-    xray # XRay 客户端
-    vlc # 媒体播放器
-    telegram-desktop # Telegram 桌面版
-    wireshark # 网络抓包工具
-    clash-verge-rev # vpn
-    wpsoffice-cn # WPS 中文版
-    (pkgs.emacs-pgtk.overrideAttrs (old: {
-      # --- 修正 1: 属性必须放在这里，确保 Nix 知道这台机器必须支持 v4 ---
-      # requiredSystemFeatures = [ "gccarch-x86-64-native" ];
+  environment.systemPackages =
+    with pkgs;
+    [
+      brightnessctl # 屏幕亮度
+      google-chrome # Google 浏览器
+      (pkgs.symlinkJoin {
+        name = "vscode-fhs-wrapped";
+        paths = [ vscode-fhs ]; # 引用原始包
+        nativeBuildInputs = [ pkgs.makeWrapper ];
+        postBuild = ''
+          # 包装 bin 目录下的所有可执行文件
+          # 对于 vscode-fhs，其二进制文件名通常是 code
+          wrapProgram $out/bin/code \
+            --add-flags "--password-store=gnome-libsecret"
+        '';
+      })
+      sing-box # Sing-Box 客户端
+      xray # XRay 客户端
+      vlc # 媒体播放器
+      telegram-desktop # Telegram 桌面版
+      wireshark # 网络抓包工具
+      wpsoffice-cn # WPS 中文版
+      (pkgs.emacs-pgtk.overrideAttrs (old: {
+        # --- 修正 1: 属性必须放在这里，确保 Nix 知道这台机器必须支持 v4 ---
+        # requiredSystemFeatures = [ "gccarch-x86-64-native" ];
 
-      # --- 修正 2: 环境变量注入 ---
-      env = (old.env or { }) // {
-        # 强制注入 NIX_CFLAGS_COMPILE，确保 C 代码和 Lisp 编译后端都吃到优化
-        NIX_CFLAGS_COMPILE =
-          (old.env.NIX_CFLAGS_COMPILE or "")
-          + " -O3 -march=native -fomit-frame-pointer -fno-semantic-interposition";
-      };
+        # --- 修正 2: 环境变量注入 ---
+        env = (old.env or { }) // {
+          # 强制注入 NIX_CFLAGS_COMPILE，确保 C 代码和 Lisp 编译后端都吃到优化
+          NIX_CFLAGS_COMPILE =
+            (old.env.NIX_CFLAGS_COMPILE or "")
+            + " -O3 -march=x86-64-v4 -fomit-frame-pointer -fno-semantic-interposition";
+        };
 
-      # --- 修正 3: 显式传递给 Configure ---
-      # 这样 system-configuration-options 里就会留下证据
-      preConfigure = (old.preConfigure or "") + ''
-        export CFLAGS="-O3 -march=native -fomit-frame-pointer"
-        export CXXFLAGS="$CFLAGS"
-        export LDFLAGS="-O3 -march=native -flto=auto -Wl,-O1 -Wl,--as-needed"
-      '';
+        # --- 修正 3: 显式传递给 Configure ---
+        # 这样 system-configuration-options 里就会留下证据
+        preConfigure = (old.preConfigure or "") + ''
+          export CFLAGS="-O3 -march=x86-64-v4 -fomit-frame-pointer"
+          export CXXFLAGS="$CFLAGS"
+          export LDFLAGS="-O3 -march=x86-64-v4 -flto=auto -Wl,-O1 -Wl,--as-needed"
+        '';
 
-      # --- 修正 4: 确保构建系统开启全量 AOT ---
-      # Emacs 30+ 建议通过 configureFlags 明确 AOT 行为
-      configureFlags = (old.configureFlags or [ ]) ++ [
-        "--with-native-compilation=aot"
-      ];
-      # makeFlags = (old.makeFlags or [ ]) ++ [];
-    }))
-    localsend # 局域网传文件工具
-    xclip # 剪切板工具
-    wl-clipboard # 剪贴板工具
-    flameshot # 截图工具
-    xournalpp # 手写笔记软件
-    nautilus # GNOME 文件管理器
-    loupe # 图片查看器
+        # --- 修正 4: 确保构建系统开启全量 AOT ---
+        # Emacs 30+ 建议通过 configureFlags 明确 AOT 行为
+        configureFlags = (old.configureFlags or [ ]) ++ [
+          "--with-native-compilation=aot"
+        ];
+        # makeFlags = (old.makeFlags or [ ]) ++ [];
+      }))
+      localsend # 局域网传文件工具
+      xclip # 剪切板工具
+      wl-clipboard # 剪贴板工具
+      flameshot # 截图工具
+      xournalpp # 手写笔记软件
+      nautilus # GNOME 文件管理器
+      loupe # 图片查看器
 
-    ## theme
-    nwg-look
-    gtk-engine-murrine # 负责渐变和圆角
-    gtk_engines # 包含 Pixmap 等基础引擎
-    adwaita-icon-theme # 很多主题依赖的基础图标库
-    bibata-cursors
+      ## theme
+      nwg-look
+      gtk-engine-murrine # 负责渐变和圆角
+      gtk_engines # 包含 Pixmap 等基础引擎
+      adwaita-icon-theme # 很多主题依赖的基础图标库
+      bibata-cursors
 
-    tokyonight-gtk-theme
-    sweet
-    sweet-folders
-    flat-remix-gtk
-    flat-remix-icon-theme
-    ## niri
-    niri
-    xwayland-satellite
-    fuzzel
-  ];
+      tokyonight-gtk-theme
+      sweet
+      sweet-folders
+      flat-remix-gtk
+      flat-remix-icon-theme
+      ## niri
+      niri
+      xwayland-satellite
+      fuzzel
+    ]
+    ++ [
+      # 👇 单独放外面，就能正常用 clashPkgs
+      clashPkgs.clash-verge-rev
+    ];
   # 这一行是关键！没有它，即便你在组里也抓不了包
   programs.wireshark.enable = true;
   programs.zsh.enable = true;
   programs.clash-verge = {
     enable = true;
+    package = clashPkgs.clash-verge-rev; # 👈 强制用你修复的版本
     tunMode = true;
     serviceMode = true;
   };

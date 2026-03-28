@@ -25,22 +25,28 @@
     ];
   };
   inputs = {
-    # 主系统通道
+    # 核心：使用 shallow=1 减少下载量
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable?shallow=1";
-    # Home Manager - 锁定 nixpkgs
+
+    # 规范化：使用 github: 协议替代 .tar.gz 链接
+    nixpkgs-pot.url = "github:NixOS/nixpkgs/e6f23dc08d3624daab7094b701aa3954923c6bbb";
+    clashPkgs.url = "github:NixOS/nixpkgs/9cf7092bdd603554bd8b63c216e8943cf9b12512";
+
     home-manager = {
-      # 将分支指向 master
       url = "github:nix-community/home-manager/master";
-      # 极其重要：让 home-manager 使用你输入的 nixpkgs 版本
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    flake-utils = {
-      url = "github:numtide/flake-utils";
-    };
-    # 特定版本的 nixpkgs (POT)
-    nixpkgs-pot.url = "https://github.com/NixOS/nixpkgs/archive/e6f23dc08d3624daab7094b701aa3954923c6bbb.tar.gz";
+
+    # 其他工具
+    flake-utils.url = "github:numtide/flake-utils";
+
     rust-overlay = {
       url = "github:oxalica/rust-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    dms = {
+      url = "github:AvengeMedia/DankMaterialShell/stable";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     # niri = {
@@ -55,11 +61,6 @@
     #   url = "github:noctalia-dev/noctalia-shell/v4.4.0";
     #   inputs.nixpkgs.follows = "nixpkgs";
     # };
-    dms = {
-      url = "github:AvengeMedia/DankMaterialShell/stable";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
   };
   outputs =
     {
@@ -70,6 +71,7 @@
       rust-overlay,
       flake-utils,
       dms,
+      clashPkgs,
       ...
     }@inputs:
     let
@@ -80,38 +82,6 @@
         home.homeDirectory = "/home/x";
         home.stateVersion = "25.11";
       };
-      myOverlays = [
-        (final: prev: {
-          makeNative =
-            pkg:
-            pkg.overrideAttrs (old: {
-              # 处理 env 内部的冲突
-              env = (old.env or { }) // {
-                NIX_CFLAGS_COMPILE = final.lib.concatStringsSep " " (
-                  (final.lib.toList (old.env.NIX_CFLAGS_COMPILE or [ ]))
-                  ++ [
-                    "-O3"
-                    "-march=native"
-                    "-g"
-                  ]
-                );
-              };
-              # 处理可能存在的顶层 CFLAGS（这里通常支持列表，但为了保险也转成字符串）
-              CFLAGS = final.lib.concatStringsSep " " (
-                (final.lib.toList (old.CFLAGS or [ ]))
-                ++ [
-                  "-O3"
-                  "-march=native"
-                  "-g"
-                ]
-              );
-
-              # Go 环境变量通常是字符串，直接给 v4
-              GOAMD64 = "v4";
-              dontStrip = true;
-            });
-        })
-      ];
       makeSystemContext =
         system:
         let
@@ -119,11 +89,9 @@
           pkgs = import nixpkgs {
             inherit system;
             config.allowUnfree = true;
-            overlays = [
-              rust-overlay.overlays.default # 加上这一行
-            ]
-            ++ myOverlays;
           };
+          rustPkgs = pkgs.extend rust-overlay.overlays.default;
+          clashPkgs = inputs.clashPkgs.legacyPackages.${system};
         in
         {
           # 这里的每一个 key，都能在 configuration.nix 的参数大括号里直接拿到
@@ -132,9 +100,12 @@
             system
             myScriptsPath
             dms
+            rustPkgs
+            clashPkgs
             ;
           # 这里的命名可以根据你的习惯调整
           pot-fixed = nixpkgs-pot.legacyPackages.${system}.pot;
+
           niri = inputs.niri;
         };
       x86Context = makeSystemContext "x86_64-linux";
@@ -172,7 +143,7 @@
           go = import ./develop/go.nix { inherit (ctx) pkgs system; };
           aarch64-go = import ./develop/aarch64-go.nix { inherit (ctx) pkgs; };
           rust = import ./develop/rust.nix {
-            inherit (ctx) pkgs;
+            pkgs = ctx.rustPkgs;
           };
         };
 
@@ -189,13 +160,8 @@
           modules = (mkCommonModules "x86_64-linux") ++ [
             ./hardware-configuration.nix
             {
-              nixpkgs.config.allowUnfree = true;
+              nixpkgs.pkgs = x86Context.pkgs;
               networking.hostName = "zen";
-
-              nixpkgs.overlays = [
-                inputs.rust-overlay.overlays.default
-              ]
-              ++ myOverlays;
             }
           ];
         };
@@ -224,12 +190,8 @@
               hardware.graphics.enable = true;
             }
             {
-              nixpkgs.config.allowUnfree = true;
+              nixpkgs.pkgs = x86Context.pkgs;
               networking.hostName = "void";
-              nixpkgs.overlays = [
-                inputs.rust-overlay.overlays.default
-              ]
-              ++ myOverlays;
             }
           ];
         };
