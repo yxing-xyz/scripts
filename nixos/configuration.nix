@@ -112,6 +112,7 @@ in
   boot.loader.grub = {
     enable = true;
     efiSupport = true;
+    useOSProber = true;
     # 这一行是关键！它会生成 /EFI/BOOT/BOOTX64.EFI
     efiInstallAsRemovable = false;
 
