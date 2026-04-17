@@ -25,9 +25,9 @@
     # go
     go
     gopls # gopls
-    delve # dlv
-    go-tools # 包含 staticcheck, keyify 等
-    gotools # 包含 goimports, godoc, guru, gorename
+    delve
+    # dlv
+    (lib.lowPrio pkgs.gotools) # 它是配角，冲突时让位
     gomodifytags # gomodifytags
     gotests # gotests
     impl # impl
