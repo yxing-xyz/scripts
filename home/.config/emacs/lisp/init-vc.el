@@ -1,4 +1,4 @@
-;; -*- lexical-binding: t -*-
+;; -*- lexical-binding: t -*-
 
 ;;; Code:
 
@@ -130,7 +130,7 @@
 ;; Git configuration modes
 (use-package git-modes)
 
-(provide 'init-vcs)
+(provide 'init-vc)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; init-vcs.el ends here
+;;; init-vc.el ends here

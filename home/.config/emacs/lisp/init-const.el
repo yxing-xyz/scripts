@@ -8,6 +8,10 @@
 (defconst xx-custom-post-file
   (expand-file-name "custom-post.el" user-emacs-directory))
 
+(defconst xx-env-file
+  (expand-file-name "env.el" user-emacs-directory)
+  "Environment file at startup.")
+
 (defconst sys/win32p
   (eq system-type 'windows-nt)
   "Are we running on a WinTel system?")

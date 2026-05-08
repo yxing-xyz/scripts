@@ -73,7 +73,7 @@ Avoid placing large files like EAF in `site-lisp` to prevent slow startup."
 (require 'init-shell)
 
 ;; Programming
-(require 'init-vcs)
+(require 'init-vc)
 (require 'init-prog)
 (require 'init-lsp)
 (require 'init-elisp)
