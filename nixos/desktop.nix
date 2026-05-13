@@ -169,6 +169,7 @@
       xray # XRay 客户端
       vlc # 媒体播放器
       telegram-desktop # Telegram 桌面版
+      ayugram-desktop
       wireshark # 网络抓包工具
       wpsoffice-cn # WPS 中文版
       (pkgs.emacs-pgtk.overrideAttrs (old: {
