@@ -359,8 +359,7 @@ targets."
   (global-corfu-modes '((not erc-mode
                              circe-mode
                              help-mode
-                             gud-mode
-                             vterm-mode)
+                             gud-mode)
                         t))
   :custom-face
   (corfu-border ((t (:inherit region :background unspecified))))

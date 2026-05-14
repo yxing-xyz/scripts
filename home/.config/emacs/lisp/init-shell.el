@@ -79,9 +79,9 @@
 
 ;; 更强的终端模拟器 (Eat)
 (unless sys/win32p ; 仅在非 Windows 下使用（eat 对类 Unix 支持更好）
-  (use-package eat
-    :hook ((eshell-load . eat-eshell-mode) ; 在 eshell 加载时启用 eat 集成
-           (eshell-load . eat-eshell-visual-command-mode)))) ; 像 top 这种视觉命令会自动处理
+  (use-package ghostel
+    :hook (eshell-load . ghostel-eshell-visual-command-mode)))
+
 (provide 'init-shell) ; 声明包名
 
 ;;; init-shell.el 到此结束

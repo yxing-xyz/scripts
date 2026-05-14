@@ -56,6 +56,9 @@ let
 in
 {
   system.stateVersion = "25.11";
+  # lts
+  # boot.kernelPackages = pkgs.linuxPackages;
+  # latest
   boot.kernelPackages = pkgs.linuxPackages_latest;
   # 自动清理
   nix = {
@@ -161,8 +164,8 @@ in
     checkReversePath = false;
   };
   systemd.settings.Manager = {
-    DefaultTimeoutStartSec = "10s";
-    DefaultTimeoutStopSec = "10s";
+    DefaultTimeoutStopSec = "15s";
+    DefaultTimeoutAbortSec = "15s";
   };
   users.users.root = {
     password = "root";
@@ -223,14 +226,15 @@ in
     registry-mirrors = [
       "https://2a6bf1988cb6428c877f723ec7530dbc.mirror.swr.myhuaweicloud.com"
       "https://d.yydy.link:2023"
-      "https://docker.1ms.run"
-      "https://docker.etcd.fun"
-      "https://docker.m.ixdev.cn"
       "https://hub.mirrorify.net"
-      "https://hub3.nat.tf"
+      "https://wget.la"
+      "https://docker-0.unsee.tech"
+      "https://docker-registry.nmqu.com"
       "https://proxy.vvvv.ee"
+      "https://docker.1ms.run"
       "https://dockerproxy.net"
-      "https://docker.xuanyuan.me"
+      "https://docker.kejilion.pro"
+      "https://hub1.nat.tf"
     ];
   };
 }

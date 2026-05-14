@@ -84,7 +84,6 @@
                                               extended-command-history)
               savehist-autosave-interval 300))
 
-;; Misc.
 (use-package simple
   :diminish visual-line-mode
   :ensure nil
@@ -369,11 +368,10 @@
           "^\\*gt-result\\*$" "^\\*gt-log\\*$"
           "^\\*Process List\\*$" process-menu-mode cargo-process-mode
 
-          "^\\*.*eat.*\\*.*$" eat-mode
           "^\\*.*eshell.*\\*.*$" eshell-mode
+          "^\\*ghostel\\*$" ghostel-mode
           "^\\*.*shell.*\\*.*$" shell-mode
           "^\\*.*terminal.*\\*.*$" term-mode
-          "^\\*.*vterm[inal]*.*\\*.*$" vterm-mode
 
           "\\*DAP Templates\\*$" dap-server-log-mode
           "\\*ELP Profiling Results\\*" profiler-report-mode
@@ -410,9 +408,8 @@
                      (buffer-live-p buffer)
                      (not (with-current-buffer buffer
                             (derived-mode-p 'eshell-mode
-                                            'shell-mode
-                                            'term-mode
-                                            'vterm-mode))))
+                                            'ghostel-mode
+                                            'shell-mode))))
             (delete-window window)))))
     (advice-add #'keyboard-quit :before #'popper-close-window-hack)
     (popper-mode 1)

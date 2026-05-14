@@ -13,7 +13,8 @@
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
-
+  # 开启支持非自由固件
+  hardware.enableAllFirmware = true;
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true; # 开机自动给适配器通电
   # 2. 开启音频服务（PipeWire 是现在的王道，对蓝牙耳机兼容性最好）
@@ -46,9 +47,9 @@
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
-  boot.kernelParams = [
-    "amd_iommu=off"
-  ];
+  # boot.kernelParams = [
+  #   "amd_iommu=off"
+  # ];
   # 根目录挂载 @ 子卷
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/69fb64e8-926b-41bd-98da-025e32ab1d20";
