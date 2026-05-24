@@ -57,9 +57,10 @@ in
 {
   system.stateVersion = "25.11";
   # lts
-  # boot.kernelPackages = pkgs.linuxPackages;
+  boot.kernelPackages = pkgs.linuxPackages;
   # latest
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  # boot.kernelPackages = pkgs.linuxPackages_latest;
+  # boot.kernelPackages = pkgs.linuxKernel.packages.linux_7_0;
   # 自动清理
   nix = {
     gc = {
@@ -211,6 +212,7 @@ in
     aria2
     efibootmgr
     pciutils
+    usbutils
     rsync
     jq
     dig

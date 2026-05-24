@@ -26,11 +26,8 @@
   };
   inputs = {
     # 核心：使用 shallow=1 减少下载量
-    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable?shallow=1";
-
-    # 规范化：使用 github: 协议替代 .tar.gz 链接
-    nixpkgs-pot.url = "github:NixOS/nixpkgs/e6f23dc08d3624daab7094b701aa3954923c6bbb";
-    clashPkgs.url = "github:NixOS/nixpkgs/9cf7092bdd603554bd8b63c216e8943cf9b12512";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    # clashPkgs.url = "github:NixOS/nixpkgs/9cf7092bdd603554bd8b63c216e8943cf9b12512?shallow=1";
 
     home-manager = {
       url = "github:nix-community/home-manager/master";
@@ -67,11 +64,9 @@
       self,
       nixpkgs,
       home-manager,
-      nixpkgs-pot,
       rust-overlay,
       flake-utils,
       dms,
-      clashPkgs,
       ...
     }@inputs:
     let
@@ -103,9 +98,6 @@
             rustPkgs
             clashPkgs
             ;
-          # 这里的命名可以根据你的习惯调整
-          pot-fixed = nixpkgs-pot.legacyPackages.${system}.pot;
-
           niri = inputs.niri;
         };
       x86Context = makeSystemContext "x86_64-linux";

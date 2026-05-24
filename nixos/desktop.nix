@@ -2,7 +2,7 @@
 {
   pkgs,
   lib,
-  clashPkgs,
+  # clashPkgs,
   ...
 }:
 
@@ -226,14 +226,14 @@
     ]
     ++ [
       # 👇 单独放外面，就能正常用 clashPkgs
-      clashPkgs.clash-verge-rev
+      clash-verge-rev
     ];
   # 这一行是关键！没有它，即便你在组里也抓不了包
   programs.wireshark.enable = true;
   programs.zsh.enable = true;
   programs.clash-verge = {
     enable = true;
-    package = clashPkgs.clash-verge-rev; # 👈 强制用你修复的版本
+    package = pkgs.clash-verge-rev; # 👈 强制用你修复的版本
     tunMode = true;
     serviceMode = true;
   };
