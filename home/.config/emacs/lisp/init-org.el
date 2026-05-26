@@ -175,10 +175,17 @@
 
 ;; UI 美化：将 Org 界面变得现代化（复选框、进度条、美化标签等）
 (use-package org-modern
-  :after org
   :diminish
-  :autoload global-org-modern-mode
-  :init (global-org-modern-mode 1))
+  :autoload org-modern-mode org-modern-agenda
+  :hook ((org-mode . (lambda ()
+                       "Display org modern looks in GUI."
+                       (if (display-graphic-p)
+                           (org-modern-mode 1)
+                         (org-modern-mode -1))))
+         (org-agenda-finalize . (lambda ()
+                                  "Display org modern agenda in GUI."
+                                  (when (display-graphic-p)
+                                    (org-modern-agenda))))))
 
 ;; 功能增强：粘贴时自动带上源码块标记和原始链接
 (use-package org-rich-yank

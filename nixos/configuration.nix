@@ -241,16 +241,13 @@ in
   virtualisation.docker.daemon.settings = {
     registry-mirrors = [
       "https://2a6bf1988cb6428c877f723ec7530dbc.mirror.swr.myhuaweicloud.com"
-      "https://d.yydy.link:2023"
-      "https://hub.mirrorify.net"
-      "https://wget.la"
       "https://docker-0.unsee.tech"
       "https://docker-registry.nmqu.com"
-      "https://proxy.vvvv.ee"
+      "https://hub.mirrorify.net"
+      "https://wget.la"
       "https://docker.1ms.run"
       "https://dockerproxy.net"
       "https://docker.kejilion.pro"
-      "https://hub1.nat.tf"
     ];
   };
 }
