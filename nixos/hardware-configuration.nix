@@ -13,6 +13,19 @@
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
+  nixpkgs.overlays = [
+    (final: prev: {
+      linux-firmware = prev.linux-firmware.overrideAttrs (oldAttrs: rec {
+        version = "20260410";
+        src = pkgs.fetchFromGitLab {
+          owner = "kernel-firmware";
+          repo = "linux-firmware";
+          tag = version;
+          hash = "sha256-nceQEGm6+Cj6KCeUNwmYsUdArRULfLXysXjzOXdCBQw=";
+        };
+      });
+    })
+  ];
   # 开启支持非自由固件
   hardware.enableAllFirmware = true;
   hardware.bluetooth.enable = true;

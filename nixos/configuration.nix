@@ -55,7 +55,7 @@ let
   '';
 in
 {
-  system.stateVersion = "25.11";
+  system.stateVersion = "26.05";
   # lts
   boot.kernelPackages = pkgs.linuxPackages;
   # latest
@@ -169,19 +169,19 @@ in
     DefaultTimeoutAbortSec = "15s";
   };
   # 1. 依然严格保持禁用待机/休眠 Target（确保绝对不会死机）
-  systemd.targets.suspend.enable = false;
-  systemd.targets.hibernate.enable = false;
-  systemd.targets.hybrid-sleep.enable = false;
-  systemd.targets.suspend-then-hibernate.enable = false;
+  # systemd.targets.suspend.enable = false;
+  # systemd.targets.hibernate.enable = false;
+  # systemd.targets.hybrid-sleep.enable = false;
+  # systemd.targets.suspend-then-hibernate.enable = false;
 
-  # 2. 将合盖行为改为 lock
-  services.logind.settings = {
-    Login = {
-      HandleLidSwitch = "lock";
-      HandleLidSwitchExternalPower = "lock";
-      HandleLidSwitchDocked = "lock";
-    };
-  };
+  # # 2. 将合盖行为改为 lock
+  # services.logind.settings = {
+  #   Login = {
+  #     HandleLidSwitch = "lock";
+  #     HandleLidSwitchExternalPower = "lock";
+  #     HandleLidSwitchDocked = "lock";
+  #   };
+  # };
   users.users.root = {
     password = "root";
   };
