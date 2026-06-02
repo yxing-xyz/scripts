@@ -57,12 +57,16 @@
     "xhci_pci"
     "thunderbolt"
   ];
-  boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
-  # boot.kernelParams = [
-  #   "amd_iommu=off"
-  # ];
+  boot.kernelParams = [
+    # "amd_iommu=off"
+  ];
+  # 强制把 btusb 模块塞进引导第一阶段，防止总线抢跑超时
+  boot.initrd.kernelModules = [ ];
+  # 禁止蓝牙驱动模块自己进入轻度休眠
+  boot.extraModprobeConfig = "";
+  # 关闭 PCIe 省电控制
   # 根目录挂载 @ 子卷
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/69fb64e8-926b-41bd-98da-025e32ab1d20";
