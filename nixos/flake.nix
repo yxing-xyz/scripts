@@ -139,6 +139,32 @@
               ];
             };
           };
+          homeConfigurations = {
+            "code" = inputs.home-manager.lib.homeManagerConfiguration {
+              # 独立运行时，需要手动传递纯净的 pkgs
+              pkgs = inputs.nixpkgs.legacyPackages."x86_64-linux";
+
+              modules = [
+                ./home.nix # 复用你原有的用户配置
+                sharedHomeInfo # 复用用户名和家目录定义
+                {
+                  # 传递原本在 NixOS 下通过 extraSpecialArgs 注入的变量
+                  _module.args = {
+                    myScriptsPath = globalScriptsPath;
+                    inherit (inputs) dms;
+                    # 如果你在 home.nix 里也用到了 inputs，可以一并加上：
+                    inherit inputs;
+                  };
+
+                  # 允许在 Arch 下通过 nix 安装非自由软件
+                  nixpkgs.config.allowUnfree = true;
+
+                  # 告诉 Home Manager 自动管理它的 XDG 目录，以便在非 NixOS 正常查找应用
+                  targets.genericLinux.enable = true;
+                }
+              ];
+            };
+          };
         };
     };
 }
