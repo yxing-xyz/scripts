@@ -71,7 +71,7 @@
           sharedHomeInfo = {
             home.username = "x";
             home.homeDirectory = "/home/x";
-            home.stateVersion = "26.05";
+            home.stateVersion = "26.11";
           };
 
           homeManagerCommon = {

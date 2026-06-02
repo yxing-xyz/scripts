@@ -8,6 +8,7 @@
     ./home/niri.nix
   ];
 
+  programs.home-manager.enable = true;
   home.sessionVariables = {
     # 基础 Wayland 支持
     NIXOS_OZONE_WL = "1";

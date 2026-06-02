@@ -55,7 +55,7 @@ let
   '';
 in
 {
-  system.stateVersion = "26.05";
+  system.stateVersion = "26.11";
   # lts
   boot.kernelPackages = pkgs.linuxPackages;
   # latest

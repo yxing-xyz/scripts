@@ -17,7 +17,7 @@ Server = https://mirrors.ustc.edu.cn/archlinuxcn/\$arch
 EOF
 
 pacman -Sy
-pacman -Su paru openssh lsd zoxide fzf zsh lazygit vim bat zellij difftastic emacs-nox \
+pacman -Su paru openssh lsd zoxide fzf zsh lazygit vim bat zellij difftastic emacs-nox nix \
     --overwrite '*' --noconfirm
 sed -i 's/[# ]*UsePAM.*/UsePAM no/' /etc/ssh/sshd_config
 sed -i 's/[# ]*PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
