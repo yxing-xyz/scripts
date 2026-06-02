@@ -7,21 +7,6 @@
 }:
 
 {
-  users.users.x = {
-    isNormalUser = true;
-    description = "x";
-    extraGroups = [
-      "networkmanager"
-      "wheel"
-      "video"
-      "wireshark"
-      "docker"
-    ]; # wheel 组提供 sudo 权限
-    initialPassword = "x";
-    shell = pkgs.zsh;
-    # 必须保证 UID 和旧系统一致，通常是 1000
-    uid = 1000;
-  };
   # 1. 核心 GUI 服务（如果你用 GNOME）
   console.useXkbConfig = false;
   # 放在这里最合理

@@ -119,14 +119,17 @@ in
     useOSProber = true;
     # 这一行是关键！它会生成 /EFI/BOOT/BOOTX64.EFI
     efiInstallAsRemovable = false;
-
     device = "nodev";
     gfxmodeEfi = "1024x768";
     fontSize = 32; # 3K 屏建议直接 64
-
-    # 既然你根目录下有这两个文件，直接引用它们
-    # 如果 NixOS 自动生成的字体不行，我们可以手动指定那个 pf2
-    # font = "${/boot/converted-font.pf2}";
+    mirroredBoots = [
+      {
+        devices = [
+          "/dev/disk/by-uuid/23BB-F42B"
+        ];
+        path = "/boot/efi";
+      }
+    ];
   };
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
   boot.binfmt.registrations."aarch64-linux" = {
@@ -184,43 +187,30 @@ in
   # };
   users.users.root = {
     password = "root";
+    initialPassword = "root";
+    shell = pkgs.zsh;
+  };
+  users.users.x = {
+    isNormalUser = true;
+    description = "x";
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "video"
+      "wireshark"
+      "docker"
+    ]; # wheel 组提供 sudo 权限
+    initialPassword = "x";
+    shell = pkgs.zsh;
+    # 必须保证 UID 和旧系统一致，通常是 1000
+    uid = 1000;
   };
   console = {
     # Nix 会直接将此文件路径转换为 store 路径
     keyMap = ../config/us.map.gz;
   };
   time.timeZone = "Asia/Shanghai";
-  environment.systemPackages = with pkgs; [
-    nvd
-    vim
-    git
-    lazygit
-    git-lfs
-    curl
-    unzip
-    p7zip
-    fastfetch
-    htop
-    docker
-    difftastic
-    umoci
-    qemu
-    nixfmt
-    nix-tree
-    lsof
-    file
-    aria2
-    efibootmgr
-    pciutils
-    usbutils
-    rsync
-    jq
-    dig
-    dnslookup
-    dhcpcd
-    ripgrep
-    python3
-  ];
+  # environment.systemPackages = with pkgs; [];
   # 模拟标准的FHS文件系统布局
   # services.envfs.enable = true;
   # 1. 禁用默认的 systemd-timesyncd（防止冲突）

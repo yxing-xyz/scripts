@@ -68,10 +68,11 @@
       flake =
         let
           # 修复：将公用路径变量定义在全局的 flake 作用域中，使 homeManager 能够正确抓取
+          stateVersion = "26.11";
           sharedHomeInfo = {
             home.username = "x";
             home.homeDirectory = "/home/x";
-            home.stateVersion = "26.11";
+            home.stateVersion = stateVersion;
           };
 
           homeManagerCommon = {
@@ -84,9 +85,19 @@
             };
             home-manager.users.x = {
               imports = [
-                ./home.nix
+                ./home-cli.nix
+                ./home-gui.nix
                 sharedHomeInfo
               ];
+            };
+            home-manager.users.root = {
+              imports = [
+                ./home-cli.nix
+                ./home-gui.nix
+              ];
+              home.username = "root";
+              home.homeDirectory = "/root";
+              home.stateVersion = stateVersion;
             };
           };
 
@@ -145,7 +156,7 @@
               pkgs = inputs.nixpkgs.legacyPackages."x86_64-linux";
 
               modules = [
-                ./home.nix # 复用你原有的用户配置
+                ./home-cli.nix # 复用你原有的用户配置
                 sharedHomeInfo # 复用用户名和家目录定义
                 {
                   # 传递原本在 NixOS 下通过 extraSpecialArgs 注入的变量

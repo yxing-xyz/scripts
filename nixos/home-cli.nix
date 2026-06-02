@@ -4,8 +4,6 @@
   imports = [
     ./home/config.nix
     ./home/dev.nix
-    ./home/gnome.nix
-    ./home/niri.nix
   ];
 
   programs.home-manager.enable = true;
@@ -30,6 +28,36 @@
   };
 
   home.packages = with pkgs; [
+    nvd
+    vim
+    git
+    lazygit
+    git-lfs
+    curl
+    unzip
+    p7zip
+    fastfetch
+    htop
+    docker
+    difftastic
+    umoci
+    qemu
+    nixfmt
+    nix-tree
+    lsof
+    file
+    aria2
+    efibootmgr
+    pciutils
+    usbutils
+    rsync
+    jq
+    dig
+    dnslookup
+    dhcpcd
+    ripgrep
+    python3
+    # 下面zsh依赖
     bat
     lsd
     fzf

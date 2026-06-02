@@ -286,3 +286,10 @@ zinit ice wait"0" lucid \
     atclone"fast-theme ./catppuccin-frappe.ini" \
     atpull"%atclone"
 zinit snippet https://raw.githubusercontent.com/catppuccin/zsh-fsh/refs/heads/main/themes/catppuccin-frappe.ini
+
+# 完美的容器 Nix/Home-Manager 环境变量注入入口
+if [ -f "$HOME/.hm-session-vars.sh" ]; then
+    . "$HOME/.hm-session-vars.sh"
+elif [ -f "$HOME/.local/state/nix/profiles/profile/etc/profile.d/hm-session-vars.sh" ]; then
+    . "$HOME/.local/state/nix/profiles/profile/etc/profile.d/hm-session-vars.sh"
+fi
