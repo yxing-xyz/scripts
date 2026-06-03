@@ -199,8 +199,10 @@ window-rule {
 window-rule {
     match app-id="Alacritty"
     match app-id="code" // VS Code
+    match app-id="emacs" // VS Code
     match app-id="google-chrome"
     draw-border-with-background true
+    open-maximized true
     default-column-width { proportion 1.0; }
 }
 window-rule {

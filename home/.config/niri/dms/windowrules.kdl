@@ -15,7 +15,7 @@ window-rule {
 
 // @id=dms_rule_2 @name=
 window-rule {
-    match app-id="Emacs"
+    match app-id="emacs"
     open-on-workspace "3"
 }
 
