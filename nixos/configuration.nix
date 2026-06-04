@@ -112,7 +112,6 @@ in
     "kernel.sysrq" = 1;
   };
   boot.loader.systemd-boot.enable = false;
-  boot.loader.efi.canTouchEfiVariables = true; # 联想主板不让改 NVRAM，我们就放弃改它
   boot.loader.grub = {
     enable = true;
     efiSupport = true;
@@ -122,14 +121,21 @@ in
     device = "nodev";
     gfxmodeEfi = "1024x768";
     fontSize = 32; # 3K 屏建议直接 64
-    mirroredBoots = [
-      {
-        devices = [
-          "/dev/disk/by-uuid/23BB-F42B"
-        ];
-        path = "/boot/efi";
-      }
-    ];
+    # mirroredBoots = [
+    #   {
+    #     devices = [
+    #       "/dev/disk/by-uuid/23BB-F42B"
+    #     ];
+    #     path = "/boot/efi";
+    #   }
+    # ];
+  };
+  # 自定义efi目录,防止构建太多的kernel覆盖EFI分区
+  boot.loader = {
+    efi = {
+      canTouchEfiVariables = true;
+      efiSysMountPoint = "/boot/efi";
+    };
   };
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
   boot.binfmt.registrations."aarch64-linux" = {
@@ -187,7 +193,7 @@ in
   # };
   users.users.root = {
     password = "root";
-    initialPassword = "root";
+    #initialPassword = "root";
     shell = pkgs.zsh;
   };
   users.users.x = {
