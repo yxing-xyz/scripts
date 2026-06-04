@@ -28,6 +28,12 @@
   };
 
   home.packages = with pkgs; [
+    gawk
+    gnugrep
+    gnused
+    coreutils
+    findutils
+    procps
     nvd
     vim
     git
@@ -39,6 +45,7 @@
     fastfetch
     htop
     docker
+    skopeo
     difftastic
     umoci
     qemu
@@ -53,6 +60,8 @@
     rsync
     jq
     dig
+    iputils
+    iproute2
     dnslookup
     dhcpcd
     ripgrep

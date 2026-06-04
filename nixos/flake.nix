@@ -19,6 +19,8 @@
       "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
     ];
     system-features = [ "gccarch-x86-64-v4" ];
+    accept-flake-config = true;
+    max-jobs = "auto";
   };
 
   inputs = {
@@ -52,8 +54,7 @@
       projectRoot = "/opt/scripts";
     in
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
-      systems = [ "x86_64-linux" ];
-
+      systems = [ "x86_64-linux" "aarch64-linux" ];
       perSystem =
         { pkgs, system, ... }:
         let
@@ -65,6 +66,9 @@
           };
         in
         {
+          packages.docker-image = import ./docker-image.nix {
+            inherit pkgs;
+          };
           devShells = {
             default = import ./develop/go.nix { inherit (ctx) pkgs system; };
             go = import ./develop/go.nix { inherit (ctx) pkgs system; };
@@ -156,13 +160,45 @@
             };
           };
           homeConfigurations = {
-            "cli" = inputs.home-manager.lib.homeManagerConfiguration {
+            "root" = inputs.home-manager.lib.homeManagerConfiguration {
               # 独立运行时，需要手动传递纯净的 pkgs
               pkgs = inputs.nixpkgs.legacyPackages."x86_64-linux";
 
               modules = [
                 ./home-cli.nix # 复用你原有的用户配置
-                sharedHomeInfo # 复用用户名和家目录定义
+                {
+                  home.username = "root";
+                  home.homeDirectory = "/root";
+                  home.stateVersion = stateVersion;
+                }
+                {
+                  # 传递原本在 NixOS 下通过 extraSpecialArgs 注入的变量
+                  _module.args = {
+                    myScriptsPath = projectRoot;
+                    inherit (inputs) dms;
+                    # 如果你在 home.nix 里也用到了 inputs，可以一并加上：
+                    inherit inputs;
+                  };
+
+                  # 允许在 Arch 下通过 nix 安装非自由软件
+                  nixpkgs.config.allowUnfree = true;
+
+                  # 告诉 Home Manager 自动管理它的 XDG 目录，以便在非 NixOS 正常查找应用
+                  targets.genericLinux.enable = true;
+                }
+              ];
+            };
+            "x" = inputs.home-manager.lib.homeManagerConfiguration {
+              # 独立运行时，需要手动传递纯净的 pkgs
+              pkgs = inputs.nixpkgs.legacyPackages."x86_64-linux";
+
+              modules = [
+                ./home-cli.nix # 复用你原有的用户配置
+                {
+                  home.username = "x";
+                  home.homeDirectory = "/home/x";
+                  home.stateVersion = stateVersion;
+                }
                 {
                   # 传递原本在 NixOS 下通过 extraSpecialArgs 注入的变量
                   _module.args = {

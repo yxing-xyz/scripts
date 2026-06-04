@@ -279,7 +279,7 @@ eval "$(direnv hook zsh)"
 #eval "$(oh-my-posh init zsh --config 'agnoster')"
 #eval "$(oh-my-posh init zsh --config 'catppuccin')"
 #eval "$(oh-my-posh init zsh --config 'mt')"
-eval "$(oh-my-posh init zsh --config 'cinnamon')"
+eval "$(oh-my-posh init zsh --config ~/.config/zsh/cinnamon-no-spotify.json)"
 # zinit snippet ~/.config/zsh/themes/material.zsh-theme
 zinit ice wait"0" lucid \
     as"null" \
