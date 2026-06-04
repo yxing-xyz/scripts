@@ -1,5 +1,5 @@
 {
-  description = "我的 NixOS 配置：解耦虚拟机与物理机 (flake-parts 版)";
+  description = "NixOS配置";
 
   nixConfig = {
     experimental-features = [
@@ -39,9 +39,17 @@
   };
 
   outputs =
-    inputs:
+    {
+      self,
+      nixpkgs,
+      flake-parts,
+      home-manager,
+      rust-overlay,
+      dms,
+      ...
+    }@inputs:
     let
-      globalScriptsPath = "/home/x/workspace/github/scripts";
+      projectRoot = "/opt/scripts";
     in
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [ "x86_64-linux" ];
@@ -51,7 +59,7 @@
         let
           ctx = {
             inherit pkgs system;
-            myScriptsPath = globalScriptsPath;
+            myScriptsPath = projectRoot;
             dms = inputs.dms;
             rustPkgs = pkgs.extend inputs.rust-overlay.overlays.default;
           };
@@ -69,26 +77,23 @@
         let
           # 修复：将公用路径变量定义在全局的 flake 作用域中，使 homeManager 能够正确抓取
           stateVersion = "26.11";
-          sharedHomeInfo = {
-            home.username = "x";
-            home.homeDirectory = "/home/x";
-            home.stateVersion = stateVersion;
-          };
-
           homeManagerCommon = {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.backupFileExtension = "nixbak";
             home-manager.extraSpecialArgs = {
-              myScriptsPath = globalScriptsPath;
+              myScriptsPath = projectRoot;
               inherit (inputs) dms;
             };
             home-manager.users.x = {
               imports = [
                 ./home-cli.nix
                 ./home-gui.nix
-                sharedHomeInfo
               ];
+              # 手动填入这些值
+              home.username = "x";
+              home.homeDirectory = "/home/x";
+              home.stateVersion = stateVersion;
             };
             home-manager.users.root = {
               imports = [
@@ -111,28 +116,28 @@
               nixpkgs.config.allowUnfree = true;
               _module.args = {
                 inherit inputs; # 满足你当前 configuration.nix 中对 inputs 的调用
-                myScriptsPath = globalScriptsPath; # 物理机/虚拟机子模块也能直接作为参数拿到
+                myScriptsPath = projectRoot; # 物理机/虚拟机子模块也能直接作为参数拿到
               };
             }
           ];
         in
         {
+          debugVar = projectRoot;
           nixosConfigurations = {
-            x-laptop = inputs.nixpkgs.lib.nixosSystem {
+            x = inputs.nixpkgs.lib.nixosSystem {
               system = "x86_64-linux";
               # 修复：使用 ++ 拼接列表，防止产生嵌套列表错误
               modules = mkCommonModules ++ [
                 ./hardware-configuration.nix
-                { networking.hostName = "zen"; }
+                { networking.hostName = "x"; }
               ];
             };
-
-            x-vm = inputs.nixpkgs.lib.nixosSystem {
+            test = inputs.nixpkgs.lib.nixosSystem {
               system = "x86_64-linux";
               # 修复：使用 ++ 拼接列表
               modules = mkCommonModules ++ [
                 {
-                  networking.hostName = "void";
+                  networking.hostName = "test";
                   hardware.graphics.enable = true;
                   virtualisation.vmVariant = {
                     virtualisation.memorySize = 4096;
@@ -142,8 +147,8 @@
                       "-display gtk,gl=on"
                     ];
                     virtualisation.sharedDirectories.config_repo = {
-                      source = globalScriptsPath;
-                      target = globalScriptsPath;
+                      source = projectRoot;
+                      target = projectRoot;
                     };
                   };
                 }
@@ -151,7 +156,7 @@
             };
           };
           homeConfigurations = {
-            "code" = inputs.home-manager.lib.homeManagerConfiguration {
+            "cli" = inputs.home-manager.lib.homeManagerConfiguration {
               # 独立运行时，需要手动传递纯净的 pkgs
               pkgs = inputs.nixpkgs.legacyPackages."x86_64-linux";
 
@@ -161,7 +166,7 @@
                 {
                   # 传递原本在 NixOS 下通过 extraSpecialArgs 注入的变量
                   _module.args = {
-                    myScriptsPath = globalScriptsPath;
+                    myScriptsPath = projectRoot;
                     inherit (inputs) dms;
                     # 如果你在 home.nix 里也用到了 inputs，可以一并加上：
                     inherit inputs;

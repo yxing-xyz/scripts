@@ -15,5 +15,6 @@
   home.packages = [ pkgs.alacritty ];
 
   # 直接把字符串写入 ~/.config/alacritty/alacritty.toml
-  xdg.configFile."alacritty/alacritty.toml".source = config.lib.file.mkOutOfStoreSymlink "${myScriptsPath}/home/.config/alacritty/alacritty.toml";
+  # xdg.configFile."alacritty/alacritty.toml".source = config.lib.file.mkOutOfStoreSymlink "${myScriptsPath}/home/.config/alacritty/alacritty.toml";
+  xdg.configFile."alacritty/alacritty.toml".source = config.lib.file.mkOutOfStoreSymlink ../../home/.config/alacritty/alacritty.toml;
 }
