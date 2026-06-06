@@ -263,4 +263,9 @@
       }
     ];
   };
+  systemd.user.services."niri" = {
+    serviceConfig = {
+      TimeoutStopSec = "10s"; # 只要卡住超过 10 秒就直接强杀
+    };
+  };
 }

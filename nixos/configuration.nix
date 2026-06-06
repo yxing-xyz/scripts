@@ -179,6 +179,11 @@ in
     DefaultTimeoutStopSec = "15s";
     DefaultTimeoutAbortSec = "15s";
   };
+  systemd.user.extraConfig = ''
+    [Manager]
+    DefaultTimeoutStopSec=10s
+    DefaultTimeoutAbortSec=10s
+  '';
   # 1. 依然严格保持禁用待机/休眠 Target（确保绝对不会死机）
   # systemd.targets.suspend.enable = false;
   # systemd.targets.hibernate.enable = false;
