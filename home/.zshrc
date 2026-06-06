@@ -3,7 +3,7 @@ ZINIT[NO_ALIASES]=1
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 if [ ! -d "$ZINIT_HOME" ]; then
     mkdir -p "$(dirname $ZINIT_HOME)"
-    git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+    git clone https://github.com/zdharma-continuum/zinit.git --depth 1 "$ZINIT_HOME"
 fi
 source "${ZINIT_HOME}/zinit.zsh"
 TRZSZ_ENABLE=trzsz
@@ -29,6 +29,11 @@ for opt in "${disabled_opts[@]}"; do
   unsetopt "$opt"
 done
 unset opt disabled_opts
+
+# 完美的容器 Nix/Home-Manager 环境变量注入入口
+if [ -f "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" ]; then
+    . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
+fi
 
 # ohmyzsh
 zinit snippet OMZ::plugins/colored-man-pages/colored-man-pages.plugin.zsh
@@ -286,10 +291,3 @@ zinit ice wait"0" lucid \
     atclone"fast-theme ./catppuccin-frappe.ini" \
     atpull"%atclone"
 zinit snippet https://raw.githubusercontent.com/catppuccin/zsh-fsh/refs/heads/main/themes/catppuccin-frappe.ini
-
-# 完美的容器 Nix/Home-Manager 环境变量注入入口
-if [ -f "$HOME/.hm-session-vars.sh" ]; then
-    . "$HOME/.hm-session-vars.sh"
-elif [ -f "$HOME/.local/state/nix/profiles/profile/etc/profile.d/hm-session-vars.sh" ]; then
-    . "$HOME/.local/state/nix/profiles/profile/etc/profile.d/hm-session-vars.sh"
-fi
