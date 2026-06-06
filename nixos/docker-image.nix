@@ -1,47 +1,25 @@
-{ pkgs }:
-
+# 接收参数：pkgs（工具） + docker-nixpkgs（官方镜像库）
+{ pkgs, docker-nixpkgs }:
 let
-  # 官方镜像引用
-  base = pkgs.dockerTools.pullImage {
-    imageName = "nixos/nix";
-    imageDigest = "sha256:bf1d938835ab96312f098fa6c2e9cab367728e0aad0646ee3e02a787c80d8fb8";
-    sha256 = "sha256-fjUfF6h82wBvWsuw2bd8Cgl+mwLDA2Q0NDb/KHAGY2c=";
-  };
+  # 从pkgs获取文件生成工具
+  inherit (pkgs) writeTextFile;
 
-  # 自定义的 Nix 配置
-  nixConfig = pkgs.runCommand "nix-config" {} ''
-    mkdir -p $out/etc/nix
-    echo "experimental-features = nix-command flakes" > $out/etc/nix/nix.conf
-  '';
+  # 基础镜像：官方 nix-flakes（已开启Flakes）
+  baseImage = docker-nixpkgs.nix-flakes;
 in
-
-pkgs.dockerTools.buildLayeredImage {
-  name = "registry.cn-hangzhou.aliyuncs.com/yxing-xyz/linux";
-  tag = "nix";
-
-  # 继承官方镜像的层
-  fromImage = base;
-
-  # 在官方镜像基础上添加你的工具
-  contents = [
-    nixConfig
-    pkgs.git
-    pkgs.zsh
-    pkgs.coreutils
-    pkgs.vim
-  ];
-
-  # 这里依然可以添加你特有的脚本或目录，但不需要再碰 shadowSetup
-  extraCommands = ''
-
-  '';
-
-  config = {
-    # 官方镜像默认提供了很好的环境变量，这里做补充即可
-    Env = [
-      "PATH=/bin:/usr/bin:/usr/local/bin"
-      "EDITOR=vim"
+  # 直接override，只传我们的文件，官方会自动合并
+  baseImage.override {
+    # 直接定义你的文件，无需读取原有extraContents（根本不存在）
+    extraContents = [
+      # 你的自定义test文件
+      (writeTextFile {
+        name = "test-file";
+        destination = "/root/test.txt";
+        text = ''
+          自定义测试文件
+          基于官方nix-flakes构建
+          Flakes已启用
+        '';
+      })
     ];
-    Cmd = [ "/bin/zsh" ];
-  };
-}
+  }

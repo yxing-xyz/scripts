@@ -38,6 +38,10 @@
       url = "github:AvengeMedia/DankMaterialShell/stable";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    docker-nixpkgs = {
+      url = "github:nix-community/docker-nixpkgs";
+      flake = false;
+    };
   };
 
   outputs =
@@ -48,6 +52,7 @@
       home-manager,
       rust-overlay,
       dms,
+      docker-nixpkgs,
       ...
     }@inputs:
     let
@@ -63,11 +68,14 @@
             myScriptsPath = projectRoot;
             dms = inputs.dms;
             rustPkgs = pkgs.extend inputs.rust-overlay.overlays.default;
+            docker-nixpkgs = import inputs.docker-nixpkgs {
+              inherit system;
+            };
           };
         in
         {
           packages.docker-image = import ./docker-image.nix {
-            inherit pkgs;
+            inherit (ctx) pkgs docker-nixpkgs;
           };
           devShells = {
             default = import ./develop/go.nix { inherit (ctx) pkgs system; };
@@ -126,7 +134,7 @@
           ];
         in
         {
-          debugVar = projectRoot;
+          debugVar = import docker-nixpkgs{system="x86_64-linux";};
           nixosConfigurations = {
             x = inputs.nixpkgs.lib.nixosSystem {
               system = "x86_64-linux";
