@@ -74,9 +74,7 @@
           };
         in
         {
-          packages.docker-image = import ./docker-image.nix {
-            inherit (ctx) pkgs docker-nixpkgs;
-          };
+          packages.nix-flakes = pkgs.callPackage ./nix-flakes {};
           devShells = {
             default = import ./develop/go.nix { inherit (ctx) pkgs system; };
             go = import ./develop/go.nix { inherit (ctx) pkgs system; };
