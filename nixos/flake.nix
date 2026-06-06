@@ -74,7 +74,7 @@
           };
         in
         {
-          packages.nix-flakes = pkgs.callPackage ./nix-flakes {};
+          packages.nix-flakes = pkgs.callPackage ./pkgs/nix-flakes {};
           devShells = {
             default = import ./develop/go.nix { inherit (ctx) pkgs system; };
             go = import ./develop/go.nix { inherit (ctx) pkgs system; };

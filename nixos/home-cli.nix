@@ -77,6 +77,6 @@
     yazi
     tealdeer
     direnv
-    (pkgs.callPackage ./package/trzsz.nix { })
+    (pkgs.callPackage ./pkgs/trzsz { })
   ];
 }
