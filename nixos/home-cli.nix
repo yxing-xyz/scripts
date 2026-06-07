@@ -1,9 +1,9 @@
 # home.nix
-{ pkgs, niri, ... }:
+{ pkgs, ... }:
 {
   imports = [
     ./home/config.nix
-    ./home/dev.nix
+    ./home/develop.nix
   ];
 
   programs.home-manager.enable = true;

@@ -1,7 +1,7 @@
 {
   config,
   pkgs,
-  myScriptsPath,
+  projectRoot,
   ...
 }:
 let
@@ -13,9 +13,9 @@ in
     pkgs.oh-my-posh
     pkgs.jq
   ];
-  home.file.".zshrc".source = config.lib.file.mkOutOfStoreSymlink "${myScriptsPath}/home/.zshrc";
+  home.file.".zshrc".source = config.lib.file.mkOutOfStoreSymlink "${projectRoot}/home/.zshrc";
   home.file.".zshrc".force = true;
-  home.file.".config/zsh".source = config.lib.file.mkOutOfStoreSymlink "${myScriptsPath}/home/.config/zsh";
+  home.file.".config/zsh".source = config.lib.file.mkOutOfStoreSymlink "${projectRoot}/home/.config/zsh";
   home.file.".config/zsh".force = true;
   home.activation.generateOmpConfig = config.lib.dag.entryAfter ["writeBoundary"] ''
       echo "Generating Oh My Posh config..."

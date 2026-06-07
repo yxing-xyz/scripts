@@ -1,16 +1,16 @@
 {
   config,
   pkgs,
-  myScriptsPath,
+  projectRoot,
   ...
 }:
 
 {
   home.file.".config/fcitx5".source =
-    config.lib.file.mkOutOfStoreSymlink "${myScriptsPath}/home/.config/fcitx5";
+    config.lib.file.mkOutOfStoreSymlink "${projectRoot}/home/.config/fcitx5";
 
   # home.file.".local/share/fcitx5/rime/default.custom.yaml".source =
-  #   config.lib.file.mkOutOfStoreSymlink "${myScriptsPath}/home/.local/share/fcitx5/rime/default.custom.yaml";
+  #   config.lib.file.mkOutOfStoreSymlink "${projectRoot}/home/.local/share/fcitx5/rime/default.custom.yaml";
 
   home.activation.setupRime = config.lib.dag.entryAfter [ "writeBoundary" ] ''
     RIME_DIR="$HOME/.local/share/fcitx5/rime"
@@ -26,6 +26,6 @@
     $DRY_RUN_CMD ln -sf $VERBOSE_ARG $ICE_DATA/* "$RIME_DIR/"
 
     # 3. 覆盖自定义配置
-    $DRY_RUN_CMD ln -sf $VERBOSE_ARG "${myScriptsPath}/home/.local/share/fcitx5/rime/default.custom.yaml" "$RIME_DIR/default.custom.yaml"
+    $DRY_RUN_CMD ln -sf $VERBOSE_ARG "${projectRoot}/home/.local/share/fcitx5/rime/default.custom.yaml" "$RIME_DIR/default.custom.yaml"
    '';
 }

@@ -2,14 +2,11 @@
   config,
   pkgs,
   dms,
-  myScriptsPath,
+  projectRoot,
   ...
 }:
 
 {
-  imports = [
-    ./alacritty.nix
-  ];
   home.packages = with pkgs; [
     niri
     quickshell
@@ -21,8 +18,8 @@
     matugen
   ];
   xdg.configFile."niri".source =
-    config.lib.file.mkOutOfStoreSymlink "${myScriptsPath}/home/.config/niri";
+    config.lib.file.mkOutOfStoreSymlink "${projectRoot}/home/.config/niri";
 
   xdg.configFile."DankMaterialShell".source =
-    config.lib.file.mkOutOfStoreSymlink "${myScriptsPath}/home/.config/DankMaterialShell";
+    config.lib.file.mkOutOfStoreSymlink "${projectRoot}/home/.config/DankMaterialShell";
 }

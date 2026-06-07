@@ -1,11 +1,11 @@
 {
   config,
   pkgs,
-  myScriptsPath,
+  projectRoot,
   ...
 }:
 
 {
   home.file.".ssh".source =
-    config.lib.file.mkOutOfStoreSymlink "${myScriptsPath}/home/.ssh";
+    config.lib.file.mkOutOfStoreSymlink "${projectRoot}/home/.ssh";
 }

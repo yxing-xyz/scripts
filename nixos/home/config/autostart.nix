@@ -1,11 +1,11 @@
 {
   config,
   pkgs,
-  myScriptsPath,
+  projectRoot,
   ...
 }:
 
 {
   home.file.".config/autostart".source =
-    config.lib.file.mkOutOfStoreSymlink "${myScriptsPath}/home/.config/autostart";
+    config.lib.file.mkOutOfStoreSymlink "${projectRoot}/home/.config/autostart";
 }

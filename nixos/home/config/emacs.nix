@@ -1,7 +1,7 @@
 {
   config,
   pkgs,
-  myScriptsPath,
+  projectRoot,
   ...
 }:
 
@@ -47,5 +47,5 @@
     direnv
   ];
   home.file.".config/emacs".source =
-    config.lib.file.mkOutOfStoreSymlink "${myScriptsPath}/home/.config/emacs";
+    config.lib.file.mkOutOfStoreSymlink "${projectRoot}/home/.config/emacs";
 }

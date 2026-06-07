@@ -1,12 +1,12 @@
 {
   config,
   pkgs,
-  myScriptsPath,
+  projectRoot,
   ...
 }:
 
 {
   home.packages = [ pkgs.zellij ];
   xdg.configFile."zellij/config.kdl".source =
-    config.lib.file.mkOutOfStoreSymlink "${myScriptsPath}/home/.config/zellij/config.kdl";
+    config.lib.file.mkOutOfStoreSymlink "${projectRoot}/home/.config/zellij/config.kdl";
 }
