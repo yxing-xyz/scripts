@@ -8,13 +8,14 @@
 
   home.packages = with pkgs; [
     (pkgs.symlinkJoin {
-        name = "vscode-fhs-wrapped";
-        paths = [ vscode-fhs ];
-        nativeBuildInputs = [ pkgs.makeWrapper ];
-        postBuild = ''
-          wrapProgram $out/bin/code --add-flags "--password-store=gnome-libsecret"
-        '';
-      })
-      emacs-pgtk
+      name = "vscode-fhs-wrapped";
+      paths = [ vscode-fhs ];
+      nativeBuildInputs = [ pkgs.makeWrapper ];
+      postBuild = ''
+        wrapProgram $out/bin/code --add-flags "--password-store=gnome-libsecret"
+      '';
+    })
+    emacs-pgtk
+    zenity
   ];
 }

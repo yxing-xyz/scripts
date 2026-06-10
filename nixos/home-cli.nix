@@ -38,6 +38,7 @@
     vim
     git
     lazygit
+    lazydocker
     git-lfs
     curl
     unzip
