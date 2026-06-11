@@ -4,6 +4,7 @@
     ./home/alacritty.nix
     ./home/gnome.nix
     ./home/niri.nix
+    ./home/swappy.nix
   ];
 
   home.packages = with pkgs; [

@@ -97,7 +97,6 @@ in
     brightnessctl
     xclip
     wl-clipboard
-    flameshot
     nautilus
     loupe
     # 办公与通讯

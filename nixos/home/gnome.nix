@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 
 {
   dconf.settings = {
@@ -102,6 +102,8 @@
       # 应用切换
       switch-applications = [ "<Alt>Tab" ];
       switch-applications-backward = [ "<Shift><Alt>Tab" ];
+      # 锁屏
+      lock-screen = [ "<Super><Control>l" ];
 
       # 禁用大量默认快捷键 (设为空列表)
       activate-window-menu = [ ];
@@ -154,7 +156,7 @@
       focus-active-notification = [ ];
       screenshot = [ ];
       screenshot-window = [ ];
-      show-screenshot-ui = [ ];
+      show-screenshot-ui = [ "Print" ];
       switch-to-application-1 = [ ];
       switch-to-application-2 = [ ];
       switch-to-application-3 = [ ];
@@ -182,19 +184,40 @@
 
     "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1" = {
       binding = "Print";
-      # 注意：Nix 字符串中反斜杠和引号的处理
-      command = "script --command \"QT_QPA_PLATFORM=wayland flameshot gui\" /dev/null";
-      name = "截图";
+      # 调用 GNOME 现代交互式截图壳（对应 GNOME Shell 内置的截图 UI）
+      command = "gnome-screenshot --interactive";
+      name = "GNOME 交互截图";
     };
 
     # 2. 关键步骤：必须在这里注册上述路径，GNOME 才会读取它们
     "org/gnome/settings-daemon/plugins/media-keys" = {
-      home = [ "<Super>e" ]; # 添加这一行，恢复 Super+E 打开主目录
-      screensaver = [ "<Super>l" ];
+      home = [ "<Super>e" ];
+      # 关键修改：将原有的 [ "<Super>l" ] 改为 Ctrl + Super + L
+      screensaver = [ "<Super><Control>l" ];
       custom-keybindings = [
         "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/"
         "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/"
       ];
+    };
+
+    "org/gnome/desktop/input-sources" = {
+      # 1. 修改为你想要的 my-pc105
+      sources = [
+        (lib.hm.gvariant.mkTuple [
+          "xkb"
+          "my-pc105"
+        ])
+      ];
+
+      # 2. 如果你想保持原配置的其他项，建议一并写在这里：
+      mru-sources = [
+        (lib.hm.gvariant.mkTuple [
+          "xkb"
+          "us"
+        ])
+      ];
+      show-all-sources = true;
+      xkb-options = [ "terminate:ctrl_alt_bksp" ];
     };
     "org/gnome/shell" = {
       disable-user-extensions = false;
