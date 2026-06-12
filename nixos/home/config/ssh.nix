@@ -6,6 +6,5 @@
 }:
 
 {
-  home.file.".ssh".source =
-    config.lib.file.mkOutOfStoreSymlink "${projectRoot}/home/.ssh";
+  home.file.".ssh".source = config.lib.file.mkOutOfStoreSymlink "${projectRoot}/home/.ssh";
 }

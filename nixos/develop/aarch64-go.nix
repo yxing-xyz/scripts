@@ -1,5 +1,6 @@
-
-{ pkgs ? import <nixpkgs> {} }:
+{
+  pkgs ? import <nixpkgs> { },
+}:
 
 let
   sysroot = "/home/x/x-tools/debian-bullseye-arm64";

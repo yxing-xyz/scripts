@@ -15,7 +15,7 @@ docker run -dit --name code --hostname code --restart always \\
     -e DOCKER_HOST=tcp://host.docker.internal:2375 \\
     -v home:/home \\
     registry.cn-hangzhou.aliyuncs.com/yxing-xyz/linux:arch \\
-    bash -c "nix-daemon --daemon & mkdir -p /run/sshd && /usr/sbin/sshd -D"
+    bash -c "mkdir -p /run/sshd && /usr/sbin/sshd -D"
 EOF
 echo >>./url.txt
 RepoLatestRelease() {

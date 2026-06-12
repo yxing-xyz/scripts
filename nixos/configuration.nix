@@ -1,4 +1,11 @@
-{ config, pkgs, lib, inputs, stateVersion, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  inputs,
+  stateVersion,
+  ...
+}:
 
 {
   system.stateVersion = stateVersion;
@@ -31,7 +38,7 @@
   };
 
   # binfmt 用于 ARM 模拟
-  boot.binfmt.emulatedSystems = ["aarch64-linux"];
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   # --- 3. 网络与防火墙 ---
   networking = {
@@ -40,8 +47,18 @@
       enable = true;
       allowPing = true;
       # 使用 ranges 语法简化
-      allowedTCPPortRanges = [{ from = 1; to = 65535; }];
-      allowedUDPPortRanges = [{ from = 1; to = 65535; }];
+      allowedTCPPortRanges = [
+        {
+          from = 1;
+          to = 65535;
+        }
+      ];
+      allowedUDPPortRanges = [
+        {
+          from = 1;
+          to = 65535;
+        }
+      ];
       checkReversePath = false;
     };
   };
@@ -75,11 +92,20 @@
     '';
   };
   users.users = {
-    root = { password = "root"; shell = pkgs.zsh; };
+    root = {
+      password = "root";
+      shell = pkgs.zsh;
+    };
     x = {
       isNormalUser = true;
       uid = 1000;
-      extraGroups = [ "networkmanager" "wheel" "video" "wireshark" "docker" ];
+      extraGroups = [
+        "networkmanager"
+        "wheel"
+        "video"
+        "wireshark"
+        "docker"
+      ];
       initialPassword = "x";
       shell = pkgs.zsh;
     };
@@ -87,9 +113,16 @@
 
   # --- 5. Nix 设置 ---
   nix = {
-    gc = { automatic = true; dates = "weekly"; options = "--delete-older-than 30d"; };
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 30d";
+    };
     settings = {
-      experimental-features = [ "nix-command" "flakes" ];
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
       auto-optimise-store = true;
       substituters = [
         "https://mirrors.ustc.edu.cn/nix-channels/store"
@@ -104,7 +137,10 @@
   };
 
   # 其他配置保持原样...
-  virtualisation.docker = { enable = true; storageDriver = "overlay2"; };
+  virtualisation.docker = {
+    enable = true;
+    storageDriver = "overlay2";
+  };
   time.timeZone = "Asia/Shanghai";
   nixpkgs.config.allowUnfree = true;
 }

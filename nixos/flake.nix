@@ -58,12 +58,17 @@
     let
       projectRoot = "/opt/scripts";
       stateVersion = "26.11";
-    in
-    inputs.flake-parts.lib.mkFlake { inherit inputs; } {
-      systems = [
+
+      # 显式定义支持的系统架构列表
+      supportedSystems = [
         "x86_64-linux"
         "aarch64-linux"
       ];
+    in
+    inputs.flake-parts.lib.mkFlake { inherit inputs; } {
+      # 1. 彻底删除不听话的 transposition，回归标准正统结构
+      systems = supportedSystems;
+
       perSystem =
         { pkgs, system, ... }:
         let
@@ -79,24 +84,40 @@
         in
         {
           packages.nix-flakes = pkgs.callPackage ./pkgs/nix-flakes { };
+
           devShells = {
-            default = import ./develop/go.nix { inherit (ctx) pkgs system; };
+            default = pkgs.mkShell {
+              buildInputs = [
+                inputs.home-manager.packages.${system}.home-manager
+              ];
+              shellHook = ''
+                echo "⚡ 容器原生 Home Manager 环境已就绪！"
+                echo "👉 请执行: home-manager switch --flake .#code"
+              '';
+            };
             go = import ./develop/go.nix { inherit (ctx) pkgs system; };
             aarch64-go = import ./develop/aarch64-go.nix { inherit (ctx) pkgs; };
             rust = import ./develop/rust.nix { pkgs = ctx.rustPkgs; };
           };
         };
 
-flake =
+      flake =
         let
-          # 1. 导入你的工厂函数
+          nixosFactory = import ./lib/nixos-configs.nix { inherit inputs projectRoot stateVersion; };
           homeFactory = import ./lib/home-configs.nix { inherit inputs projectRoot stateVersion; };
         in
         {
-          nixosConfigurations = import ./lib/nixos-configs.nix { inherit inputs projectRoot stateVersion; };
-          homeConfigurations = {
-            code    = (homeFactory "x86_64-linux").code;
+          nixosConfigurations = {
+            x = (nixosFactory "x86_64-linux").x;
+            test = (nixosFactory "x86_64-linux").test;
           };
+
+          homeConfigurations =
+            let
+            in
+            {
+              code = (homeFactory "x86_64-linux").code;
+            };
         };
     };
 }

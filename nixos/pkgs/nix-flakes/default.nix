@@ -1,6 +1,7 @@
-{ pkgs
-, extraContents ? [ ]
-, extraEnv ? [ ]
+{
+  pkgs,
+  extraContents ? [ ],
+  extraEnv ? [ ],
 }:
 let
   inherit (pkgs) writeTextFile runCommand;
@@ -19,7 +20,8 @@ let
     xz
     linux-pam
     shadow
-    sudo;
+    sudo
+    ;
 
   # ==========================================
   # ✨ 真正安全的 su 捕获逻辑
@@ -61,19 +63,21 @@ let
     text = basePamContent;
   };
 
-  makePamFile = name: writeTextFile {
-    inherit name;
-    destination = "/etc/pam.d/${name}";
-    text = ''
-      auth      include   system-remote-login
-      account   include   system-remote-login
-      session   include   system-remote-login
-    '';
-  };
+  makePamFile =
+    name:
+    writeTextFile {
+      inherit name;
+      destination = "/etc/pam.d/${name}";
+      text = ''
+        auth      include   system-remote-login
+        account   include   system-remote-login
+        session   include   system-remote-login
+      '';
+    };
 
   pamSudo = makePamFile "sudo";
   pamSshd = makePamFile "sshd";
-  pamSu   = makePamFile "su";
+  pamSu = makePamFile "su";
 
   sudoers = writeTextFile {
     name = "sudoers";
@@ -116,67 +120,69 @@ let
   };
 
 in
-  dockerTools.buildImageWithNixDb {
-    inherit (nix) name;
+dockerTools.buildImageWithNixDb {
+  inherit (nix) name;
 
-    contents = [
-      ./root
-      coreutils
-      bashInteractive
-      nix
-      cacert
-      git
-      gnutar
-      gzip
-      openssh
-      xz
-      curl
-      iana-etc
+  contents = [
+    ./root
+    coreutils
+    bashInteractive
+    nix
+    cacert
+    git
+    gnutar
+    gzip
+    openssh
+    xz
+    curl
+    iana-etc
 
-      # 必需的安全套件
-      linux-pam
-      shadow
-      sudo
+    # 必需的安全套件
+    linux-pam
+    shadow
+    sudo
 
-      # 注入动态生成的 su 二进制层
-      suBinPackage
+    # 注入动态生成的 su 二进制层
+    suBinPackage
 
-      # 注入配置文件与脚本
-      pamRemoteLogin
-      pamSudo
-      pamSshd
-      pamSu
-      sudoers
-      entrypoint
-    ] ++ extraContents;
+    # 注入配置文件与脚本
+    pamRemoteLogin
+    pamSudo
+    pamSshd
+    pamSu
+    sudoers
+    entrypoint
+  ]
+  ++ extraContents;
 
-    extraCommands = ''
-      # 建立常规 usr/bin
-      mkdir -p usr/bin
-      ln -s ../bin usr/bin
+  extraCommands = ''
+    # 建立常规 usr/bin
+    mkdir -p usr/bin
+    ln -s ../bin usr/bin
 
-      # 建立常规的 env 软链接
-      ln -s ${coreutils}/bin/env usr/bin/env
+    # 建立常规的 env 软链接
+    ln -s ${coreutils}/bin/env usr/bin/env
 
-      mkdir -m 1777 -p tmp
-      mkdir -vp root
-    '';
+    mkdir -m 1777 -p tmp
+    mkdir -vp root
+  '';
 
-    config = {
-      Cmd = [ "/entrypoint.sh" ];
-      ExposedPorts = {
-        "22/tcp" = {};
-      };
-      Env = [
-        "ENV=/etc/profile.d/nix.sh"
-        "BASH_ENV=/etc/profile.d/nix.sh"
-        "NIX_BUILD_SHELL=/bin/bash"
-        "NIX_PATH=nixpkgs=${./fake_nixpkgs}"
-        "PAGER=cat"
-        "PATH=/usr/bin:/bin"
-        "SSL_CERT_FILE=${cacert}/etc/ssl/certs/ca-bundle.crt"
-        "USER=root"
-        "NIX_CONFIG=experimental-features = nix-command flakes"
-      ] ++ extraEnv;
+  config = {
+    Cmd = [ "/entrypoint.sh" ];
+    ExposedPorts = {
+      "22/tcp" = { };
     };
-  }
+    Env = [
+      "ENV=/etc/profile.d/nix.sh"
+      "BASH_ENV=/etc/profile.d/nix.sh"
+      "NIX_BUILD_SHELL=/bin/bash"
+      "NIX_PATH=nixpkgs=${./fake_nixpkgs}"
+      "PAGER=cat"
+      "PATH=/usr/bin:/bin"
+      "SSL_CERT_FILE=${cacert}/etc/ssl/certs/ca-bundle.crt"
+      "USER=root"
+      "NIX_CONFIG=experimental-features = nix-command flakes"
+    ]
+    ++ extraEnv;
+  };
+}

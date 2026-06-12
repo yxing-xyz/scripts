@@ -27,5 +27,5 @@
 
     # 3. 覆盖自定义配置
     $DRY_RUN_CMD ln -sf $VERBOSE_ARG "${projectRoot}/home/.local/share/fcitx5/rime/default.custom.yaml" "$RIME_DIR/default.custom.yaml"
-   '';
+  '';
 }

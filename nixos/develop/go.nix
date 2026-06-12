@@ -1,4 +1,7 @@
-{ pkgs ? import <nixpkgs> {}, system }:
+{
+  pkgs ? import <nixpkgs> { },
+  system,
+}:
 
 let
   # 辅助函数，方便判断系统类型

@@ -1,8 +1,17 @@
-{ config, lib, pkgs, modulesPath, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  modulesPath,
+  ...
+}:
 
 let
   # 定义公共的 Btrfs 挂载选项，增强可维护性
-  btrfsOpts = [ "compress=zstd" "discard=async" ];
+  btrfsOpts = [
+    "compress=zstd"
+    "discard=async"
+  ];
   noatimeOpts = btrfsOpts ++ [ "noatime" ];
 in
 {
@@ -26,7 +35,11 @@ in
   # 2. 启动与内核设置
   boot = {
     initrd = {
-      availableKernelModules = [ "nvme" "xhci_pci" "thunderbolt" ];
+      availableKernelModules = [
+        "nvme"
+        "xhci_pci"
+        "thunderbolt"
+      ];
       kernelModules = [ ];
     };
     kernelModules = [ "kvm-amd" ];
@@ -35,11 +48,34 @@ in
 
   # 3. 文件系统挂载 (使用变量简化)
   fileSystems = {
-    "/"         = { device = "/dev/disk/by-uuid/69fb64e8-926b-41bd-98da-025e32ab1d20"; fsType = "btrfs"; options = [ "subvol=@" ] ++ noatimeOpts; };
-    "/home"     = { device = "/dev/disk/by-uuid/69fb64e8-926b-41bd-98da-025e32ab1d20"; fsType = "btrfs"; options = [ "subvol=@home" ] ++ btrfsOpts; };
-    "/nix"      = { device = "/dev/disk/by-uuid/69fb64e8-926b-41bd-98da-025e32ab1d20"; fsType = "btrfs"; options = [ "subvol=@nix" ] ++ noatimeOpts; };
-    "/var/log"  = { device = "/dev/disk/by-uuid/69fb64e8-926b-41bd-98da-025e32ab1d20"; fsType = "btrfs"; options = [ "subvol=@log" ] ++ noatimeOpts; };
-    "/boot/efi" = { device = "/dev/disk/by-uuid/23BB-F42B"; fsType = "vfat"; options = [ "fmask=0022" "dmask=0022" ]; };
+    "/" = {
+      device = "/dev/disk/by-uuid/69fb64e8-926b-41bd-98da-025e32ab1d20";
+      fsType = "btrfs";
+      options = [ "subvol=@" ] ++ noatimeOpts;
+    };
+    "/home" = {
+      device = "/dev/disk/by-uuid/69fb64e8-926b-41bd-98da-025e32ab1d20";
+      fsType = "btrfs";
+      options = [ "subvol=@home" ] ++ btrfsOpts;
+    };
+    "/nix" = {
+      device = "/dev/disk/by-uuid/69fb64e8-926b-41bd-98da-025e32ab1d20";
+      fsType = "btrfs";
+      options = [ "subvol=@nix" ] ++ noatimeOpts;
+    };
+    "/var/log" = {
+      device = "/dev/disk/by-uuid/69fb64e8-926b-41bd-98da-025e32ab1d20";
+      fsType = "btrfs";
+      options = [ "subvol=@log" ] ++ noatimeOpts;
+    };
+    "/boot/efi" = {
+      device = "/dev/disk/by-uuid/23BB-F42B";
+      fsType = "vfat";
+      options = [
+        "fmask=0022"
+        "dmask=0022"
+      ];
+    };
   };
 
   # 4. 音频服务 (PipeWire 优化)
