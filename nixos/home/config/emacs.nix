@@ -4,7 +4,6 @@
   projectRoot,
   ...
 }:
-
 {
   home.packages = with pkgs; [
     # doc

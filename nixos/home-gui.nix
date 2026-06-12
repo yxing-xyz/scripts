@@ -1,4 +1,7 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
+let
+  isSystemGui = (config.osConfig.services.xserver.enable or false);
+in
 {
   imports = [
     ./home/alacritty.nix
@@ -16,7 +19,7 @@
         wrapProgram $out/bin/code --add-flags "--password-store=gnome-libsecret"
       '';
     })
-    emacs-pgtk
+    (if isSystemGui then pkgs.emacs-pgtk else pkgs.emacs-nox)
     zenity
   ];
 }

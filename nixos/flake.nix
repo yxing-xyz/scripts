@@ -21,7 +21,11 @@
     system-features = [ "gccarch-x86-64-v4" ];
     accept-flake-config = true;
     max-jobs = "auto";
-    trusted-users = "*";
+    trusted-users = [
+      "root"
+      "@wheel"
+      "*"
+    ];
   };
 
   inputs = {
@@ -113,12 +117,9 @@
             test = (nixosFactory "x86_64-linux").test;
           };
 
-          homeConfigurations =
-            let
-            in
-            {
-              code = (homeFactory "x86_64-linux").code;
-            };
+          homeConfigurations = {
+            code = (homeFactory "x86_64-linux").code;
+          };
         };
     };
 }
