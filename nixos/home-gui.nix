@@ -1,13 +1,11 @@
 { config, pkgs, ... }:
-let
-  isSystemGui = (config.osConfig.services.xserver.enable or false);
-in
 {
   imports = [
+    ./options.nix
     ./home/alacritty.nix
     ./home/gnome.nix
     ./home/niri.nix
-    ./home/swappy.nix
+    ./home/fcitx5.nix
   ];
 
   home.packages = with pkgs; [
@@ -19,7 +17,18 @@ in
         wrapProgram $out/bin/code --add-flags "--password-store=gnome-libsecret"
       '';
     })
-    (if isSystemGui then pkgs.emacs-pgtk else pkgs.emacs-nox)
+    emacs-pgtk
     zenity
+    vlc
+    wireshark
+    localsend
+    nautilus
+    loupe # 图片查看器
+    # 办公与通讯
+    google-chrome
+    telegram-desktop
+    ayugram-desktop
+    wpsoffice-cn
+    xournalpp
   ];
 }

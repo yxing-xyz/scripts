@@ -10,8 +10,6 @@ let
     inherit inputs projectRoot;
     dms = inputs.dms;
   };
-
-  # ⭐ 终极修复：不再通过 self 拐弯抹角地拿，而是直接显式、安全地实例化完整的 pkgs
   pkgs = import inputs.nixpkgs {
     inherit system;
     config.allowUnfree = true; # 允许非自由软件
@@ -32,17 +30,18 @@ in
     modules = baseModules "root" "/root";
   };
 
-  code = inputs.home-manager.lib.homeManagerConfiguration {
-    inherit pkgs;
-    extraSpecialArgs = specialArgs;
-    modules = baseModules "x" "/home/x";
-  };
-
   x = inputs.home-manager.lib.homeManagerConfiguration {
     inherit pkgs;
     extraSpecialArgs = specialArgs;
     modules = (baseModules "x" "/home/x") ++ [
       ../home-gui.nix
+      { settings.enableGui = true; }
     ];
+  };
+
+  code = inputs.home-manager.lib.homeManagerConfiguration {
+    inherit pkgs;
+    extraSpecialArgs = specialArgs;
+    modules = baseModules "x" "/home/x";
   };
 }

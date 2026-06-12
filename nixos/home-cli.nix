@@ -1,12 +1,19 @@
 # home.nix
-{ pkgs, ... }:
+{ inputs, pkgs, ... }:
 {
   imports = [
-    ./home/config.nix
+    ./options.nix
+    ./home/zellij.nix
+    ./home/fastfetch.nix
+    ./home/lazygit.nix
+    ./home/git.nix
+    ./home/ssh.nix
+    ./home/zsh.nix
+    ./home/gtk.nix
+    ./home/autostart.nix
+    ./home/emacs.nix
     ./home/develop.nix
   ];
-
-  programs.home-manager.enable = true;
   home.sessionVariables = {
     # 基础 Wayland 支持
     NIXOS_OZONE_WL = "1";
@@ -67,7 +74,9 @@
     dhcpcd
     ripgrep
     python3
-    # 下面zsh依赖
+    sing-box
+    xray
+    # zsh依赖
     bat
     lsd
     fzf
@@ -79,5 +88,6 @@
     tealdeer
     direnv
     (pkgs.callPackage ./pkgs/trzsz { })
+    inputs.home-manager.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
 }

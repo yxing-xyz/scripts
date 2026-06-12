@@ -13,13 +13,18 @@ in
     pkgs.oh-my-posh
     pkgs.jq
   ];
-  home.file.".zshrc".source = config.lib.file.mkOutOfStoreSymlink "${projectRoot}/home/.zshrc";
-  home.file.".zshrc".force = true;
+
+  programs.zsh = {
+    enable = true;
+    initExtra = ''
+      [ -f "${projectRoot}/home/.zshrc" ] && source "${projectRoot}/home/.zshrc"
+    '';
+  };
   home.file.".config/zsh".source =
     config.lib.file.mkOutOfStoreSymlink "${projectRoot}/home/.config/zsh";
   home.file.".config/zsh".force = true;
   home.activation.generateOmpConfig = config.lib.dag.entryAfter [ "linkGeneration" ] ''
-    echo "Generating Oh My Posh config..."
+    mkdir -p $(dirname ${targetConfig})
     ${pkgs.oh-my-posh}/bin/oh-my-posh config export --config cinnamon | \
       ${pkgs.jq}/bin/jq 'del(.blocks[].segments[] | select(.type == "spotify"))' > ${targetConfig}
   '';

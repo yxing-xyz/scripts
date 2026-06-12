@@ -1,4 +1,5 @@
 {
+  inputs,
   pkgs,
   lib,
   config,
@@ -91,26 +92,39 @@ in
     };
   };
 
+  # --- 6. 系统底层与性能调度 ---
+  services = {
+    flatpak.enable = true;
+    displayManager.gdm.enable = true;
+    desktopManager.gnome.enable = true;
+    ananicy = {
+      enable = true;
+      package = pkgs.ananicy-cpp;
+      rulesProvider = pkgs.ananicy-rules-cachyos;
+    };
+    gnome.gnome-keyring.enable = true;
+  };
+
+  xdg.portal = {
+    enable = true;
+    extraPortals = [
+      pkgs.fcitx5-gtk
+      pkgs.xdg-desktop-portal-gnome
+      pkgs.xdg-desktop-portal-gtk
+    ];
+    config.common.default = [ "gtk" ];
+  };
+
+  # --- 7. 系统级微调 ---
+  security.polkit.enable = true;
+  systemd.user.services."niri".serviceConfig.TimeoutStopSec = "10s";
+
   # --- 5. 软件包定义 ---
   environment.systemPackages = with pkgs; [
     # 基础工具
     brightnessctl
     xclip
     wl-clipboard
-    nautilus
-    loupe
-    # 办公与通讯
-    google-chrome
-    telegram-desktop
-    ayugram-desktop
-    wpsoffice-cn
-    xournalpp
-    # 其它工具
-    sing-box
-    xray
-    vlc
-    wireshark
-    localsend
     nwg-look
     # 主题/引擎
     gtk-engine-murrine
@@ -126,31 +140,13 @@ in
     niri
     xwayland-satellite
     fuzzel
+    quickshell
+    inputs.dms.packages.${pkgs.stdenv.hostPlatform.system}.default
+    cava
+    matugen
+    # 截图
+    grim
+    slurp
+    swappy
   ];
-
-  # --- 6. 系统底层与性能调度 ---
-  services = {
-    flatpak.enable = true;
-    displayManager.gdm.enable = true;
-    desktopManager.gnome.enable = true;
-    ananicy = {
-      enable = true;
-      package = pkgs.ananicy-cpp;
-      rulesProvider = pkgs.ananicy-rules-cachyos;
-    };
-  };
-
-  # 建议将 Portal 配置移出此处，或者保持现状，但要确保服务顺序
-  xdg.portal = {
-    enable = true;
-    extraPortals = [
-      pkgs.xdg-desktop-portal-gnome
-      pkgs.xdg-desktop-portal-gtk
-    ];
-    config.common.default = [ "gtk" ];
-  };
-
-  # --- 7. 系统级微调 ---
-  security.polkit.enable = true;
-  systemd.user.services."niri".serviceConfig.TimeoutStopSec = "10s";
 }

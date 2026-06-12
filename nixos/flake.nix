@@ -113,12 +113,13 @@
         in
         {
           nixosConfigurations = {
-            x = (nixosFactory "x86_64-linux").x;
+            yoga = (nixosFactory "x86_64-linux").yoga;
             test = (nixosFactory "x86_64-linux").test;
           };
 
           homeConfigurations = {
             code = (homeFactory "x86_64-linux").code;
+            x = (homeFactory "x86_64-linux").x;
           };
         };
     };

@@ -23,6 +23,7 @@ let
         imports = [
           ../home-cli.nix
           ../home-gui.nix
+          { settings.enableGui = true; }
         ];
         home = {
           username = "x";
@@ -58,12 +59,12 @@ let
 in
 {
   # 2. 将原本硬编码的 "x86_64-linux" 全部替换为外部传入的 system 变量
-  x = inputs.nixpkgs.lib.nixosSystem {
+  yoga = inputs.nixpkgs.lib.nixosSystem {
     inherit system;
     modules = commonModules ++ [
       ../hardware-configuration.nix
       {
-        networking.hostName = "x";
+        networking.hostName = "yoga";
         boot.loader.grub.enable = inputs.nixpkgs.lib.mkForce true; # 强制物理机启用 GRUB
       }
     ];
