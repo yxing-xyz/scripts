@@ -3,34 +3,46 @@
   projectRoot,
   stateVersion,
 }:
+# 接收由外层传进来的静态 system 字符串
+system:
 let
-  mkHome =
-    username: homeDirectory:
-    inputs.home-manager.lib.homeManagerConfiguration {
-      pkgs = inputs.pkgs;
-      modules = [
-        ../home-cli.nix
-        {
-          home = { inherit username homeDirectory stateVersion; };
-          _module.args = {
-            inherit inputs projectRoot;
-            dms = inputs.dms;
-          };
-          nixpkgs.config.allowUnfree = true;
-          targets.genericLinux.enable = true;
-        }
-      ];
-    };
+  specialArgs = {
+    inherit inputs projectRoot;
+    dms = inputs.dms;
+  };
+
+  # ⭐ 终极修复：不再通过 self 拐弯抹角地拿，而是直接显式、安全地实例化完整的 pkgs
+  pkgs = import inputs.nixpkgs {
+    inherit system;
+    config.allowUnfree = true; # 允许非自由软件
+  };
+
+  baseModules = username: homeDirectory: [
+    ../home-cli.nix
+    {
+      home = { inherit username homeDirectory stateVersion; };
+      targets.genericLinux.enable = true; # 确保非 NixOS 开发环境正常挂载
+    }
+  ];
 in
 {
-  root = mkHome "root" "/root";
-  code = mkHome "x" "/home/x";
-  # x 用户：在原有基础上叠加 home-gui.nix
+  root = inputs.home-manager.lib.homeManagerConfiguration {
+    inherit pkgs;
+    extraSpecialArgs = specialArgs;
+    modules = baseModules "root" "/root";
+  };
+
+  code = inputs.home-manager.lib.homeManagerConfiguration {
+    inherit pkgs;
+    extraSpecialArgs = specialArgs;
+    modules = baseModules "x" "/home/x";
+  };
+
   x = inputs.home-manager.lib.homeManagerConfiguration {
-    pkgs = inputs.pkgs;
-    modules = [
-      (mkHome "x" "/home/x") # 先复用 mkHome 整套配置
-      ../home-gui.nix # 再追加 GUI 模块
+    inherit pkgs;
+    extraSpecialArgs = specialArgs;
+    modules = (baseModules "x" "/home/x") ++ [
+      ../home-gui.nix
     ];
   };
 }

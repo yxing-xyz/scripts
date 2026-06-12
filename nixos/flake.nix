@@ -87,9 +87,16 @@
           };
         };
 
-      flake = {
-        nixosConfigurations = import ./lib/nixos-configs.nix { inherit inputs projectRoot stateVersion; };
-        homeConfigurations = import ./lib/home-configs.nix { inherit inputs projectRoot stateVersion; };
-      };
+flake =
+        let
+          # 1. 导入你的工厂函数
+          homeFactory = import ./lib/home-configs.nix { inherit inputs projectRoot stateVersion; };
+        in
+        {
+          nixosConfigurations = import ./lib/nixos-configs.nix { inherit inputs projectRoot stateVersion; };
+          homeConfigurations = {
+            code    = (homeFactory "x86_64-linux").code;
+          };
+        };
     };
 }

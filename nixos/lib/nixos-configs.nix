@@ -31,7 +31,6 @@ let
       root = {
         imports = [
           ../home-cli.nix
-          ../home-gui.nix
         ];
         home = {
           username = "root";
