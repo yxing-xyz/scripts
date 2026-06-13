@@ -89,7 +89,6 @@
         in
         {
           packages.nix-flakes = pkgs.callPackage ./pkgs/nix-flakes { };
-
           devShells = {
             default = pkgs.mkShell {
               buildInputs = [
@@ -116,7 +115,6 @@
             yoga = (nixosFactory "x86_64-linux").yoga;
             test = (nixosFactory "x86_64-linux").test;
           };
-
           homeConfigurations = {
             code = (homeFactory "x86_64-linux").code;
             x = (homeFactory "x86_64-linux").x;
