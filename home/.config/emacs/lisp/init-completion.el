@@ -67,7 +67,8 @@
          ;; 删除字符时，如果是路径分隔符（/），则智能删除整级目录
          ("DEL" . vertico-directory-delete-char)
          ;; 一次性删除一级目录名（比如将 /home/user/ 删至 /home/）
-         ("M-DEL" . vertico-directory-delete-word))
+         ("M-DEL" . vertico-directory-delete-word)
+         ("C-j" . vertico-exit-input))
 
   ;; ---------------------------------------------------------
   ;; 钩子函数（在特定时机自动执行）

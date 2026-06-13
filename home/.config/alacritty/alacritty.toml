@@ -64,10 +64,20 @@ multiplier = 10
 save_to_clipboard = false
 semantic_escape_chars = ""
 
-[[keyboard.bindings]]
-action = "Paste"
-key = "Insert"
-mods = "Shift"
-
 [colors]
 draw_bold_text_with_bright_colors = false
+
+# 仅添加你自定义的特定映射
+[[keyboard.bindings]]
+key = "F11"
+action = "ToggleFullscreen"
+
+[[keyboard.bindings]]
+key = "Slash"
+mods = "Control"
+chars = "\u001f"
+
+[[keyboard.bindings]]
+key = "Insert"
+mods = "Shift"
+action = "Paste"
