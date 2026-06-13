@@ -16,7 +16,7 @@ in
 
   programs.zsh = {
     enable = true;
-    initExtra = ''
+    initContent = ''
       [ -f "${projectRoot}/home/.zshrc" ] && source "${projectRoot}/home/.zshrc"
     '';
   };
