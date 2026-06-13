@@ -352,6 +352,8 @@
 (unless sys/win32p
   (use-package sudo-edit)
   (use-package xclip
+    ;; 只有在图形界面环境下才加载该包
+    :if (display-graphic-p)
     :hook (after-init . xclip-mode)
     :config
     ;; HACK: fix bug in xclip-mode on WSL
@@ -363,7 +365,7 @@
       (set-clipboard-coding-system 'gbk) ; for wsl
       (setq interprogram-cut-function
             (lambda (text)
-              (start-process "xclip"  nil xclip-program "--trim-newline" "--type" "text/plain;charset=utf-8" text))))))
+              (start-process "xclip" nil xclip-program "--trim-newline" "--type" "text/plain;charset=utf-8" text))))))
 
 (use-package so-long
   :hook (after-init . global-so-long-mode))

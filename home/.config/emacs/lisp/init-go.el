@@ -75,9 +75,7 @@
          ("/go\\.mod\\'" . go-mod-ts-mode))
   :custom (go-ts-mode-indent-offset 4)
   :config
-  (go-auto-config)
-  (use-package gotest-ts
-    :hook (go-ts-mode . gotest-ts-setup)))
+  (go-auto-config))
 
 (provide 'init-go)
 
