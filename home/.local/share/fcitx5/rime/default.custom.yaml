@@ -12,9 +12,9 @@ patch:
     __patch:
       - "key_bindings:/emacs_editing"
   ascii_composer:
-    initial_mode: ascii # 默认是半角输入法
+    initial_mode: ascii # 默认是英文输入模式
   ascii_composer/switch_key:
-    Shift_L: noop
+    Shift_L: commit_code # 左 Shift 切换中英文
   key_binder/bindings/+:
     - { when: always, accept: Shift_R, toggle: full_shape } # 开启Shift_R切换全角半角
     - { when: composing, accept: "-", send: Page_Up }

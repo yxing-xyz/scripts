@@ -2,10 +2,10 @@
 
 ;; Author: Ethan
 ;; Maintainer: Ethan
-;; Version: version
-;; Package-Requires: (dependencies)
+;; Version: 1.0
+;; Package-Requires: (nix-ts-mode)
 ;; Homepage: homepage
-;; Keywords: keywords
+;; Keywords: nix, languages, treesit
 
 
 ;; This file is not part of GNU Emacs
@@ -26,7 +26,7 @@
 
 ;;; Commentary:
 
-;; commentary
+;; Nix integration utilizing Tree-sitter for Emacs 29+.
 
 ;;; Code:
 
@@ -39,15 +39,21 @@
     (when (and (fboundp 'treesit-available-p)
                (treesit-available-p)
                (not (treesit-language-available-p 'nix)))
-      (treesit-install-language-grammar 'nix)))
+      (message "Tree-sitter: 正在下载并编译 nix grammar...")
+      (condition-case err
+          (treesit-install-language-grammar 'nix)
+        (error (message "Tree-sitter nix 安装失败: %s" err)))))
 
   :init
-  ;; 设置语法源
+  ;; 1. 开启最高级别的 Tree-sitter 语法高亮
+  (setq treesit-font-lock-level 4)
+
+  ;; 2. 设置语法源
   (setq treesit-language-source-alist
         '((nix "https://github.com/nix-community/tree-sitter-nix")))
 
-  ;; 自动安装解析器
-  (add-hook 'nix-ts-mode-hook #'my/setup-nix-grammar)
+  ;; 3. 修复下载时机：在 Emacs 启动完成后检查，而不是等到进入 mode 才检查
+  (add-hook 'after-init-hook #'my/setup-nix-grammar)
 
   :config
   ;; 开启默认的缩进支持

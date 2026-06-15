@@ -36,6 +36,7 @@
 
     # 5. 覆盖自定义配置
     $COREUTILS/ln -sf "${projectRoot}/home/.local/share/fcitx5/rime/default.custom.yaml" "$RIME_DIR/default.custom.yaml"
+    $COREUTILS/ln -sf "${projectRoot}/home/.local/share/fcitx5/rime/rime_ice.custom.yaml" "$RIME_DIR/rime_ice.custom.yaml"
 
     # 6. 清理旧缓存并写入安装标识 (确保部署环境一致性)
     $COREUTILS/rm -rf "$RIME_DIR/build"
