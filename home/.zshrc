@@ -6,7 +6,6 @@ if [ ! -d "$ZINIT_HOME" ]; then
 	git clone https://github.com/zdharma-continuum/zinit.git --depth 1 "$ZINIT_HOME"
 fi
 source "${ZINIT_HOME}/zinit.zsh"
-TRZSZ_ENABLE=trzsz
 
 HISTSIZE="1000000"
 SAVEHIST="1000000"
@@ -104,6 +103,7 @@ shutdownAfter() {
 }
 # 按键
 if [[ -n $DISPLAY ]] || [[ "${OSTYPE}" == darwin* ]]; then
+	TRZSZ_ENABLE=trzsz
 	x-copy-region-as-kill() {
 		zle copy-region-as-kill
 		print -rn $CUTBUFFER | clipcopy
@@ -138,6 +138,8 @@ if [[ -n $DISPLAY ]] || [[ "${OSTYPE}" == darwin* ]]; then
 	bindkey -e '^W' x-kill-region
 	bindkey -e '^Y' x-yank
 	bindkey -e '\C-k' x-kill-line
+else
+
 fi
 x-input-current-path() {
 	CUTBUFFER=$(pwd)
@@ -256,12 +258,6 @@ alias -- ssh='TERM=xterm-256color $TRZSZ_ENABLE ssh -o StrictHostKeyChecking=no 
 alias -- tree='ls --tree'
 alias -- yy=yazi
 alias -- yz='zoxide query -i | xargs -r yazi'
-# Alacritty & Zellij 自动挂载
-if [ ! -z "${ALACRITTY_LOG+x}" ]; then
-	if [[ -z "$ZELLIJ" ]]; then
-		zellij attach -c
-	fi
-fi
 # eval "$(vfox activate zsh)"
 eval "$(zoxide init zsh)"
 eval "$(direnv hook zsh)"
@@ -286,3 +282,10 @@ zinit ice wait"0" lucid \
 	atclone"fast-theme ./catppuccin-frappe.ini" \
 	atpull"%atclone"
 zinit snippet https://raw.githubusercontent.com/catppuccin/zsh-fsh/refs/heads/main/themes/catppuccin-frappe.ini
+
+# Alacritty & Zellij 自动挂载
+if [ ! -z "${ALACRITTY_LOG+x}" ]; then
+	if [[ -z "$ZELLIJ" ]]; then
+		zellij attach -c
+	fi
+fi
