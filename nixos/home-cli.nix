@@ -52,7 +52,7 @@
     p7zip
     fastfetch
     htop
-    docker
+    docker-client
     skopeo
     difftastic
     umoci
