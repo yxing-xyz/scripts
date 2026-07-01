@@ -91,6 +91,9 @@ in
       serviceMode = true;
     };
   };
+  nixpkgs.config.permittedInsecurePackages = [
+    "pnpm-9.15.9"
+  ];
 
   # --- 6. 系统底层与性能调度 ---
   services = {
