@@ -61,6 +61,7 @@ in
   # 2. 将原本硬编码的 "x86_64-linux" 全部替换为外部传入的 system 变量
   yoga = inputs.nixpkgs.lib.nixosSystem {
     inherit system;
+    specialArgs = { inherit system inputs; };
     modules = commonModules ++ [
       ../hardware-configuration.nix
       {

@@ -3,12 +3,16 @@
   pkgs,
   lib,
   config,
+  system,
   ...
 }:
 
 let
   # 定义一个辅助函数，简化 systemPackages 的管理
   inherit (lib) mkIf mkForce;
+  clashPkgs = import inputs.clash-verge {
+    inherit system;
+  };
 in
 {
   # --- 1. 服务与显示设置 ---
@@ -86,7 +90,7 @@ in
     zsh.enable = true;
     clash-verge = {
       enable = true;
-      package = pkgs.clash-verge-rev;
+      package = clashPkgs.clash-verge-rev;
       tunMode = true;
       serviceMode = true;
     };

@@ -30,6 +30,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    clash-verge.url = "github:nixos/nixpkgs?rev=6da45c91d53dc318df7482a0be7c7bf47515e1e2";
     flake-parts.url = "github:hercules-ci/flake-parts";
     home-manager = {
       url = "github:nix-community/home-manager/master";
@@ -58,6 +59,7 @@
       rust-overlay,
       dms,
       docker-nixpkgs,
+      clash-verge,
       ...
     }@inputs:
     let
