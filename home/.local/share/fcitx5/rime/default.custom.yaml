@@ -1,19 +1,12 @@
 patch:
-  # 仅使用「雾凇拼音」的默认配置，配置此行即可
-  __include: rime_ice_suggestion:/
-  # 以下根据自己所需自行定义，仅做参考。
-  # 针对对应处方的定制条目，请使用 <recipe>.custom.yaml 中配置，例如 rime_ice.custom.yaml
   __patch:
-    # key_binder/bindings/+:
-    #   # 开启逗号句号翻页
-    #   - { when: paging, accept: comma, send: Page_Up }
-    #   - { when: has_menu, accept: period, send: Page_Down }
   "key_binder/bindings":
-    __patch:
-      - "key_bindings:/emacs_editing"
+      __patch:
+        - "key_bindings:/emacs_editing"
   ascii_composer:
-    initial_mode: ascii # 默认是英文输入模式
+    initial_mode: ascii # 默认进入英文输入状态
   ascii_composer/switch_key:
+    #Shift_L: noop # 把「左 Shift 键」完全禁用/废弃掉
     Shift_L: commit_code # 左 Shift 切换中英文
   key_binder/bindings/+:
     - { when: always, accept: Shift_R, toggle: full_shape } # 开启Shift_R切换全角半角
