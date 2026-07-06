@@ -31,6 +31,7 @@ locale-gen
 useradd -m -G wheel,nixbld -s /bin/zsh x && echo "x:x" | sudo chpasswd
 
 # nix配置
+mkdir -p /etc/nix
 tee >>/etc/nix/nix.conf <<EOF
 accept-flake-config = true
 experimental-features = nix-command flakes
