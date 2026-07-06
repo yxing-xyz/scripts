@@ -18,7 +18,7 @@
     COREUTILS="${pkgs.coreutils}/bin"
 
     RIME_DIR="$HOME/.local/share/fcitx5/rime"
-    ICE_DATA="/run/current-system/sw/share/rime-data"
+    ICE_DATA="${pkgs.rime-ice}/share/rime-data"
 
     # 2. 确保目录存在
     $COREUTILS/mkdir -p "$RIME_DIR"
@@ -33,10 +33,12 @@
             $COREUTILS/ln -sf "$item" "$RIME_DIR/$name"
         fi
     done
+    $COREUTILS/ln -sf "$RIME_DIR/rime_ice_suggestion.yaml" "$RIME_DIR/default.yaml"
 
     # 5. 覆盖自定义配置
     $COREUTILS/ln -sf "${projectRoot}/home/.local/share/fcitx5/rime/default.custom.yaml" "$RIME_DIR/default.custom.yaml"
     $COREUTILS/ln -sf "${projectRoot}/home/.local/share/fcitx5/rime/rime_ice.custom.yaml" "$RIME_DIR/rime_ice.custom.yaml"
+
 
     # 6. 清理旧缓存并写入安装标识 (确保部署环境一致性)
     $COREUTILS/rm -rf "$RIME_DIR/build"
