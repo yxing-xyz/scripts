@@ -382,6 +382,8 @@ targets."
              completion-cycle-threshold completion-cycling)
          (consult-completion-in-region beg end table pred)))))
   (keymap-set corfu-map "M-m" #'corfu-move-to-minibuffer)
+  (keymap-set corfu-map "RET" nil)      ; 解除普通回车上屏
+  (keymap-set corfu-map "<return>" nil) ; 解除小键盘/部分终端回车上屏
   (add-to-list 'corfu-continue-commands #'corfu-move-to-minibuffer))
 
 (use-package corfu-terminal
