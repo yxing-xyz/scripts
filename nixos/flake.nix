@@ -29,11 +29,11 @@
   };
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
     clash-verge.url = "github:nixos/nixpkgs?rev=6da45c91d53dc318df7482a0be7c7bf47515e1e2";
     flake-parts.url = "github:hercules-ci/flake-parts";
     home-manager = {
-      url = "github:nix-community/home-manager/master";
+      url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     rust-overlay = {
@@ -64,7 +64,7 @@
     }@inputs:
     let
       projectRoot = "/opt/scripts";
-      stateVersion = "26.11";
+      stateVersion = "26.05";
 
       # 显式定义支持的系统架构列表
       supportedSystems = [
