@@ -258,6 +258,7 @@ alias -- ssh='TERM=xterm-256color $TRZSZ_ENABLE ssh -o StrictHostKeyChecking=no 
 alias -- tree='ls --tree'
 alias -- yy=yazi
 alias -- yz='zoxide query -i | xargs -r yazi'
+alias -- less='cat'
 # eval "$(vfox activate zsh)"
 eval "$(zoxide init zsh)"
 eval "$(direnv hook zsh)"
