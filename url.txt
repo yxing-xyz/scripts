@@ -1,0 +1,65 @@
+2026-07-15 16:54:57
+
+# 1. 创建 Docker 卷
+docker volume create home
+
+# 2. 启动开发环境容器 (建议在此处挂载 Socket)
+docker run -dit \
+    --name code \
+    --hostname code \
+    --restart always \
+    --privileged \
+    --pull always \
+    --platform linux/amd64 \
+    -p 22:22 \
+    -e DOCKER_HOST=tcp://host.docker.internal:2375 \
+    -v home:/home \
+    registry.cn-hangzhou.aliyuncs.com/yxing-xyz/linux:arch \
+    bash -c "mkdir -p /run/sshd && /usr/sbin/sshd -D"
+
+# 3. root用户配置nix
+mkdir -p /nix
+chown x:x /nix
+mkdir -p /etc/nix
+su - x -c "curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install | sh -s -- --no-daemon"
+tee >>/etc/nix/nix.conf <<EOF_NIX
+accept-flake-config = true
+experimental-features = nix-command flakes
+max-jobs = auto
+EOF_NIX
+chmod 777 -R /opt
+
+# 普通用户执行
+git clone git@gitee.com:yxing-xyz/scripts.git /opt/scripts
+source /home/x/.nix-profile/etc/profile.d/nix.sh
+cd /opt/scripts/nixos
+home-manager switch --flake .#code
+
+yxing-xyz-scripts.txt
+
+trzsz-trzsz-go.txt
+
+derailed-k9s.txt
+
+jesseduffield-lazygit.txt
+
+tsenart-vegeta.txt
+
+FiloSottile-mkcert.txt
+
+version-fox-vfox.txt
+
+jesseduffield-lazydocker.txt
+
+v2fly-v2ray-core.txt
+
+v2rayA-v2rayA.txt
+
+localsend-localsend.txt
+
+FelisCatus-SwitchyOmega.txt
+
+wagoodman-dive.txt
+
+iyear-tdl.txt
+
