@@ -26,7 +26,8 @@ mount /dev/vda2 /mnt/boot/ESP
 
 sed -i 's|^Include = /etc/pacman.d/mirrorlist|Include = /etc/pacman.d/mirrorlist\nSigLevel = Never|g' /etc/pacman.conf
 pacman -Sy
-pacstrap -i /mnt base base-devel devtools linux linux-firmware linux-headers grub networkmanager dhcpcd vim net-tools squashfs-tools openssh chrony nix --noconfirm
+pacstrap -i /mnt base base-devel devtools linux linux-firmware linux-headers grub networkmanager \
+    dhcpcd vim net-tools squashfs-tools openssh chrony paru zsh git vim less --noconfirm
 genfstab -U -p /mnt >>/mnt/etc/fstab
 arch-chroot /mnt bash -c 'echo "root:root" | chpasswd'
 arch-chroot /mnt bash -c 'systemctl enable NetworkManager'

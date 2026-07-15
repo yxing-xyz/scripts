@@ -24,10 +24,17 @@ sed -i 's|#Color|Color|' /etc/pacman.conf
 sed -i 's|#ParallelDownloads|ParallelDownloads|' /etc/pacman.conf
 sed -i 's|#MAKEFLAGS.*|MAKEFLAGS="-j2"|' /etc/makepkg.conf
 # 修复容器内运行pacman报错
+if grep -q '#DisableSandboxFilesystem' "/etc/pacman.conf"; then
+sed -i '/#DisableSandboxFilesystem/{c\
+# No kernel landlock in containerd\
+DisableSandboxFilesystem
+}' "/etc/pacman.conf"
+else
 sed -i '/#DisableSandbox/{c\
 # No kernel landlock in containerd\
 DisableSandbox
-}' /etc/pacman.conf
+}' "/etc/pacman.conf"
+fi
 pacman-key --init
 
 mkdir -p /rootfs

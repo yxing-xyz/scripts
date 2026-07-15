@@ -17,8 +17,7 @@ Server = https://mirrors.aliyun.com/archlinuxcn/\$arch
 EOF
 
 pacman -Sy
-pacman -Su paru openssh zsh git vim nix \
-    --overwrite '*' --noconfirm
+pacman -Su paru openssh zsh git vim less --overwrite '*' --noconfirm
 sed -i 's/[# ]*UsePAM.*/UsePAM no/' /etc/ssh/sshd_config
 sed -i 's/[# ]*PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
 ssh-keygen -A
@@ -28,12 +27,4 @@ ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 sed -i 's/#zh_CN.UTF-8 UTF-8/zh_CN.UTF-8 UTF-8/g' /etc/locale.gen
 echo 'LANG=zh_CN.UTF-8' >>/etc/locale.conf
 locale-gen
-useradd -m -G wheel,nixbld -s /bin/zsh x && echo "x:x" | sudo chpasswd
-
-# nix配置
-mkdir -p /etc/nix
-tee >>/etc/nix/nix.conf <<EOF
-accept-flake-config = true
-experimental-features = nix-command flakes
-max-jobs = auto
-EOF
+useradd -m -G wheel -s /bin/zsh x && echo "x:x" | sudo chpasswd

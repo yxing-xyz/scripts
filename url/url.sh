@@ -9,31 +9,9 @@ echo >>./url.txt
 
 tee >>./url.txt <<'EOF'
 # 1. 创建 Docker 卷
-docker volume create nix
 docker volume create home
 
-# 2. 启动 Nix Daemon 容器 (带初始化逻辑)
-docker run -dit \
-    --name nix \
-    --hostname code \
-    --restart always \
-    --privileged \
-    --pull always \
-    --platform linux/amd64 \
-    -v nix:/nix \
-    nixpkgs/nix-flakes bash -c "
-        if [ ! -f /etc/nix/.initialized ]; then
-            rm -f /etc/nix/nix.conf
-            echo 'experimental-features = nix-command flakes' >> /etc/nix/nix.conf
-            echo 'accept-flake-config = true' >> /etc/nix/nix.conf
-            echo 'trusted-users = *' >> /etc/nix/nix.conf
-            touch /etc/nix/.initialized
-            echo 'Nix initialized successfully.'
-        fi
-        nix-daemon
-    "
-
-# 3. 启动开发环境容器 (建议在此处挂载 Socket)
+# 2. 启动开发环境容器 (建议在此处挂载 Socket)
 docker run -dit \
     --name code \
     --hostname code \
@@ -44,10 +22,29 @@ docker run -dit \
     -p 22:22 \
     -e DOCKER_HOST=tcp://host.docker.internal:2375 \
     -v home:/home \
-    -v nix:/nix \
     registry.cn-hangzhou.aliyuncs.com/yxing-xyz/linux:arch \
     bash -c "mkdir -p /run/sshd && /usr/sbin/sshd -D"
+
+# 3. root用户配置nix
+mkdir -p /nix
+chown x:x /nix
+mkdir -p /etc/nix
+su - x -c "curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install | sh -s -- --no-daemon"
+tee >>/etc/nix/nix.conf <<EOF_NIX
+accept-flake-config = true
+experimental-features = nix-command flakes
+max-jobs = auto
+EOF_NIX
+chmod 777 -R /opt
+
+# 普通用户执行
+git clone git@gitee.com:yxing-xyz/scripts.git /opt/scripts
+source /home/x/.nix-profile/etc/profile.d/nix.sh
+cd /opt/scripts/nixos
+home-manager switch --flake .#code
 EOF
+
+
 
 echo >>./url.txt
 RepoLatestRelease() {
