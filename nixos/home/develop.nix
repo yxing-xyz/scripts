@@ -12,12 +12,9 @@
     autoconf
     automake
     pkg-config
-    netcat-openbsd
-    net-tools
     wget
     bear
     cmake
-    openssl
     clang-tools
     # vcpkg
     # musl

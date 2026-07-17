@@ -38,7 +38,8 @@
     gawk
     gnugrep
     gnused
-    coreutils
+    uutils-coreutils-noprefix
+    util-linux
     findutils
     procps
     nvd
@@ -87,6 +88,9 @@
     yazi
     tealdeer
     direnv
+    netcat-openbsd
+    # net-tools
+    openssl
     (pkgs.callPackage ./pkgs/trzsz { })
     inputs.home-manager.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
