@@ -22,6 +22,8 @@
       device = lib.mkDefault "nodev";
       gfxmodeEfi = lib.mkDefault "1024x768";
       fontSize = lib.mkDefault 32;
+      extraEntries = ''
+'';
     };
     efi = {
       canTouchEfiVariables = lib.mkDefault true;
