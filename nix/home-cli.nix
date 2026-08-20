@@ -13,6 +13,10 @@
     ./home/autostart.nix
     ./home/emacs.nix
     ./home/develop.nix
+    ./home/alacritty.nix
+    ./home/niri.nix
+    ./home/gnome.nix
+    ./home/fcitx5.nix
   ];
   home.sessionVariables = {
     # 基础 Wayland 支持

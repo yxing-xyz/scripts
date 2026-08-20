@@ -2,8 +2,8 @@
 # Any customization should be done in ~/.gtkrc-2.0.mine instead.
 
 include "/home/x/.gtkrc-2.0.mine"
-gtk-theme-name="Sweet-v40"
-gtk-icon-theme-name="Flat-Remix-Cyan-Dark"
+gtk-theme-name="Flat-Remix-GTK-Brown-Light"
+gtk-icon-theme-name="Sweet-Blue-Filled"
 gtk-font-name="Noto Sans CJK SC 10"
 gtk-cursor-theme-name="Bibata-Modern-Ice"
 gtk-cursor-theme-size=24

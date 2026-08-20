@@ -7,7 +7,7 @@
 
 {
   home.packages = with pkgs; [
-    librime
+    
   ];
   home.file.".config/fcitx5".source =
     config.lib.file.mkOutOfStoreSymlink "${projectRoot}/home/.config/fcitx5";
