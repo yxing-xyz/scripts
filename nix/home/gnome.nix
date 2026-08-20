@@ -286,19 +286,4 @@
       "toggle-menu" = [ "<Super>v" ];
     };
   };
-
-  home.packages = with pkgs; [
-    # 基础工具
-    gnome-tweaks
-    gnome-extension-manager
-    gnome-shell-extensions
-    # 扩展包
-    gnomeExtensions.clipboard-indicator
-    gnomeExtensions.go-to-last-workspace
-    gnomeExtensions.kimpanel
-    # gnomeExtensions.user-themes
-    gnomeExtensions.vitals
-    gnomeExtensions.appindicator
-    flat-remix-gnome
-  ];
 }
