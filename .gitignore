@@ -124,3 +124,10 @@ home/.config/emacs/projects
 /home/.config/emacs/org-roam.db
 /home/.config/DankMaterialShell/.changelog*
 /home/.config/DankMaterialShell/.firstlaunch
+/home/.local/share/fcitx5/rime/en.userdb
+/home/.local/share/fcitx5/rime/predict.userdb
+/home/.local/share/fcitx5/rime/replacer.userdb
+/home/.local/share/fcitx5/rime/sequence.userdb
+/home/.local/share/fcitx5/rime/stats.userdb
+/home/.local/share/fcitx5/rime/tips.userdb
+/home/.local/share/fcitx5/rime/zc.userdb
