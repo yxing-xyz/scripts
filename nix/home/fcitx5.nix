@@ -7,11 +7,13 @@
 
 {
   home.packages = with pkgs; [
-    
+
   ];
   home.file.".config/fcitx5".source =
     config.lib.file.mkOutOfStoreSymlink "${projectRoot}/home/.config/fcitx5";
-
+  home.file.".local/share/fcitx5".source =
+    config.lib.file.mkOutOfStoreSymlink "${projectRoot}/home/.local/share/fcitx5";
+/*
   home.activation.setupRime = config.lib.dag.entryAfter [ "writeBoundary" ] ''
     # 1. 显式定义所有工具路径
     FIND="${pkgs.findutils}/bin/find"
@@ -43,4 +45,5 @@
     # 6. 清理旧缓存并写入安装标识 (确保部署环境一致性)
     $COREUTILS/rm -rf "$RIME_DIR/build"
   '';
+  */
 }
