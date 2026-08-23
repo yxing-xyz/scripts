@@ -5,13 +5,12 @@ patch:
     __patch:
       - wanxiang_algebra:/pro/小鹤双拼
       - wanxiang_algebra:/pro/直接辅助
+  "switches/@0/reset": 1  # 默认英文
   "menu/page_size": 6
-
   # __patch:
   #     "key_binder/bindings":
   #       __patch:
   #         - "key_bindings:/emacs_editing"
-
   # + 追加尾部 ^插入头部
   key_binder/bindings/+:
     - { when: always, accept: Shift_R, toggle: full_shape } # Shift_R 切换全半角
@@ -33,11 +32,8 @@ patch:
     down: "noop"  # 下移
     reset: "noop"  # 重置
     pin: "noop"  # 置顶
-
   # editor/bindings/Tab: confirm                       # Tab 键上屏
   # 2. 中英文与 CapsLock 行为
-  ascii_composer:
-    initial_mode: ascii                              # 默认进入英文状态
   ascii_composer/switch_key:
     Shift_L: commit_code                             # 左 Shift 切换中英文 禁用noop
   good_old_caps_lock: false                          # 禁用 Caps 切换中英文
