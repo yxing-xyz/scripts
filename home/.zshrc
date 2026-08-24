@@ -49,12 +49,16 @@ zinit wait lucid for \
 # fzf
 zinit wait lucid for \
 	Aloxaf/fzf-tab
+# 1. 允许按 Tab 直接选定/确认当前高亮项
+zstyle ':fzf-tab:complete:*:*' fzf-flags '--bind=tab:accept'
+# 2. 文件/目录补全预览
 zstyle ':fzf-tab:complete:*:*' fzf-preview \
-	'if [ -d $realpath ]; then \
+    'if [ -d $realpath ]; then \
         lsd -A --tree --color=always $realpath | head -200; \
      else \
         bat --style=numbers --color=always --line-range :500 --wrap character --terminal-width $FZF_PREVIEW_COLUMNS $realpath; \
      fi'
+# 3. 命令/变量补全预览
 zstyle ':fzf-tab:complete:(-command-|-parameter-|-brace-parameter-):*' fzf-preview 'echo ${(P)word}'
 
 export COLORTERM=truecolor
