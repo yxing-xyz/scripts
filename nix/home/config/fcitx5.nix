@@ -6,9 +6,6 @@
 }:
 
 {
-  home.packages = with pkgs; [
-
-  ];
   home.file.".config/fcitx5".source =
     config.lib.file.mkOutOfStoreSymlink "${projectRoot}/home/.config/fcitx5";
   home.file.".local/share/fcitx5".source =
