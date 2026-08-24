@@ -3,20 +3,20 @@
 {
   imports = [
     ./options.nix
-    ./home/zellij.nix
-    ./home/fastfetch.nix
-    ./home/lazygit.nix
-    ./home/git.nix
-    ./home/ssh.nix
-    ./home/zsh.nix
-    ./home/gtk.nix
-    ./home/autostart.nix
-    ./home/emacs.nix
     ./home/develop.nix
-    ./home/alacritty.nix
-    ./home/niri.nix
-    ./home/gnome.nix
-    ./home/fcitx5.nix
+    ./home/config/zellij.nix
+    ./home/config/fastfetch.nix
+    ./home/config/lazygit.nix
+    ./home/config/git.nix
+    ./home/config/ssh.nix
+    ./home/config/zsh.nix
+    ./home/config/gtk.nix
+    ./home/config/autostart.nix
+    ./home/config/emacs.nix
+    ./home/config/alacritty.nix
+    ./home/config/niri.nix
+    ./home/config/dconf.nix
+    ./home/config/fcitx5.nix
   ];
   home.sessionVariables = {
     # 基础 Wayland 支持
