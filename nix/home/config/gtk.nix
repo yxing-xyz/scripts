@@ -31,4 +31,8 @@
   xdg.configFile."code-flags.conf".source =
     config.lib.file.mkOutOfStoreSymlink "${projectRoot}/home/.config/code-flags.conf";
   xdg.configFile."code-flags.conf".force = true;
+
+  xdg.configFile."qq-flags.conf".source =
+    config.lib.file.mkOutOfStoreSymlink "${projectRoot}/home/.config/qq-flags.conf";
+  xdg.configFile."qq-flags.conf".force = true;
 }
