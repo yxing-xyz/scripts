@@ -391,7 +391,7 @@
   "qtThemingEnabled": false,
   "syncModeWithPortal": true,
   "terminalsAlwaysDark": true,
-  "muxType": "tmux",
+  "muxType": "zellij",
   "muxUseCustomCommand": false,
   "muxCustomCommand": "",
   "muxSessionFilter": "",
