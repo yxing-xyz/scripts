@@ -1,4 +1,0 @@
-patch:
-  __include: wanxiang_pro_suggestion:/
-  "switcher/hotkeys":
-  - Control+F12

@@ -29,7 +29,7 @@ input {
         scroll-method "two-finger"
         disabled-on-external-mouse
         accel-speed 0.5 // 加速度
-        scroll-factor 0.5 // 滚动速度
+        scroll-factor 0.2 // 滚动速度
         // drag-lock 触摸板拖拽锁定
     }
 
