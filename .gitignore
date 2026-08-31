@@ -16,7 +16,6 @@ home/.config/dinglive
 home/.config/DingTalk
 home/.config/dlv
 home/.config/evolution/sources
-home/.config/fcitx5/conf/cached_layouts
 home/.config/fcitx/dbus
 home/.config/filezilla
 home/.config/google-chrome
@@ -60,12 +59,6 @@ home/.local/share/copyq
 home/.local/share/epiphany
 home/.local/share/evolution
 home/.local/share/evolution/addressbook/system
-home/.local/share/fcitx5/rime/build
-home/.local/share/fcitx5/rime/installation.yaml
-home/.local/share/fcitx5/rime/luna_pinyin.userdb
-home/.local/share/fcitx5/rime/rime_ice.userdb
-home/.local/share/fcitx5/rime/user.yaml
-home/.local/share/fcitx5/themes/plasma
 home/.local/share/flatpak
 home/.local/share/flatpak/.changed
 home/.local/share/flatpak/repo
@@ -124,10 +117,4 @@ home/.config/emacs/projects
 /home/.config/emacs/org-roam.db
 /home/.config/DankMaterialShell/.changelog*
 /home/.config/DankMaterialShell/.firstlaunch
-/home/.local/share/fcitx5/rime/en.userdb
-/home/.local/share/fcitx5/rime/predict.userdb
-/home/.local/share/fcitx5/rime/replacer.userdb
-/home/.local/share/fcitx5/rime/sequence.userdb
-/home/.local/share/fcitx5/rime/stats.userdb
-/home/.local/share/fcitx5/rime/tips.userdb
-/home/.local/share/fcitx5/rime/zc.userdb
+/home/.local/share/fcitx5/rime/
