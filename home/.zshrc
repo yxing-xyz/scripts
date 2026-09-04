@@ -50,7 +50,7 @@ zinit wait lucid for \
 zinit wait lucid for \
 	Aloxaf/fzf-tab
 # 1. 允许按 Tab 直接选定/确认当前高亮项
-zstyle ':fzf-tab:complete:*:*' fzf-flags '--bind=tab:accept'
+#zstyle ':fzf-tab:complete:*:*' fzf-flags '--bind=tab:accept'
 # 2. 文件/目录补全预览
 zstyle ':fzf-tab:complete:*:*' fzf-preview \
     'if [ -d $realpath ]; then \
