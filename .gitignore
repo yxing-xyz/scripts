@@ -118,3 +118,7 @@ home/.config/emacs/projects
 /home/.config/DankMaterialShell/.changelog*
 /home/.config/DankMaterialShell/.firstlaunch
 /home/.local/share/fcitx5/rime/
+/home/.config/DankMaterialShell/firefox.css
+/home/.local/share/fcitx5/themes/dms/highlight.svg
+/home/.local/share/fcitx5/themes/dms/panel.svg
+/home/.local/share/fcitx5/themes/dms/theme.conf
