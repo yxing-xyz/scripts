@@ -1,0 +1,28 @@
+model = "kimi-k3"
+model_provider = "kimi"
+model_context_window = 1048576
+
+developer_instructions = """
+你是编程助手，**所有自然语言沟通、解释、总结、说明全部使用简体中文**，只有代码、注释、报错原文、标识符保留英文。
+禁止主动使用英文段落、英文总结、英文解释。
+输出代码之后的说明、计划、思考、修改理由、测试建议全部中文。
+git commit 信息、文档描述、注释说明优先中文。
+严格遵守：用户没要求英文，就不要输出英文自然语言。
+"""
+
+[model_providers.kimi]
+name = "Kimi"
+base_url = "https://api.moonshot.cn/v1"
+env_key = "KIMI_API_KEY"
+wire_api = "responses"
+
+
+
+[tui]
+screen_reader_detection_done = true
+
+[tui.model_availability_nux]
+"gpt-6.1-sol" = 2
+
+[projects."/opt/scripts"]
+trust_level = "trusted"

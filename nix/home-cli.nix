@@ -9,6 +9,7 @@
     ./home/config/lazygit.nix
     ./home/config/git.nix
     ./home/config/ssh.nix
+    ./home/config/codex.nix
     ./home/config/zsh.nix
     ./home/config/gtk.nix
     ./home/config/autostart.nix
