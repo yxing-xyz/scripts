@@ -1,7 +1,6 @@
 {
-  "currentThemeName": "dynamic",
-  "currentThemeCategory": "dynamic",
-  "customThemeFile": "/home/x/.config/DankMaterialShell/themes/everforest/theme.json",
+  "currentThemeName": "green",
+  "customThemeFile": "/home/x/.config/DankMaterialShell/themes/cyberdream/theme.json",
   "registryThemeVariants": {
     "catppuccin": {
       "flavor": "mocha",
@@ -10,13 +9,12 @@
     "gruvboxMaterial": "medium",
     "rosePine": "rosePine"
   },
-  "matugenScheme": "scheme-content",
-  "popupTransparency": 0.9,
+  "matugenScheme": "scheme-fruit-salad",
   "widgetBackgroundColor": "s",
   "cornerRadius": 4,
   "clockFormat": "24h",
   "barElevationEnabled": false,
-  "blurWallpaperOnOverview": true,
+  "blurBorderEnabled": false,
   "controlCenterShowMicPercent": true,
   "controlCenterWidgets": [
     {
@@ -66,11 +64,13 @@
     }
   ],
   "showWorkspaceIndex": true,
-  "showWorkspacePadding": true,
   "showWorkspaceApps": true,
   "showOccupiedWorkspacesOnly": true,
   "runningAppsCurrentWorkspace": false,
   "appIdSubstitutions": [],
+  "spotlightSectionViewModes": {
+    "apps": "list"
+  },
   "networkPreference": "wifi",
   "cursorSettings": {
     "theme": "Bibata-Modern-Ice",
@@ -102,7 +102,7 @@
   "lockBeforeSuspend": true,
   "fadeToLockGracePeriod": 30,
   "fadeToDpmsGracePeriod": 30,
-  "terminalsAlwaysDark": true,
+  "syncModeWithPortal": false,
   "muxType": "zellij",
   "matugenTemplateAlacritty": false,
   "matugenTemplateNeovim": true,
@@ -184,7 +184,7 @@
           "enabled": true
         }
       ],
-      "spacing": 0,
+      "spacing": 4,
       "innerPadding": 4,
       "bottomGap": 0,
       "transparency": 0,
@@ -217,7 +217,14 @@
       "shadowIntensity": 0,
       "shadowOpacity": 100,
       "shadowColorMode": "primary",
-      "shadowCustomColor": "#000000"
+      "shadowCustomColor": "#000000",
+      "widgetPadding": 8,
+      "iconScale": 1,
+      "maximizeWidgetIcons": false,
+      "maximizeWidgetText": false,
+      "removeWidgetPadding": false,
+      "attachToScreenEdge": false,
+      "island": false
     }
   ],
   "desktopClockCustomColor": {

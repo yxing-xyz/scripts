@@ -15,13 +15,13 @@
   home.file.".icons/default/index.theme".force = true;
 
 
-  xdg.configFile."gtk-3.0/settings.ini".source =
-    config.lib.file.mkOutOfStoreSymlink "${projectRoot}/home/.config/gtk-3.0/settings.ini";
-  xdg.configFile."gtk-3.0/settings.ini".force = true;
+  xdg.configFile."gtk-3.0".source =
+    config.lib.file.mkOutOfStoreSymlink "${projectRoot}/home/.config/gtk-3.0";
+  xdg.configFile."gtk-3.0".force = true;
 
-  xdg.configFile."gtk-4.0/settings.ini".source =
-    config.lib.file.mkOutOfStoreSymlink "${projectRoot}/home/.config/gtk-4.0/settings.ini";
-  xdg.configFile."gtk-4.0/settings.ini".force = true;
+  xdg.configFile."gtk-4.0".source =
+    config.lib.file.mkOutOfStoreSymlink "${projectRoot}/home/.config/gtk-4.0";
+  xdg.configFile."gtk-4.0".force = true;
 
   xdg.configFile."xsettingsd".source =
     config.lib.file.mkOutOfStoreSymlink "${projectRoot}/home/.config/xsettingsd";
