@@ -1,7 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=tmpfs
-Exec=bash -c "rm -rf ~/Downloads && mkdir -p /tmp/tmpfs && ln -sf /tmp/tmpfs ~/Downloads"
-Hidden=false
-NoDisplay=false
-X-GNOME-Autostart-enabled=true
