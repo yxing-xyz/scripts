@@ -1,0 +1,92 @@
+# Rime schema
+# encoding: utf-8
+# 精简版：只保留小鹤双拼打中文
+
+schema:
+  schema_id: double_pinyin_flypy
+  name: 小鹤双拼
+  version: "1"
+  author:
+    - Dvel
+  description: |
+    雾凇拼音 - 小鹤双拼（精简版，仅中文）
+
+switches:
+  - name: ascii_mode
+    states: [ 中, Ａ ]
+  - name: full_shape
+    states: [ 半角, 全角 ]
+
+engine:
+  processors:
+    - ascii_composer
+    - recognizer
+    - key_binder
+    - speller
+    - punctuator
+    - selector
+    - navigator
+    - express_editor
+  segmentors:
+    - ascii_segmentor
+    - matcher
+    - abc_segmentor
+    - punct_segmentor
+    - fallback_segmentor
+  translators:
+    - punct_translator
+    - script_translator
+  filters:
+    - uniquifier
+
+translator:
+  dictionary: rime_ice
+  prism: double_pinyin_flypy
+  enable_word_completion: true
+  initial_quality: 1.2
+  preedit_format: []
+
+punctuator:
+  import_preset: default
+
+recognizer:
+  import_preset: default
+
+key_binder:
+  import_preset: default
+
+speller:
+  alphabet: zyxwvutsrqponmlkjihgfedcbaZYXWVUTSRQPONMLKJIHGFEDCBA
+  initials: zyxwvutsrqponmlkjihgfedcbaZYXWVUTSRQPONMLKJIHGFEDCBA
+  delimiter: " '"
+  algebra:
+    - erase/^xx$/
+    - derive/^([jqxy])u$/$1v/
+    - derive/^([aoe])([ioun])$/$1$1$2/
+    - xform/^([aoe])(ng)?$/$1$1$2/
+    - xform/iu$/Ⓠ/
+    - xform/(.)ei$/$1Ⓦ/
+    - xform/uan$/Ⓡ/
+    - xform/[uv]e$/Ⓣ/
+    - xform/un$/Ⓨ/
+    - xform/^sh/Ⓤ/
+    - xform/^ch/Ⓘ/
+    - xform/^zh/Ⓥ/
+    - xform/uo$/Ⓞ/
+    - xform/ie$/Ⓟ/
+    - xform/(.)i?ong$/$1Ⓢ/
+    - xform/ing$|uai$/Ⓚ/
+    - xform/(.)ai$/$1Ⓓ/
+    - xform/(.)en$/$1Ⓕ/
+    - xform/(.)eng$/$1Ⓖ/
+    - xform/[iu]ang$/Ⓛ/
+    - xform/(.)ang$/$1Ⓗ/
+    - xform/ian$/Ⓜ/
+    - xform/(.)an$/$1Ⓙ/
+    - xform/(.)ou$/$1Ⓩ/
+    - xform/[iu]a$/Ⓧ/
+    - xform/iao$/Ⓝ/
+    - xform/(.)ao$/$1Ⓒ/
+    - xform/ui$/Ⓥ/
+    - xform/in$/Ⓑ/
+    - xlit/ⓆⓌⓇⓉⓎⓊⒾⓄⓅⓈⒹⒻⒼⒽⒿⓀⓁⓏⓍⒸⓋⒷⓃⓂ/qwrtyuiopsdfghjklzxcvbnm/
