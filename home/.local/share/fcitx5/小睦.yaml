@@ -1,0 +1,550 @@
+# Trime default style settings
+# encoding: utf-8
+
+#26键
+顶部0-9:
+  key_back_color: 顶部0-9
+  hilited_key_back_color: 顶部0-9高亮
+Q:
+  key_back_color: Q
+  hilited_key_back_color: Q高亮
+w:
+  key_back_color: w
+  hilited_key_back_color: w高亮
+E:
+  key_back_color: E
+  hilited_key_back_color: E高亮
+R:
+  key_back_color: R
+  hilited_key_back_color: R高亮
+T:
+  key_back_color: T
+  hilited_key_back_color: T高亮
+Y:
+  key_back_color: Y
+  hilited_key_back_color: Y高亮
+U:
+  key_back_color: U
+  hilited_key_back_color: U高亮
+i:
+  key_back_color: i
+  hilited_key_back_color: i高亮
+O:
+  key_back_color: O
+  hilited_key_back_color: O高亮
+P:
+  key_back_color: P
+  hilited_key_back_color: P高亮
+A:
+  key_back_color: A
+  hilited_key_back_color: A高亮
+S:
+  key_back_color: S
+  hilited_key_back_color: S高亮
+D:
+  key_back_color: D
+  hilited_key_back_color: D高亮
+F:
+  key_back_color: F
+  hilited_key_back_color: F高亮
+G:
+  key_back_color: G
+  hilited_key_back_color: G高亮
+H:
+  key_back_color: H
+  hilited_key_back_color: H高亮
+J:
+  key_back_color: J
+  hilited_key_back_color: J高亮
+K:
+  key_back_color: K
+  hilited_key_back_color: K高亮
+L:
+  key_back_color: L
+  hilited_key_back_color: L高亮
+Z:
+  key_back_color: Z
+  hilited_key_back_color: Z高亮
+X:
+  key_back_color: X
+  hilited_key_back_color: X高亮
+C:
+  key_back_color: C
+  hilited_key_back_color: C高亮
+V:
+  key_back_color: V
+  hilited_key_back_color: V高亮
+B:
+  key_back_color: B
+  hilited_key_back_color: B高亮
+N:
+  key_back_color: N
+  hilited_key_back_color: N高亮
+M:
+  key_back_color: M
+  hilited_key_back_color: M高亮
+分号:
+  key_back_color: 分号
+  hilited_key_back_color: 分号高亮
+数字:
+  key_back_color: 数字
+  hilited_key_back_color: 数字高亮
+中英:
+  key_back_color: 中英
+  hilited_key_back_color: 中英高亮
+  key_text_color: 中英字色
+逗号:
+  key_back_color: 逗号
+  hilited_key_back_color: 逗号高亮
+句号:
+  key_back_color: 句号
+  hilited_key_back_color: 句号高亮
+退格:
+  key_back_color: 退格
+  hilited_key_back_color: 退格高亮
+  key_text_color: 退格字色
+空格:
+  key_back_color: 空格
+  hilited_key_back_color: 空格高亮
+回车:
+  key_back_color: 回车
+  hilited_key_back_color: 回车高亮
+  key_text_color: 回车字色
+Shift:
+  key_back_color: Shift
+  hilited_key_back_color: Shift高亮
+#功能键盘
+符号:
+  key_back_color: 符号
+  hilited_key_back_color: 符号高亮
+返回:
+  key_back_color: 返回
+  hilited_key_back_color: 返回高亮
+  key_text_color: 返回字色
+功能风:
+  key_back_color: 功能风
+  htlited_key_back_color: 功能风高亮
+空格2:
+  key_back_color: 空格2
+  hilited_key_back_color: 空格2高亮
+  key_text_color: 空格2字色
+透明:
+  key_back_color: 透明
+  hilited_key_back_color: 透明高亮
+#9键数字
+0:
+  key_back_color: 0
+  hilited_key_back_color: 0高亮
+1:
+  key_back_color: 1
+  hilited_key_back_color: 1高亮
+2:
+  key_back_color: 2
+  hilited_key_back_color: 2高亮
+3:
+  key_back_color: 3
+  hilited_key_back_color: 3高亮
+4:
+  key_back_color: 4
+  hilited_key_back_color: 4高亮
+5:
+  key_back_color: 5
+  hilited_key_back_color: 5高亮
+6:
+  key_back_color: 6
+  hilited_key_back_color: 6高亮
+7:
+  key_back_color: 7
+  hilited_key_back_color: 7高亮
+8:
+  key_back_color: 8
+  hilited_key_back_color: 8高亮
+9:
+  key_back_color: 9
+  hilited_key_back_color: 9高亮
+
+fallback_colors:
+  顶部0-9: 按键
+  顶部0-9高亮: 按键高亮
+  Q: 按键
+  Q高亮: 按键高亮
+  w: 按键
+  w高亮: 按键高亮
+  E: 按键
+  E高亮: 按键高亮
+  R: 按键
+  R高亮: 按键高亮
+  T: 按键
+  T高亮: 按键高亮
+  Y: 按键
+  Y高亮: 按键高亮
+  U: 按键
+  U高亮: 按键高亮
+  i: 按键
+  i高亮: 按键高亮
+  O: 按键
+  O高亮: 按键高亮
+  P: 按键
+  P高亮: 按键高亮
+  A: 按键
+  A高亮: 按键高亮
+  S: 按键
+  S高亮: 按键高亮
+  D: 按键
+  D高亮: 按键高亮
+  F: 按键
+  F高亮: 按键高亮
+  G: 按键
+  G高亮: 按键高亮
+  H: 按键
+  H高亮: 按键高亮
+  J: 按键
+  J高亮: 按键高亮
+  K: 按键
+  K高亮: 按键高亮
+  L: 按键
+  L高亮: 按键高亮
+  Z: 按键
+  Z高亮: 按键高亮
+  X: 按键
+  X高亮: 按键高亮
+  C: 按键
+  C高亮: 按键高亮
+  V: 按键
+  V高亮: 按键高亮
+  B: 按键
+  B高亮: 按键高亮
+  N: 按键
+  N高亮: 按键高亮
+  M: 按键
+  M高亮: 按键高亮
+  分号: 按键
+  分号高亮: 按键高亮
+  数字: 按键
+  数字高亮: 按键高亮
+  中英: 按键
+  中英高亮: 按键高亮
+  中英字色: 按键字色
+  逗号: 按键
+  逗号高亮: 按键高亮
+  句号: 按键
+  句号高亮: 按键高亮
+  退格: 常态背景
+  退格高亮: 常态高亮
+  退格字色: 常态字色
+  空格: 按键
+  空格高亮: 按键高亮
+  回车: 按键
+  回车高亮: 按键高亮
+  回车字色: 常态字色
+  Shift: 常态背景
+  Shift高亮: 常态高亮
+#功能键盘
+  符号: 按键
+  符号高亮: 按键高亮
+  返回: 常态背景
+  返回高亮: 常态高亮
+  返回字色: 常态字色
+  功能风: 常态背景
+  功能风高亮: 常态高亮
+  空格2: 常态背景
+  空格2高亮: 常态高亮
+  空格2字色: 常态字色
+  透明: 候选栏首选
+  透明高亮: 候选栏首选
+#九键数字
+  0: 按键
+  0高亮: 按键高亮
+  1: 按键
+  1高亮: 按键高亮
+  2: 按键
+  2高亮: 按键高亮
+  3: 按键
+  3高亮: 按键高亮
+  4: 按键
+  4高亮: 按键高亮
+  5: 按键
+  5高亮: 按键高亮
+  6: 按键
+  6高亮: 按键高亮
+  7: 按键
+  7高亮: 按键高亮
+  8: 按键
+  8高亮: 按键高亮
+  9: 按键
+  9高亮: 按键高亮
+
+
+#背景
+  hilited_candidate_back_color: 候选栏首选
+  candidate_separator_color: 候选分割线
+  hilited_back_color: 编码首选
+  hilited_popup_back_color: 高亮气泡
+  编码首选: 候选栏首选
+  候选分割线: 候选栏首选
+  高亮气泡: 候选栏首选
+
+  keyboard_background: 键盘
+  candidate_background: 候选栏
+  text_back_color: 悬浮窗
+  popup_back_color: 气泡
+  候选栏: 键盘
+  悬浮窗: 键盘
+  气泡: 悬浮窗
+  back_color: 悬浮窗
+
+  key_back_color: 按键
+  hilited_key_back_color: 按键高亮
+  key_border_color: 按键边框
+  按键边框: 候选栏首选
+
+#字色
+  border_color: 悬浮窗边框
+  label_color: 悬浮窗非首选序号
+  悬浮窗边框: 按键字色
+  悬浮窗非首选序号: 按键字色
+
+  text_color: ^插入符号
+  hilited_text_color: ^移动
+  ^插入符号: 按键字色
+  ^移动: 按键字色
+
+  hilited_candidate_text_color: 首选字色
+  candidate_text_color: 非首选字色
+  comment_text_color: 注释
+  非首选字色: 按键字色
+  注释: 按键字色
+
+  key_text_color: 按键字色
+  hilited_key_text_color: 按键字高亮
+  key_symbol_color: 按键符色
+  hilited_key_symbol_color: 按键符高亮
+  popup_text_color: 气泡字色
+  hilited_popup_text_color: 气泡字高亮
+  shadow_color: 按键文字阴影
+  按键字高亮: 按键字色
+  按键符色: 按键字色
+  按键符高亮: 按键字色
+  气泡字色: 按键字色
+  气泡字高亮: 按键字色
+  按键文字阴影: 按键字色
+
+#Shift键
+  off_key_back_color: 常态背景
+  on_key_back_color: 锁定背景
+  锁定背景: 常态背景
+
+  hilited_off_key_back_color: 常态高亮
+  hilited_on_key_back_color: 锁定高亮
+  锁定高亮: 常态高亮
+
+  off_key_text_color: 常态字色
+  hilited_off_key_text_color: 常态字高亮
+  常态字高亮: 常态字色
+
+  on_key_text_color: 锁定字色
+  hilited_on_key_text_color: 锁定字高亮
+  锁定字高亮: 锁定字色
+
+
+preset_color_schemes:
+  Q1:
+    name: 指尖生花
+    dark_scheme: Q2 # 指定夜间配色
+# 🟠 背景：
+    候选栏: 指尖生花/ztl.9.png
+    候选栏首选: 0x00
+    悬浮窗: 0xd4e0d6
+    高亮气泡: 0xFCFCFC
+    键盘: 指尖生花/jp.9.png
+    按键: 指尖生花/w.9.png
+    按键高亮: 指尖生花/gl.9.png
+    Q: 指尖生花/q.9.png
+    E: 指尖生花/q.9.png
+    T: 指尖生花/q.9.png
+    U: 指尖生花/q.9.png
+    O: 指尖生花/q.9.png
+    S: 指尖生花/q.9.png
+    F: 指尖生花/f.9.png
+    G: 指尖生花/g.9.png
+    H: 指尖生花/h.9.png
+    K: 指尖生花/q.9.png
+    X: 指尖生花/q.9.png
+    N: 指尖生花/q.9.png
+    退格: 指尖生花/tg.9.png
+    数字: 指尖生花/sz.9.png
+    中英: 指尖生花/w.9.png
+    回车: 指尖生花/hc.9.png
+    返回: 指尖生花/tg.9.png
+    空格2: 指尖生花/tg.9.png
+    1: 指尖生花/1.9.png
+    3: 指尖生花/q.9.png
+    5: 指尖生花/5.9.png
+    7: 指尖生花/q.9.png
+    9: 指尖生花/q.9.png
+    0: 指尖生花/q.9.png
+# 🟠 字色：
+    首选字色: 0x42664c
+    非首选字色: 0x28402f
+    按键字色: 0x36573f
+    退格字色: 0xF6E376
+    回车字色: 0xF6E376
+    返回字色: 0xF6E376
+    空格2字色: 0xF6E376
+    撤销字色: 0xF6E376
+# 🟠 Shift键（功能键，开启：functional: true；上下符无法跟随）：
+    常态背景: 指尖生花/gn.9.png
+    常态高亮: 指尖生花/gl.9.png
+    常态字色: 0x36573f
+    锁定字色: 0xe9300e
+
+  Q2:
+    name: 指尖生花  •  深色
+    light_scheme: Q1 #指定日间配色
+# 🟠 背景：
+    候选栏: 指尖生花  •  深色/ztl.9.png
+    候选栏首选: 0x00
+    高亮气泡: 0x434844
+    键盘: 指尖生花  •  深色/jp.9.png
+    悬浮窗: 0x313432
+    按键: 指尖生花  •  深色/w.9.png
+    按键高亮: 指尖生花  •  深色/gl.9.png
+    顶部0-9: 指尖生花  •  深色/w.9.png
+    Q: 指尖生花  •  深色/q.9.png
+    E: 指尖生花  •  深色/q.9.png
+    T: 指尖生花  •  深色/q.9.png
+    U: 指尖生花  •  深色/q.9.png
+    O: 指尖生花  •  深色/q.9.png
+    S: 指尖生花  •  深色/q.9.png
+    F: 指尖生花  •  深色/f.9.png
+    G: 指尖生花  •  深色/g.9.png
+    H: 指尖生花  •  深色/h.9.png
+    K: 指尖生花  •  深色/q.9.png
+    X: 指尖生花  •  深色/q.9.png
+    V: 指尖生花  •  深色/q.9.png
+    N: 指尖生花  •  深色/q.9.png
+    数字: 指尖生花  •  深色/sz.9.png
+    中英: 指尖生花  •  深色/w.9.png
+    空格: 指尖生花  •  深色/q.9.png
+    空格2: 指尖生花  •  深色/w.9.png
+    退格: 指尖生花  •  深色/tg.9.png
+    回车: 指尖生花  •  深色/hc.9.png
+    1: 指尖生花  •  深色/1.9.png
+    3: 指尖生花  •  深色/q.9.png
+    5: 指尖生花  •  深色/5.9.png
+    7: 指尖生花  •  深色/q.9.png
+    9: 指尖生花  •  深色/q.9.png
+    0: 指尖生花  •  深色/q.9.png
+# 🟠 字色：
+    首选字色: 0x99CCA6
+    非首选字色: 0xE9F5EC
+    按键字色: 0xDFEFE3
+    退格字色: 0xFFF2C6
+# 🟠 Shift键：
+    常态背景: 指尖生花  •  深色/gn.9.png
+    常态高亮: 指尖生花  •  深色/gl.9.png
+    常态字色: 0xDDEDE1
+    锁定字色: 0xE9300E
+
+  Q3:
+    name: 元书
+    dark_scheme: Q4 # 指定夜间配色
+# 🟠 背景：
+    候选栏首选: 0x00
+    悬浮窗: 0xFFFFFF
+    高亮气泡: 0xFACCD6
+    键盘: 0xE9EAEE
+    按键: 元书/zj.9.png
+    按键高亮: 指尖生花/gl.9.png
+    N: 元书/nj.9.png
+    M: 元书/mj.9.png
+    逗号: 元书/gn.9.png
+    句号: 元书/gn.9.png
+    退格: 元书/gn.9.png
+    数字: 元书/gn.9.png
+    空格: 元书/kg.9.png
+    中英: 元书/f.9.png
+    空格2: 元书/gn.9.png
+    回车: 元书/gn.9.png
+    透明: 0x00
+    透明高亮: 0x00
+# 🟠 字色：
+    首选字色: 0x6599FF
+    非首选字色: 0x28402f
+    按键字色: 0x3D3D3F
+    中英字色: 0xFFFFFF
+# 🟠 Shift键（功能键，开启：functional: true；上下符无法跟随）：
+    常态背景: 元书/gn.9.png
+    常态高亮: 指尖生花/gl.9.png
+    常态字色: 0x3D3D3F
+    锁定字色: 0x053B95
+
+  Q4:
+    name: 元书 · 深色
+    light_scheme: Q3 # 指定日间配色
+# 🟠 背景：
+    候选栏首选: 0x6599FF
+    候选分割线: 0x00
+    编码首选: 0x00
+    悬浮窗: 0x2A2E31
+    高亮气泡: 0xCEDCED
+    键盘: 0x2A2E31
+    按键: 元书 · 深色/zj.9.png
+    按键高亮: 指尖生花/gl.9.png
+    N: 元书 · 深色/nj.9.png
+    M: 元书 · 深色/mj.9.png
+    逗号: 元书 · 深色/gn.9.png
+    句号: 元书 · 深色/gn.9.png
+    退格: 元书 · 深色/gn.9.png
+    数字: 元书 · 深色/gn.9.png
+    空格: 元书 · 深色/kg.9.png
+    中英: 元书 · 深色/f.9.png
+    空格2: 元书 · 深色/gn.9.png
+    回车: 元书 · 深色/gn.9.png
+    透明: 0x00
+    透明高亮: 0x00
+# 🟠 字色：
+    首选字色: 0xD9EDE3
+    非首选字色: 0xCEDCED
+    按键字色: 0xFFFFFF
+# 🟠 Shift键（功能键，开启：functional: true；上下符无法跟随）：
+    常态背景: 元书 · 深色/gn.9.png
+    常态高亮: 指尖生花/gl.9.png
+    常态字色: 0xFFFFFF
+    锁定字色: 0x053B95
+
+  Q5:
+    name: 好可爱蛙
+# 🟠 背景：
+    候选栏首选: 0x00
+    高亮气泡: 0xF17CA8
+    键盘: 好可爱蛙/bj1.9.png
+    候选栏: 好可爱蛙/bj11.png
+    悬浮窗: 0xFDFDFD
+    按键: 好可爱蛙/aj2.9.png
+    按键高亮: 好可爱蛙/aj1.9.png
+    顶部0-9: 好可爱蛙/aj22.9.png
+    逗号: 好可爱蛙/fh1.9.png
+    句号: 好可爱蛙/fh1.9.png
+    退格: 好可爱蛙/back.9.png
+    退格高亮: 好可爱蛙/back down.9.png
+    数字: 好可爱蛙/sym.9.png
+    数字高亮: 好可爱蛙/sym down.9.png
+    回车: 好可爱蛙/return.9.png
+    回车高亮: 好可爱蛙/return down.9.png
+    G: 好可爱蛙/g1.9.png
+    G高亮: 好可爱蛙/g11.9.png
+    Z: 好可爱蛙/z1.9.png
+    Z高亮: 好可爱蛙/z11.9.png
+    空格: 好可爱蛙/space.9.png
+    空格高亮: 好可爱蛙/space down.9.png
+# 🟠 字色：
+    首选字色: 0x0455FD
+    气泡字高亮: 0x303030
+    非首选字色: 0x353535
+    按键字色: 0x535353
+# 🟠 Shift键：
+    常态背景: 好可爱蛙/shift.9.png
+    常态背景高亮: 可爱蛙/shift down.9.png
+    常态字色: 0x535353
+    锁定字色: 0x0455FD

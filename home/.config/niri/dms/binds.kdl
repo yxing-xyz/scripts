@@ -1,186 +1,90 @@
 binds {
-    // === System & Overview ===
-    Mod+Tab repeat=false { toggle-overview; } // 切换概览
-    Mod+Shift+Slash { show-hotkey-overlay; } // 显示快捷键面板
-
-    // === Application Launchers ===
-    // Mod+T hotkey-overlay-title="Open Terminal" { spawn "alacritty"; } // 启动终端
-    Mod+R hotkey-overlay-title="Application Launcher" {
-        spawn "dms" "ipc" "call" "spotlight" "toggle"; // 切换搜索启动器
-    }
+    Ctrl+Alt+Delete hotkey-overlay-title="Task Manager" { spawn "dms" "ipc" "call" "processlist" "focusOrToggle"; }
+    Mod+Comma hotkey-overlay-title="Settings" { spawn "dms" "ipc" "call" "settings" "focusOrToggle"; }
+    Mod+Ctrl+L hotkey-overlay-title="Lock Screen" { spawn "dms" "ipc" "call" "lock" "lock"; }
+    Mod+N hotkey-overlay-title="Notification Center" { spawn "dms" "ipc" "call" "notifications" "toggle"; }
+    Mod+Shift+N hotkey-overlay-title="Notepad" { spawn "dms" "ipc" "call" "notepad" "toggle"; }
+    Mod+V hotkey-overlay-title="Clipboard Manager" { spawn "dms" "ipc" "call" "clipboard" "toggle"; }
+    Mod+Y hotkey-overlay-title="Browse Wallpapers" { spawn "dms" "ipc" "call" "dankdash" "wallpaper"; }
+    Mod+Z hotkey-overlay-title="Application Launcher" { spawn "dms" "ipc" "call" "spotlight" "toggle"; }
+    Super+X hotkey-overlay-title="Power Menu: Toggle" { spawn "dms" "ipc" "call" "powermenu" "toggle"; }
+    XF86AudioLowerVolume allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "decrement" "3"; }
+    XF86AudioMicMute allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "micmute"; }
+    XF86AudioMute allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "mute"; }
+    XF86AudioNext allow-when-locked=true { spawn "dms" "ipc" "call" "mpris" "next"; }
+    XF86AudioPause allow-when-locked=true { spawn "dms" "ipc" "call" "mpris" "playPause"; }
+    XF86AudioPlay allow-when-locked=true { spawn "dms" "ipc" "call" "mpris" "playPause"; }
+    XF86AudioPrev allow-when-locked=true { spawn "dms" "ipc" "call" "mpris" "previous"; }
+    XF86AudioRaiseVolume allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "increment" "3"; }
+    XF86MonBrightnessDown allow-when-locked=true { spawn "dms" "ipc" "call" "brightness" "decrement" "5" ""; }
+    XF86MonBrightnessUp allow-when-locked=true { spawn "dms" "ipc" "call" "brightness" "increment" "5" ""; }
+    Mod+1 { focus-workspace 1; }
+    Mod+2 { focus-workspace 2; }
+    Mod+3 { focus-workspace 3; }
+    Mod+4 { focus-workspace 4; }
+    Mod+5 { focus-workspace 5; }
+    Mod+6 { focus-workspace 6; }
+    Mod+7 { focus-workspace 7; }
+    Mod+Alt+Down { move-workspace-down; }
+    Mod+Alt+J { focus-workspace-down; }
+    Mod+Alt+K { focus-workspace-up; }
+    Mod+Alt+Up { move-workspace-up; }
     Mod+D { focus-workspace 9; }
-    Mod+Return {
-        spawn "sh" "-c" "ID=$(niri msg -j windows | jq '.[] | select(.app_id == \"Alacritty\") | .id' | head -n 1); if [ -n \"$ID\" ]; then niri msg action focus-window --id \"$ID\"; else alacritty; fi"
-    }
-    Mod+V hotkey-overlay-title="Clipboard Manager" {
-        spawn "dms" "ipc" "call" "clipboard" "toggle"; // 切换剪贴板
-    }
-    Super+X hotkey-overlay-title="Power Menu: Toggle" { spawn "dms" "ipc" "call" "powermenu" "toggle"; } // 电源菜单
-    Mod+Comma hotkey-overlay-title="Settings" {
-        spawn "dms" "ipc" "call" "settings" "focusOrToggle"; // 打开设置
-    }
-    Mod+Y hotkey-overlay-title="Browse Wallpapers" {
-        spawn "dms" "ipc" "call" "dankdash" "wallpaper"; // 切换壁纸
-    }
-    Mod+N hotkey-overlay-title="Notification Center" { spawn "dms" "ipc" "call" "notifications" "toggle"; } // 通知中心
-    Mod+Shift+N hotkey-overlay-title="Notepad" { spawn "dms" "ipc" "call" "notepad" "toggle"; } // 记事本
-
-    // === Security ===
-    Mod+Ctrl+L hotkey-overlay-title="Lock Screen" {
-        spawn "dms" "ipc" "call" "lock" "lock"; // 锁屏
-    }
-    Mod+Shift+E { quit; } // 退出
-    Ctrl+Alt+Delete hotkey-overlay-title="Task Manager" {
-        spawn "dms" "ipc" "call" "processlist" "focusOrToggle"; // 任务管理器
-    }
-
-    // === Audio Controls ===
-    XF86AudioRaiseVolume allow-when-locked=true {
-        spawn "dms" "ipc" "call" "audio" "increment" "3"; // 调高音量
-    }
-    XF86AudioLowerVolume allow-when-locked=true {
-        spawn "dms" "ipc" "call" "audio" "decrement" "3"; // 调低音量
-    }
-    XF86AudioMute allow-when-locked=true {
-        spawn "dms" "ipc" "call" "audio" "mute"; // 静音
-    }
-    XF86AudioMicMute allow-when-locked=true {
-        spawn "dms" "ipc" "call" "audio" "micmute"; // 麦克风静音
-    }
-		XF86AudioPause allow-when-locked=true {
-		    spawn "dms" "ipc" "call" "mpris" "playPause"; // 暂停
-		}
-		XF86AudioPlay allow-when-locked=true {
-		    spawn "dms" "ipc" "call" "mpris" "playPause"; // 播放
-		}
-		XF86AudioPrev allow-when-locked=true {
-		    spawn "dms" "ipc" "call" "mpris" "previous"; // 上一曲
-		}
-		XF86AudioNext allow-when-locked=true {
-		    spawn "dms" "ipc" "call" "mpris" "next"; // 下一曲
-		}
-
-    // === Brightness Controls ===
-    XF86MonBrightnessUp allow-when-locked=true {
-       spawn "dms" "ipc" "call" "brightness" "increment" "5" ""; // 增加亮度
-    }
-    XF86MonBrightnessDown allow-when-locked=true {
-       spawn "dms" "ipc" "call" "brightness" "decrement" "5" ""; // 降低亮度
-    }
-
-    // 切换当前列的显示风格
-    // Mod+V { switch-layout-viusal-vertical; } // 垂直平铺（看得见所有窗口）
-    // Mod+S { switch-layout-visual-stacked; }  // 堆叠/标签页（只看当前，节省空间）
-    // === Window Management ===
-    Mod+Q repeat=false { close-window; } // 关闭窗口
-    Mod+M { maximize-column; } // 最大化列
-    Mod+F { fullscreen-window; } // 全屏
-    Mod+T { toggle-window-floating; } // 切换浮动
-    Mod+Shift+T { switch-focus-between-floating-and-tiling; } // 切换浮动/平铺焦点
-    Mod+S { toggle-column-tabbed-display; } // 切换列标签模式
-
-    // === Focus Navigation ===
-    // 列操作
-    Mod+H     { focus-column-left; } // 焦点左移(H)
-    Mod+J     { focus-window-down; } // 焦点下移(J)
-    Mod+K     { focus-window-up; } // 焦点上移(K)
-    Mod+L     { focus-column-right; } // 焦点右移(L)
-    Mod+Shift+H     { move-column-left; } // 向左移动列(H)
-    Mod+Shift+J     { move-window-down; } // 向下移动窗口(J)
-    Mod+Shift+K     { move-window-up; } // 向上移动窗口(K)
-    Mod+Shift+L     { move-column-right; } // 向右移动列(L)
-    Mod+Home { focus-column-first; } // 跳转到第一列
-    Mod+End  { focus-column-last; } // 跳转到最后一列
-
-    Mod+Left { move-column-to-first; } // 移动当前列到首位
-    Mod+Right  { move-column-to-last; } // 移动当前列到末位
-    Mod+Down { move-column-to-workspace-down; } // 移动当前列到下个工作区
-    Mod+Up   { move-column-to-workspace-up; } // 移动当前列到上个工作区
-
-    // === Monitor Navigation ===
-    // Mod+Ctrl+Left  { focus-monitor-left; } // 聚焦左边显示器
-    //Mod+Ctrl+Down  { focus-monitor-down; }
-    //Mod+Ctrl+Up    { focus-monitor-up; }
-    //Mod+Ctrl+Right { focus-monitor-right; } // 聚焦右边显示器
-    //Mod+Ctrl+H     { focus-monitor-left; } // 聚焦左边显示器(H)
-    //Mod+Ctrl+J     { focus-monitor-down; } // 聚焦下边显示器(J)
-    //Mod+Ctrl+K     { focus-monitor-up; } // 聚焦上边显示器(K)
-    //Mod+Ctrl+L     { focus-monitor-right; } // 聚焦右边显示器(L)
-
-    // === Move to Monitor ===
-    // Mod+Shift+Ctrl+Left  { move-column-to-monitor-left; } // 移动当前列到左边显示器
-    //Mod+Shift+Ctrl+Down  { move-column-to-monitor-down; } // 移动当前列到下边显示器
-    //Mod+Shift+Ctrl+Up    { move-column-to-monitor-up; } // 移动当前列到上边显示器
-    //Mod+Shift+Ctrl+Right { move-column-to-monitor-right; } // 移动当前列到右边显示器
-    //Mod+Shift+Ctrl+H     { move-column-to-monitor-left; } // 移动到左边显示器(H)
-    //Mod+Shift+Ctrl+J     { move-column-to-monitor-down; } // 移动到下边显示器(J)
-    //Mod+Shift+Ctrl+K     { move-column-to-monitor-up; } // 移动到上边显示器(K)
-    //Mod+Shift+Ctrl+L     { move-column-to-monitor-right; } // 移动到右边显示器(L)
-
-    // === Workspace Navigation ===
-    Mod+Alt+J              { focus-workspace-down; } // 跳转下个工作区(U)
-    Mod+Alt+K              { focus-workspace-up; } // 跳转上个工作区(I)
-    Mod+Alt+Down         { move-workspace-down; } // 下移工作区
-    Mod+Alt+Up         { move-workspace-up;  } // 上移工作区
-
-
-    // === Mouse Wheel Navigation ===
-    Mod+WheelScrollDown      cooldown-ms=150 { focus-workspace-down; } // 滚轮切下个工作区
-    Mod+WheelScrollUp        cooldown-ms=150 { focus-workspace-up; } // 滚轮切上个工作区
-
-    Mod+Shift+WheelScrollDown      { focus-column-right; } // Shift+滚轮下聚焦右列
-    Mod+Shift+WheelScrollUp        { focus-column-left; } // Shift+滚轮上聚焦左列
-
-    // === Numbered Workspaces ===
-    Mod+1 { focus-workspace 1; } // 切换工作区1
-    Mod+2 { focus-workspace 2; } // 切换工作区2
-    Mod+3 { focus-workspace 3; } // 切换工作区3
-    Mod+4 { focus-workspace 4; } // 切换工作区4
-    Mod+5 { focus-workspace 5; } // 切换工作区5
-    Mod+6 { focus-workspace 6; } // 切换工作区6
-    Mod+7 { focus-workspace 7; } // 切换工作区7
-
-    // === Move to Numbered Workspaces ===
-    Mod+Shift+1 { move-column-to-workspace 1; } // 移动到工作区1
-    Mod+Shift+2 { move-column-to-workspace 2; } // 移动到工作区2
-    Mod+Shift+3 { move-column-to-workspace 3; } // 移动到工作区3
-    Mod+Shift+4 { move-column-to-workspace 4; } // 移动到工作区4
-    Mod+Shift+5 { move-column-to-workspace 5; } // 移动到工作区5
-    Mod+Shift+6 { move-column-to-workspace 6; } // 移动到工作区6
-    Mod+Shift+7 { move-column-to-workspace 7; } // 移动到工作区7
-
-
-    // 窗口吸入/弹出逻辑组
-    Mod+BracketLeft  { consume-or-expel-window-left; }  // Mod + [
-    Mod+BracketRight { consume-or-expel-window-right; } // Mod + ]
-    Mod+Backslash    { expel-window-from-column; }      // Mod + \
-    Mod+C { center-column; } // 居中当前列
-    Mod+Ctrl+C { center-visible-columns; } // 居中所有可见列
-    // --- 9 家族：宽度 (Width) ---
-    Mod+9       { switch-preset-column-width; }      // 循环预设宽度 (如 33%, 50%, 100%)
-    Mod+Shift+9 { expand-column-to-available-width; } // 一键拉满宽度
-
-    // --- 0 家族：高度 (Height) ---
-    Mod+0       { switch-preset-window-height; }     // 循环预设高度
-    Mod+Shift+0 { reset-window-height; }            // 重置高度
-
-
-    // === Manual Sizing ===
-    Mod+Minus { set-column-width "-10%"; } // 缩小列宽
-    Mod+Equal { set-column-width "+10%"; } // 放大列宽
-    Mod+Shift+Minus { set-window-height "-10%"; } // 缩小窗口高度
-    Mod+Shift+Equal { set-window-height "+10%"; } // 放大窗口高度
-
-    // === Screenshots ===
-    XF86Launch1 { screenshot; } // 区域截图
-    Ctrl+XF86Launch1 { screenshot-screen; } // 全屏截图
-    Alt+XF86Launch1 { screenshot-window; } // 窗口截图
-    Print { spawn "sh" "-c" "grim -g \"$(slurp)\" - | swappy -f -"; }
-    Ctrl+Print { screenshot-screen; } // 全屏截图(Print)
-    Alt+Print { screenshot-window; } // 窗口截图(Print)
-    // === System Controls ===
+    Mod+Down { move-column-to-workspace-down; }
     Mod+Escape { focus-workspace-previous; }
-
-    Mod+F1 allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; } // 切换快捷键拦截
-    Mod+Shift+P { power-off-monitors; } // 关闭显示器
+    Mod+Shift+1 { move-column-to-workspace 1; }
+    Mod+Shift+2 { move-column-to-workspace 2; }
+    Mod+Shift+3 { move-column-to-workspace 3; }
+    Mod+Shift+4 { move-column-to-workspace 4; }
+    Mod+Shift+5 { move-column-to-workspace 5; }
+    Mod+Shift+6 { move-column-to-workspace 6; }
+    Mod+Shift+7 { move-column-to-workspace 7; }
+    Mod+Up { move-column-to-workspace-up; }
+    Mod+WheelScrollDown cooldown-ms=150 { focus-workspace-down; }
+    Mod+WheelScrollUp cooldown-ms=150 { focus-workspace-up; }
+    Alt+Print { screenshot-window; }
+    Alt+XF86Launch1 { screenshot-window; }
+    Mod+0 { switch-preset-window-height; }
+    Mod+9 { switch-preset-column-width; }
+    Mod+Backslash { expel-window-from-column; }
+    Mod+BracketLeft { consume-or-expel-window-left; }
+    Mod+BracketRight { consume-or-expel-window-right; }
+    Mod+C { center-column; }
+    Mod+Ctrl+C { center-visible-columns; }
+    Mod+End { focus-column-last; }
+    Mod+Equal { set-column-width "+10%"; }
+    Mod+F { fullscreen-window; }
+    Mod+H { focus-column-left; }
+    Mod+Home { focus-column-first; }
+    Mod+J { focus-window-down; }
+    Mod+K { focus-window-up; }
+    Mod+L { focus-column-right; }
+    Mod+Left { move-column-to-first; }
+    Mod+M { maximize-column; }
+    Mod+Minus { set-column-width "-10%"; }
+    Mod+Q repeat=false { close-window; }
+    Mod+Return { spawn "sh" "-c" "ID=$(niri msg -j windows | jq '.[] | select(.app_id == \"Alacritty\") | .id' | head -n 1); if [ -n \"$ID\" ]; then niri msg action focus-window --id \"$ID\"; else alacritty; fi"; }
+    Mod+Right { move-column-to-last; }
+    Mod+S { toggle-column-tabbed-display; }
+    Mod+Shift+0 { reset-window-height; }
+    Mod+Shift+9 { expand-column-to-available-width; }
+    Mod+Shift+Equal { set-window-height "+10%"; }
+    Mod+Shift+H { move-column-left; }
+    Mod+Shift+J { move-window-down; }
+    Mod+Shift+K { move-window-up; }
+    Mod+Shift+L { move-column-right; }
+    Mod+Shift+Minus { set-window-height "-10%"; }
+    Mod+Shift+T { switch-focus-between-floating-and-tiling; }
+    Mod+Shift+WheelScrollDown { focus-column-right; }
+    Mod+Shift+WheelScrollUp { focus-column-left; }
+    Mod+T { toggle-window-floating; }
+    Print { spawn "sh" "-c" "grim -g \"$(slurp)\" - | swappy -f -"; }
+    Mod+Shift+P { power-off-monitors; }
+    Ctrl+Print { screenshot-screen; }
+    Ctrl+XF86Launch1 { screenshot-screen; }
+    XF86Launch1 { screenshot; }
+    Mod+Shift+E { quit; }
+    Mod+F1 allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
+    Mod+Shift+Slash { show-hotkey-overlay; }
+    Mod+Tab repeat=false { toggle-overview; }
 }

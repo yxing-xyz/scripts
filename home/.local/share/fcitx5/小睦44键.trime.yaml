@@ -1,0 +1,917 @@
+# Trime style settings
+# encoding: utf-8
+
+name: 小睦44键 #方案名称
+
+锚点:
+  数顶:
+    height: 35
+    __include: 小睦.yaml:/顶部0-9
+
+  26键:
+    ascii_mode: 0 #默认中/英状态
+    width: 10
+    height: 40
+    horizontal_gap: 2 #按键水平间距
+    vertical_gap: 5 #5/1｜按键行距
+    key_symbol_offset_x: 9.5 #上符x
+    key_symbol_offset_y: 1
+
+  横屏26:
+    width: 4.5
+    height: 20
+    vertical_gap: 1
+    __include: 锚点/26键
+
+  九键数字:
+    width: 22
+    height: 40
+    key_symbol_offset_x: 0
+    vertical_gap: 1
+    __include: 锚点/26键
+
+  编辑:
+    width: 22
+    height: 28
+    horizontal_gap: 3
+    vertical_gap: 1
+    key_text_size: 17 #按键字大小
+    __include: 锚点/26键
+
+  主题:
+    ascii_mode: 1
+    vertical_gap: 3
+    key_text_offset_y: -1 # 字y
+    key_symbol_offset_x: 0 # 上符x
+    key_symbol_offset_y: 1 # 上符y
+    key_hint_offset_y: -4.5 # 下符y
+    __include: 锚点/26键
+  主题0-9:
+    height: 33
+    __include: 小睦.yaml:/顶部0-9
+
+  调频:
+    width: 25
+    height: 40
+    __include: 锚点/26键
+
+  集成:
+    ascii_mode: 0
+    width: 25
+    height: 25
+    vertical_gap: 15
+    horizontal_gap: 25
+    key_text_offset_y: -6
+    key_hint_offset_y: -7
+  集成附加:
+    key_text_size: 33
+    __include: 小睦.yaml:/透明
+
+  底栏:
+    height: 15
+    width: 13
+    key_text_offset_y: 0.5
+    __include: 小睦.yaml:/透明
+  底栏左侧:
+    width: 15.8
+    __include: 锚点/底栏
+    key_text_offset_x: 10
+  底栏右侧:
+    __include: 锚点/底栏左侧
+    key_text_offset_x: -10
+  底栏箭头:
+    width: 14.6
+    __include: 锚点/底栏
+
+
+style:
+  keyboard_height: 275 #锁定键盘高度，避免切换时键盘高度变化而造成闪烁
+  keyboard_height_land: 210 #锁定横屏下键盘高度，避免切换时键盘高度变化而造成闪烁
+  keyboard_padding: 2 #竖屏模式下，屏幕左右两侧与键盘的距离
+  keyboard_padding_bottom: 6 #竖屏模式下，屏幕下边缘与键盘的距离
+  keyboard_padding_land: 20 #横屏模式下，屏幕左右两侧与键盘的距离
+  keyboard_padding_land_bottom: 5 #横屏模式下，屏幕下侧与键盘的距离
+  reset_ascii_mode: false #显示键盘时重置为中文状态
+  auto_caps: false #自动句首大写:true|false|ascii
+  latin_locale: en_US #西文语言
+  locale: zh_CN #预设语言 zh_TW,zh_CN,zh_HK,""
+  background_dim_amount: 0.5 #备用参数，无功能
+  keyboards: #键盘配置：自动键盘、字母、数字
+    - .default
+    - default
+    - letter
+    - number
+    - editor
+    - theme_editor
+    - theme²
+    - tp_keyboard
+    - layout
+
+  # 候选区
+  ## 候选
+  candidate_use_cursor: true #高亮候选项
+  candidate_view_height: 22 #候选区高度
+  candidate_padding: 5 #候选项内边距
+  candidate_spacing: 0.5 #候选间距
+  candidate_corner_radius: 8 # 高亮背景首选圆角
+  candidate_font: [LXGWWenKai-Medium.ttf] #候选字型
+  candidate_text_size: 21 #候选字号
+  ## 编码
+  comment_height: 22 #编码提示区高度
+  comment_font: [seguiemj.ttf] #编码提示字型
+  comment_text_size: 12 #编码提示字号
+  comment_position: overlay #编码提示布局位置：right / top / overlay
+  candidate_text_vertical_bias: 0.5 #候选文本垂直偏移位置（仅 overlay 模式使用，需要间隙空间足够，范围 0.0~1.0，0.0=top，0.5=center，1.0=bottom）
+  comment_vertical_bias: 0.0 #编码提示垂直偏移位置（仅 overlay 模式使用，需要间隙空间足够，范围 0.0~1.0，0.0=top，0.5=center，1.0=bottom）
+
+  # 按键区
+  proximity_correction: true #按键纠错
+  vertical_correction: -5 #按键偏移（上偏为正）
+  horizontal_gap: 5 #键水平间距
+  vertical_gap: 2 #键盘行距
+  ## 主按键
+  key_height: 26 #键高
+  key_width: 12 #键宽，占屏幕宽的百分比
+  round_corner: 10 #按键圆角半径
+  shadow_radius: 0 #按键阴影半径
+  key_border: 0 #按键边框
+  key_font: [LXGWWenKai-Medium.ttf, iconfont.ttf] #键盘字型
+  latin_font: LXGWWenKai-Medium.ttf #西文字型
+  hanb_font: [LXGWWenKai-Medium.ttf, seguiemj.ttf, PlangothicP1-Regular.ttf, PlangothicP2-Regular.ttf] #扩充字型
+  key_text_size: 20 #键字号
+  key_long_text_size: 16 #长标签字号
+  symbol_font: [iconfont.ttf] #符号字型
+  symbol_text_size: 10 #符号字号
+  ## 气泡弹窗
+  popup_text_size: 36 #气泡弹窗字号
+  popup_font: [iconfont.ttf] #气泡弹窗字体
+  popup_width: 38 #气泡弹窗宽度
+  popup_height: 44 #气泡弹窗高度
+  popup_bottom_margin: 58 #气泡弹窗底边距
+  popup_key_height: 44 #气泡弹窗内键高度
+  popup_text_size: 23 #气泡弹窗字号
+
+tool_bar: #工具栏
+  button_spacing: 17 # 按钮间距
+  button_font: [iconfont.ttf] # 按钮字体
+  # 左侧固定主按钮配置
+  primary_button:
+    # 背景样式设置
+    background:
+      type: circle           # 高亮形状 (可选值: circle|rectangle)
+      corner_radius: 10      # 圆角半径
+      normal: 0x00        # 正常状态背景颜色
+      highlight: 0x00  # 高亮状态背景色
+      vertical_inset: 4      # 垂直方向内缩量
+      horizontal_inset: 0    # 水平方向内缩量
+    # 前景内容设置
+    foreground:
+      font_size: 20 #按键大小
+      style: "\uE12F" #样式
+      normal: 非首选字色  # 正常状态前景色 (本地图片不允许着色)
+      # highlight:        # 高亮状态前景色
+      padding: 8            # 前景内容与背景边界的内边距
+      size: [40, 65]      # 视图控件宽高，非前景样式宽高
+    # 按钮点击事件
+    action: menu_keyboard
+
+# 收起
+  hide_button: &hide_button
+    background:
+      highlight: 0x00
+    foreground:
+      font_size: 10.7
+      style: "ic@chevron-down"
+      size: [40, 54]
+    action: Hide
+
+  # 语音
+  yy_button: &yy_button
+    foreground:
+      font_size: 23
+      style: "\uE180"
+      padding: 7
+    action: YY
+
+# 键盘选择
+  layout_button: &layout_button
+    foreground:
+      font_size: {__include: /tool_bar/yy_button/foreground/font_size}
+      style: "\uE101"
+      padding: 7
+    action: keyboard_layout
+
+# 编辑
+  edit_button: &edit_button
+    foreground:
+      font_size: {__include: /tool_bar/yy_button/foreground/font_size}
+      style: "\uE1C0"
+    action: Keyboard_editor
+
+  #🔴重做：
+  redo_button: &redo_button
+    foreground:
+      font_size: {__include: /tool_bar/yy_button/foreground/font_size}
+      style: "ic@redo"
+    action: xb
+
+  #🔴撤销：
+  undo_button: &undo_button
+    foreground:
+      font_size: {__include: /tool_bar/yy_button/foreground/font_size}
+      style: "ic@undo"
+    action: sb
+
+# 顺序（右→左）
+  buttons: [ *hide_button, *yy_button, *edit_button, *layout_button, *redo_button, *undo_button ]
+
+
+fallback_colors:
+  __include: 小睦.yaml:/fallback_colors
+
+preset_color_schemes:
+  __include: 小睦.yaml:/preset_color_schemes
+
+android_keys:
+  # 仅供编辑键盘时参考，实际不产生任何效果
+  when:
+    ascii: 西文標籤
+    paging: 翻頁標籤
+    has_menu: 選單標籤
+    composing: 輸入狀態標籤
+    #always: 始終
+    #hover: 滑過
+    combo: 並擊
+    click: 單按
+    long_click: 長按
+    #double_click: 雙按
+    swipe_left: 左滑
+    swipe_right: 右滑
+    swipe_up: 上滑
+    swipe_down: 下滑
+  property:
+    width: 寬度
+    height: 高度
+    gap: 間隔
+    preview: 預覽
+    hint: 提示
+    label: 標籤
+    states: 狀態標籤
+    repeatable: 連續按鍵
+    functional: 功能鍵
+    shift_lock: Shift鎖定 #ascii_long: 英文長按中文單按鎖定, long: 長按鎖定, click: 單按鎖定
+  action:
+    command: 命令
+    option: 參數
+    select: 選擇
+    toggle: 狀態
+    send: 按鍵
+    text: 文字
+    commit: 上屏
+
+preset_keys:
+  Deploy: {label: "\uE18B", send: function, command: apply, option: "DEPLOY"}
+  Sync: {label: "\uE18A", send: function, command: apply, option: "SYNC_USER_DATA"}
+#trime命令
+  Q1: {label: "\uE136", send: function, command: set_color_scheme, option: "Q1"}
+  Q3: {label: "\uE136", send: function, command: set_color_scheme, option: "Q3"}
+  Q4: {label: "\uE134", send: function, command: set_color_scheme, option: "Q4"}
+  Q5: {label: "\uE136", send: function, command: set_color_scheme, option: "Q5"}
+  ux: {label: "\uE194", send: function, command: set_theme, option: ""}
+  # 编辑
+  Return: {label: 回车, send: Return}
+  Hide: {label: '▼', send: BACK}
+  BackSpace: {label: 退格, repeatable: true, send: BackSpace}
+  space1: {label: 空格, repeatable: true, send: space}  #用于liquidkeyboard显示一致性
+  jisuan: {label: '计算', send: V}
+  Tab: {label: Tab, send: Tab}
+  Delete: {label: Delete, send: Delete}
+  RepeatCommit: { label: 重复, command: commit, option: "%1$s" }
+###编辑修改
+  End: {label: 末尾, send: Control+End}
+  hm: {label: 行末, send: End}
+  Home: {label: 开头, send: Control+Home}
+  hs: {label: 行首, send: Home}
+  space: {label: "\uE183", preview: "\uE681", slide_cursor: true, send: space}
+  ief: {label: 撤销, send: Control+z}
+  isq: {label: 重做, send: Control+y}
+  fc: {label: 分词, send: apostrophe}
+#外显修改
+  Shift_L: {label: "\uE1B2", send: Shift_L} # 不锁定
+  Shift: {label: "\uE1B4", send: Shift_L, shift_lock: click} # 锁定
+  Shift_R: {label: " ", send: Shift_L, shift_lock: long}
+  zd: {label: "\uE0A2", send: Control+Home} # 置顶
+  yd: {label: "\uE0B2", send: Control+End} # 末尾
+  sb: {label: "\uE192", send: Control+z} # 撤销
+  xb: {label: "\uE191", send: Control+y} # 恢复
+  all: {label: "\uE188", send: Control+a} # 全选
+  zt: {label: "\uE093", send: Control+v} # 粘贴
+  cy: {label: "\uE11D", send: Control+c} # 复制
+  ct: {label: "\uE089", send: Control+x} # 剪切
+  Enter: {label: "\uE034", send: Return} # 回车
+  Left: {label: "\uE0AB", repeatable: true, send: Left}
+  Down: {label: "\uE0DB", repeatable: true, send: Down}
+  Up: {label: "\uE0CB", repeatable: true, send: Up}
+  Right: {label: "\uE0BB", repeatable: true, send: Right}
+  cut_all: {label: "\uE08B", text: '{Control+a}{Control+x}'} # 全选并剪切
+  copy_all: {label: "\uE09C", text: '{Control+a}{Control+c}'} # 全选并复制
+  Clear: {label: "\uE04F", text: '{Control+a}{BackSpace}'} # 全选并删除
+  Esc: {label: "\uE049", send: Escape}
+  Page_Up: {label: "\uE0CD", send: Page_Up}
+  Page_Down: {label: "\uE0DD", send: Page_Down}
+  Theme_settings: {label: "\uE131", send: SETTINGS, option: 'theme'} # 主题
+  Schema_settings: {label: "\uE101", send: SETTINGS, option: 'schema'} # 方案
+  Color_settings: {label: "\uE135", send: SETTINGS, option: "color"} # 配色
+  IME_switch: {label: "\uE17F", send: LANGUAGE_SWITCH} # 切换输入法
+#方案key
+  cf: {label: 拆, send: Control+c} # 拆分
+  zf: {label: 字, send: Control+g} # 字集过滤
+  emo: {label: 辅, send: Control+a} # 辅助码
+  fy: {label: "\uE62E", send: Control+e} # 翻译
+  yb: {label: "\uE068", send: Control+s} # 音调
+#光标跳转
+  ^1: {label: ' ', send: Control+1}
+  ^2: {label: ' ', send: Control+2}
+  ^3: {label: ' ', send: Control+3}
+  ^4: {label: ' ', send: Control+4}
+  ^5: {label: ' ', send: Control+5}
+  ^6: {label: ' ', send: Control+6}
+  ^7: {label: ' ', send: Control+7}
+  ^8: {label: ' ', send: Control+8}
+  ^9: {label: ' ', send: Control+9}
+  ^0: {label: ' ', send: Control+0}
+# 其他
+  cx: {label: 次选, send: 2}
+  YY: {label: ' ', send: VOICE_ASSIST} # 语音
+  kh: {label: '{}', text: "{}{Left}"}
+#主题编辑布局
+  键盘背景: {label: 盘背, commit: 'keyboard_back_color: '}
+  按下x: {label: 按下x, commit: 'key_press_offset_x: '}
+  按下y: {label: 按下y, commit: 'key_press_offset_y: '}
+  按键背景: {label: 键背, commit: 'key_back_color: '}
+  背景高亮: {label: 背高, commit: 'hilited_key_back_color: '}
+  字高亮: {label: 字高, commit: 'hilited_key_text_color: '}
+  符高: {label: 符高, commit: 'hilited_key_symbol_color: '}
+  字色: {label: 字色, commit: 'key_text_color: '}
+  字号: {label: 字号, commit: 'key_text_size: '}
+  行距: {label: 行距, commit: 'vertical_gap: '}
+  键高: {label: 键高, commit: 'height: '}
+  列距: {label: 列距, commit: 'horizontal_gap: '}
+  符色: {label: 符色, commit: 'key_symbol_color: '}
+  圆角: {label: 圆角, commit: 'round_corner: '}
+  符号: {label: 符号, commit: 'symbol_text_size: '}
+  字x: {label: 字x, commit: 'key_text_offset_x: '}
+  字y: {label: 字y, commit: 'key_text_offset_y: '}
+  上符x: {label: 上符x, commit: 'key_symbol_offset_x: '}
+  上符y: {label: 上符y, commit: 'key_symbol_offset_y: '}
+  下符x: {label: 下符x, commit: 'key_hint_offset_x: '}
+  下符y: {label: 下符y, commit: 'key_hint_offset_y: '}
+  上: {label: 上, commit: Up}
+  下: {label: 下, commit: Down}
+  左: {label: 左, commit: Left}
+  右: {label: 右, commit: Right}
+  发送: {label: 发送, commit: 'send: '}
+  引用: {label: 引用, commit: '__include: '}
+  组: {commit: 'text: "{}{}"'}
+  直接上屏: {commit: "commit: ''"}
+  执行命令: {commit: 'command: , '}
+  命令参数: {commit: 'option: ""'}
+  输入中: {commit: "composing: ,"}
+  弹窗: {commit: 'popup: [],'}
+  右滑: {commit: 'swipe_right: ,'}
+  左滑: {commit: 'swipe_left: ,'}
+  下滑: {commit: 'swipe_down: ,'}
+  上滑: {commit: 'swipe_up: ,'}
+  上显: {commit: 'label_symbol: ,'}
+  下显: {commit: 'hint: "",'}
+  单击: {commit: 'click: ,'}
+  长: {commit: 'long_click: ,'}
+  显: {commit: 'label: ,'}
+  新键: {commit: '- {click: ,}'}
+  宽度: {commit: 'width: ,'}
+  候选词: {commit: 'has_menu: ,'}
+  u字符: {commit: '"\uE"'}
+  预: {commit: 'preview: ""'}
+  Ctrl键: {label: Ctrl, commit: 'Control+'}
+#组合键
+  组合: {label: 组合, text: "{组}{Left}{Left}{Left}{Left}"}
+  执行: {label: 执行, text: "{执行命令}{Left}{Left}"}
+  气泡: {label: 气泡, text: "{弹窗}{Left}{Left}"}
+  新键值: {label: 新键值, text: "{新键}{Left}{Left}"}
+  下符显示: {label: 下显, text: "{下显}{Left}{Left}"}
+  输入状态: {label: 输入状态, text: "{输入中}{Left}"}
+  右划: {label: 右划, text: "{右滑}{Left}"}
+  左划: {label: 左划, text: "{左滑}{Left}"}
+  下划: {label: 下划, text: "{下滑}{Left}"}
+  上划: {label: 上划, text: "{上滑}{Left}"}
+  上符显示: {label: 上显, text: "{上显}{Left}"}
+  键值: {label: 键值, text: "{单击}{Left}"}
+  长按: {label: 长按, text: "{长}{Left}"}
+  显示: {label: 显示, text: "{显}{Left}"}
+  键宽: {label: 键宽, text: "{宽度}{Left}"}
+  候选: {label: 候选, text: "{候选词}{Left}"}
+  命令: {label: option, text: "{命令参数}{Left}"}
+  上屏: {label: 上屏, text: "{直接上屏}{Left}"}
+  UE符: {label: UE符, text: "{u字符}{Left}"}
+  预览: {label: 预览气泡, text: "{预}{Left}"}
+
+#剪切板
+  cilpboard_window: {label: 剪板, send: function, command: "clipboard_window"}
+  cilpboard: {label: "\uE44F", send: function, command: "clipboard_window"}
+#liquidkeyboard液态键盘相关
+  liquid_keyboard_exit: {label: 返回, send: function, command: liquid_keyboard, option: "-1"}
+  liquid_keyboard_ascii: {label: "\uE019", send: function, command: liquid_keyboard, option: "英文"}
+  # rime状态
+  Mode_switch: {toggle: ascii_mode, send: SWITCH_CHARSET, states: [中, abc]}
+  # trime键盘
+  Back: {label: 返回, send: Eisu_toggle, select: .default}
+  Keyboard_default: {label: ' ', send: Eisu_toggle, select: .default, preview: ""} # 26键
+  menu_keyboard: {label: 菜单, send: function, command: menu_keyboard}
+  Keyboard_number: {label: "\uE011", send: Eisu_toggle, select: number, preview: ""} # 数字
+  theme: {label: "\uE0A3", send: Eisu_toggle, select: theme_editor, preview: ""} # 主题
+  keyboard_theme: {label: "\uE0B3", send: Eisu_toggle, select: theme², preview: ""} # 主题第二页
+  Keyboard_editor: {label: ' ', send: Eisu_toggle, select: editor, preview: ""} # 编辑
+  keyboard_tp: {label: 调频, send: Eisu_toggle, select: tp_keyboard, preview: ""}
+  keyboard_layout: {label: "\uE101", send: Eisu_toggle, select: layout, preview: ""}
+  # 自定义按键
+  BS: {label: "\uE049", repeatable: true, send: BackSpace}
+  fi: {label: 方案, send: 'Control+F11'}
+  zy: {label: 左移, send: Control+j}
+  yh: {label: 右移, send: Control+k}
+  iv: {label: 重置, send: Control+l}
+  vd: {label: 置顶, send: Control+p}
+
+preset_keyboards:
+  default:
+    landscape_keyboard: landscape_default
+    name: 26键
+    label_transform: uppercase   #键盘字母转化为大写
+    lock: false #切换程序时记忆键盘
+    __patch:
+      - 锚点/26键
+    keys:
+      # 数字行
+      - {click: 1, long_click: ^1, __include: 锚点/数顶}
+      - {click: 2, long_click: ^2, __include: 锚点/数顶}
+      - {click: 3, long_click: ^3, __include: 锚点/数顶}
+      - {click: 4, long_click: ^4, __include: 锚点/数顶}
+      - {click: 5, long_click: ^5, __include: 锚点/数顶}
+      - {click: 6, long_click: ^6, __include: 锚点/数顶}
+      - {click: 7, long_click: ^7, __include: 锚点/数顶}
+      - {click: 8, long_click: ^8, __include: 锚点/数顶}
+      - {click: 9, long_click: ^9, __include: 锚点/数顶}
+      - {click: 0, long_click: ^0, __include: 锚点/数顶}
+      # 第 1 行
+      - {click: 'q', long_click: ';', __include: 小睦.yaml:/Q}
+      - {click: 'w', long_click: '@', __include: 小睦.yaml:/w}
+      - {click: 'e', long_click: '+', key_symbol_offset_y: -1, __include: 小睦.yaml:/E}
+      - {click: 'r', long_click: '-', key_symbol_offset_y: -1, __include: 小睦.yaml:/R}
+      - {click: 't', long_click: '=', key_symbol_offset_y: -1, __include: 小睦.yaml:/T}
+      - {click: 'y', long_click: '#', __include: 小睦.yaml:/Y}
+      - {click: 'u', long_click: '%', __include: 小睦.yaml:/U}
+      - {click: 'i', long_click: '&', __include: 小睦.yaml:/i}
+      - {click: 'o', label_symbol: "\uE037", long_click: RepeatCommit, __include: 小睦.yaml:/O}
+      - {click: 'p', long_click: '*', __include: 小睦.yaml:/P}
+      # 第 2 行
+      - {width: 5}
+      - {click: 'a', long_click: all, __include: 小睦.yaml:/A}
+      - {click: 's', long_click: '!', __include: 小睦.yaml:/S}
+      - {click: 'd', long_click: '|', __include: 小睦.yaml:/D}
+      - {click: 'f', label_symbol: "\uE05A", popup: [cf, zf, emo, fy, yb], __include: 小睦.yaml:/F}
+      - {click: 'g', label_symbol: "\uE18B", popup: [Deploy, Sync], __include: 小睦.yaml:/G}
+      - {click: 'h', label_symbol: "\uE01B", popup: [')', '[', '(', ']', '>', '{', '<', '}', '】', '《', '【', '》', '」', '『', '「', '』'], __include: 小睦.yaml:/H}
+      - {click: 'j', long_click: 'kh', __include: 小睦.yaml:/J}
+      - {click: 'k', long_click: '?', __include: 小睦.yaml:/K}
+      - {click: 'l', long_click: ^, __include: 小睦.yaml:/L}
+      # 第 3 行
+      - {click: Shift_L, double_click: Shift, long_click: Shift_R, width: 15, __include: 小睦.yaml:/Shift}
+      - {click: 'z',long_click: sb, __include: 小睦.yaml:/Z}
+      - {click: 'x', long_click: ct, __include: 小睦.yaml:/X}
+      - {click: 'c', long_click: cy, __include: 小睦.yaml:/C}
+      - {click: 'v', long_click: zt, __include: 小睦.yaml:/V}
+      - {click: 'b', long_click: '/', __include: 小睦.yaml:/B}
+      - {click: 'n', long_click: '\', __include: 小睦.yaml:/N}
+      - {click: 'm', label_symbol: "\uE191", popup: [xb, Clear, Esc, cut_all, copy_all], __include: 小睦.yaml:/M}
+      - {click: BS, width: 15, key_text_offset_x: -1, __include: 小睦.yaml:/退格}
+      # 第 4 行
+      - {click: Keyboard_number, label_symbol: ' ', long_click: keyboard_tp, width: 15, __include: 小睦.yaml:/数字}
+      - {click: ',', long_click: zd, __include: 小睦.yaml:/逗号}
+      - {click: '.', label: ' 。', long_click: yd, __include: 小睦.yaml:/句号}
+      - {click: space, width: 30, __include: 小睦.yaml:/空格}
+      - {click: Mode_switch, long_click: Keyboard_editor, composing: /, width: 20, __include: 小睦.yaml:/中英}
+      - {click: Enter, long_click: "\n", label_symbol: ' ', width: 15, key_text_offset_x: -2, __include: 小睦.yaml:/回车}
+      - {click: liquid_keyboard_ascii, __include: 锚点/底栏左侧}
+      - {click: Left, __include: 锚点/底栏箭头}
+      - {click: fi,width: 37, __include: 锚点/底栏}
+      - {click: Right, __include: 锚点/底栏箭头}
+      - {click: cilpboard, __include: 锚点/底栏右侧}
+
+  landscape_default: # 横屏键盘
+    landscape_split_percent: 0
+    lock: false
+    __include: 锚点/横屏26
+    label_transform: uppercase
+    keys:
+      # 第一行
+      - {click: 1, long_click: ^1, width: 8, __include: 小睦.yaml:/1}
+      - {click: 2, long_click: ^2, width: 8, __include: 小睦.yaml:/2}
+      - {click: 3, long_click: ^3, width: 8, __include: 小睦.yaml:/3}
+      - {width: 31}
+      - {click: 'q', long_click: '·', __include: 小睦.yaml:/Q}
+      - {click: 'w', long_click: '@', __include: 小睦.yaml:/w}
+      - {click: 'e', long_click: '+', key_symbol_offset_y: -1, __include: 小睦.yaml:/E}
+      - {click: 'r', long_click: '-', key_symbol_offset_y: -1, __include: 小睦.yaml:/R}
+      - {click: 't', long_click: '=', key_symbol_offset_y: -1, __include: 小睦.yaml:/T}
+      - {click: 'y', long_click: '#', __include: 小睦.yaml:/Y}
+      - {click: 'u', long_click: '%', __include: 小睦.yaml:/U}
+      - {click: 'i', long_click: '&', __include: 小睦.yaml:/i}
+      - {click: 'o', label_symbol: "\uE037", long_click: RepeatCommit, __include: 小睦.yaml:/O}
+      - {click: 'p', long_click: '`', __include: 小睦.yaml:/P}
+      # 第二行
+      - {click: 4, long_click: ^4, width: 8, __include: 小睦.yaml:/4}
+      - {click: 5, long_click: ^5, width: 8, __include: 小睦.yaml:/5}
+      - {click: 6, long_click: ^6, width: 8, __include: 小睦.yaml:/6}
+      - {width: 33.25}
+      - {click: 'a', long_click: all, __include: 小睦.yaml:/A}
+      - {click: 's', long_click: '!', __include: 小睦.yaml:/S}
+      - {click: 'd', long_click: '|', __include: 小睦.yaml:/D}
+      - {click: 'f', label_symbol: "\uE05A", popup: [cf, zf, emo, fy, yb], __include: 小睦.yaml:/F}
+      - {click: 'g', label_symbol: "\uE18B", popup: [Deploy, Sync], __include: 小睦.yaml:/G}
+      - {click: 'h', label_symbol: "\uE01B", popup: [')', '[', '(', ']', '>', '{', '<', '}', '】', '《', '【', '》', '」', '『', '「', '』'], __include: 小睦.yaml:/H}
+      - {click: 'j', long_click: 'kh', __include: 小睦.yaml:/J}
+      - {click: 'k', long_click: '?', __include: 小睦.yaml:/K}
+      - {click: 'l', long_click: ^, __include: 小睦.yaml:/L}
+      # 第三行
+      - {click: 7, long_click: ^7, width: 8, __include: 小睦.yaml:/7}
+      - {click: 8, long_click: ^8, width: 8, __include: 小睦.yaml:/8}
+      - {click: 9, long_click: ^9, width: 8, __include: 小睦.yaml:/9}
+      - {width: 31}
+      - {click: Shift_L, double_click: Shift, long_click: Shift_R, width: 6.5, __include: 小睦.yaml:/Shift}
+      - {click: 'z',long_click: sb, __include: 小睦.yaml:/Z}
+      - {click: 'x', long_click: ct, __include: 小睦.yaml:/X}
+      - {click: 'c', long_click: cy, __include: 小睦.yaml:/C}
+      - {click: 'v', long_click: zt, __include: 小睦.yaml:/V}
+      - {click: 'b', long_click: '/', __include: 小睦.yaml:/B}
+      - {click: 'n', long_click: '\', __include: 小睦.yaml:/N}
+      - {click: 'm', label_symbol: "\uE191", popup: [xb, Clear, Esc, cut_all, copy_all], __include: 小睦.yaml:/M}
+      - {click: BS, width: 6.5, key_text_offset_x: -1, __include: 小睦.yaml:/退格}
+      # 第四行
+      - {click: Left, width: 8}
+      - {click: 0, long_click: ^0, width: 8, __include: 小睦.yaml:/0}
+      - {click: Right, width: 8}
+      - {width: 31}
+      - {click: cilpboard_window, long_click: keyboard_layout, label_symbol: ' ', composing: Tab, width: 6.5, __include: 小睦.yaml:/数字}
+      - {click: ',', long_click: zd, composing: \, __include: 小睦.yaml:/逗号}
+      - {click: '.', label: ' 。', long_click: yd, __include: 小睦.yaml:/句号}
+      - {click: space, width: 13.5, __include: 小睦.yaml:/空格}
+      - {click: Mode_switch, long_click: Keyboard_editor, composing: /, width: 9, __include: 小睦.yaml:/中英}
+      - {click: Enter, long_click: "\n", label_symbol: ' ', key_text_offset_x: -2, width: 6.5, __include: 小睦.yaml:/回车}
+
+  number: #数字布局
+    name: 数字
+    __include: 锚点/九键数字
+    keys:
+      # 第一行
+      - {click: '+', long_click: '%', width: 17, __include: 小睦.yaml:/符号}
+      - {click: 1, __include: 小睦.yaml:/1}
+      - {click: 2, __include: 小睦.yaml:/2}
+      - {click: 3, __include: 小睦.yaml:/3}
+      - {click: Back, width: 17, __include: 小睦.yaml:/返回}
+      # 第二行
+      - {click: '-', long_click: '±', width: 17, __include: 小睦.yaml:/符号}
+      - {click: 4, __include: 小睦.yaml:/4}
+      - {click: 5, __include: 小睦.yaml:/5}
+      - {click: 6, __include: 小睦.yaml:/6}
+      - {click: space1, width: 17, __include: 小睦.yaml:/空格2}
+      # 第三行
+      - {click: '*', long_click: '×', width: 17, __include: 小睦.yaml:/符号}
+      - {click: 7, __include: 小睦.yaml:/7}
+      - {click: 8, __include: 小睦.yaml:/8}
+      - {click: 9, __include: 小睦.yaml:/9}
+      - {click: BackSpace, width: 17, __include: 小睦.yaml:/退格}
+      # 第四行
+      - {click: '/', long_click: '÷', width: 17, __include: 小睦.yaml:/符号}
+      - {click: '=', long_click: 'jisuan', __include: 小睦.yaml:/符号}
+      - {click: 0, __include: 小睦.yaml:/0}
+      - {click: '.', __include: 小睦.yaml:/符号}
+      - {click: Enter, long_click: "\n", label_symbol: ' ', width: 17, __include: 小睦.yaml:/回车}
+      - {click: liquid_keyboard_ascii, width: 25, __include: 锚点/底栏左侧}
+      - {click: Left, width: 25, __include: 锚点/底栏箭头}
+      - {click: Right, width: 25, __include: 锚点/底栏箭头}
+      - {click: cilpboard, width: 25, __include: 锚点/底栏右侧}
+#编辑布局
+  editor:
+    __include: 锚点/编辑
+    keys:
+# 第一行
+      - {width: 17, click: all, label: 全选, __include: 小睦.yaml:/功能风}
+      - {click: ief, __include: 小睦.yaml:/功能风}
+      - {click: Clear, label: 清除, __include: 小睦.yaml:/功能风}
+      - {click: isq, __include: 小睦.yaml:/功能风}
+      - {width: 17, click: Back, __include: 小睦.yaml:/功能风}
+# 第二行
+      - {width: 17, click: ct, label: 剪切, __include: 小睦.yaml:/功能风}
+      - {click: Home}
+      - {click: Up}
+      - {click: End}
+      - {width: 17, click: BackSpace, __include: 小睦.yaml:/退格}
+# 第三行
+      - {width: 17, click: cy, label: 复制, __include: 小睦.yaml:/功能风}
+      - {click: Left}
+      - {click: Shift_L, __include: 小睦.yaml:/Shift}
+      - {click: Right}
+      - {width: 17, click: cilpboard_window, __include: 小睦.yaml:/功能风}
+# 第四行
+      - {width: 17, click: zt, label: 粘贴, __include: 小睦.yaml:/功能风}
+      - {click: hs}
+      - {click: Down}
+      - {click: hm}
+      - {width: 17, click: Keyboard_number, __include: 小睦.yaml:/功能风}
+# 第五行
+      - {width: 17, click: Back, __include: 小睦.yaml:/数字}
+      - {click: keyboard_tp, __include: 小睦.yaml:/功能风}
+      - {click: theme, label: 主题, __include: 小睦.yaml:/功能风}
+      - {click: RepeatCommit, __include: 小睦.yaml:/功能风}
+      - {width: 17, click: Return, __include: 小睦.yaml:/回车}
+#主题布局
+  theme_editor:
+    __include: 锚点/主题
+    keys:
+# 第一行
+      - {click: 1, __include: 锚点/主题0-9}
+      - {click: 2, __include: 锚点/主题0-9}
+      - {click: 3, __include: 锚点/主题0-9}
+      - {click: 4, __include: 锚点/主题0-9}
+      - {click: 5, __include: 锚点/主题0-9}
+      - {click: 6, __include: 锚点/主题0-9}
+      - {click: 7, __include: 锚点/主题0-9}
+      - {click: 8, __include: 锚点/主题0-9}
+      - {click: 9, __include: 锚点/主题0-9}
+      - {click: 0, __include: 锚点/主题0-9}
+# 第二行
+      - {click: 行距, long_click: 列距, key_text_size: 14}
+      - {click: 键宽, key_text_size: 14}
+      - {click: 键高, key_text_size: 14}
+      - {click: 键值, key_text_size: 14}
+      - {click: 新键值, key_text_size: 12}
+      - {click: 长按, long_click: 气泡, key_text_size: 14}
+      - {click: 显示, long_click: UE符, key_text_size: 14}
+      - {click: 上符显示, long_click: 下符显示, key_text_size: 14}
+      - {click: 字号, long_click: 符号, key_text_size: 14}
+      - {click: ',', long_click: '.', key_text_size: 24, symbol_text_size: 24}
+# 第三行
+      - {click: 字x, long_click: 字y, key_text_size: 14}
+      - {click: 上符x, long_click: 上符y, key_text_size: 14}
+      - {click: 下符x, long_click: 下符y, key_text_size: 14}
+      - {click: 执行, long_click: 命令, key_text_size: 14}
+      - {click: 上屏, long_click: 组合, key_text_size: 14}
+      - {click: 引用, long_click: 发送, key_text_size: 14}
+      - {click: hs, long_click: 候选, key_text_size: 14}
+      - {click: Up, __include: 小睦.yaml:/功能风}
+      - {click: hm, long_click: 输入状态, key_text_size: 14}
+      - {click: keyboard_theme, key_text_size: 14}
+# 第四行
+      - {click: ief}
+      - {click: isq}
+      - {click: all}
+      - {click: ct}
+      - {click: cy}
+      - {click: zt}
+      - {click: Left, __include: 小睦.yaml:/功能风}
+      - {click: Down, __include: 小睦.yaml:/功能风}
+      - {click: Right, __include: 小睦.yaml:/功能风}
+      - {click: RepeatCommit}
+# 第五行
+      - {width: 15, click: Back, __include: 小睦.yaml:/数字}
+      - {width: 15, click: Shift_L, __include: 小睦.yaml:/Shift}
+      - {width: 40, click: space, __include: 小睦.yaml:/空格}
+      - {width: 15, click: BackSpace, __include: 小睦.yaml:/退格}
+      - {width: 15, click: Return, long_click: "\n", label_symbol: ' ', __include: 小睦.yaml:/回车}
+
+  theme²:
+    __include: 锚点/主题
+    keys:
+# 第一行
+      - {click: 1, __include: 锚点/主题0-9}
+      - {click: 2, __include: 锚点/主题0-9}
+      - {click: 3, __include: 锚点/主题0-9}
+      - {click: 4, __include: 锚点/主题0-9}
+      - {click: 5, __include: 锚点/主题0-9}
+      - {click: 6, __include: 锚点/主题0-9}
+      - {click: 7, __include: 锚点/主题0-9}
+      - {click: 8, __include: 锚点/主题0-9}
+      - {click: 9, __include: 锚点/主题0-9}
+      - {click: 0, __include: 锚点/主题0-9}
+# 第二行
+      - {click: 键盘背景, key_text_size: 14}
+      - {click: 圆角, key_text_size: 14}
+      - {click: 按键背景, key_text_size: 14}
+      - {click: 背景高亮, key_text_size: 14}
+      - {click: 字色, key_text_size: 14}
+      - {click: 符色, key_text_size: 14}
+      - {click: 字高亮, key_text_size: 14}
+      - {click: 符高, key_text_size: 14}
+      - {click: 按下x, long_click: 按下y, key_text_size: 14}
+      - {click: ',', long_click: '.', key_text_size: 24, symbol_text_size: 24}
+ # 第三行
+      - {click: 上划, key_text_size: 14}
+      - {click: 下划, key_text_size: 14}
+      - {click: 上, long_click: 下, key_text_size: 14}
+      - {click: 左划, key_text_size: 14}
+      - {click: 右划, key_text_size: 14}
+      - {click: 左, long_click: 右, key_text_size: 14}
+      - {click: 预览, key_text_size: 10}
+      - {click: Up, __include: 小睦.yaml:/功能风}
+      - {click: Ctrl键, key_text_size: 14}
+      - {click: theme, key_text_size: 14}
+# 第四行
+      - {click: ief}
+      - {click: isq}
+      - {click: all}
+      - {click: ct}
+      - {click: cy}
+      - {click: zt}
+      - {click: Left, __include: 小睦.yaml:/功能风}
+      - {click: Down, __include: 小睦.yaml:/功能风}
+      - {click: Right, __include: 小睦.yaml:/功能风}
+      - {click: RepeatCommit}
+# 第五行
+      - {width: 15, click: Back, __include: 小睦.yaml:/数字}
+      - {width: 15, click: Shift_L, __include: 小睦.yaml:/Shift}
+      - {width: 40, click: space, __include: 小睦.yaml:/空格}
+      - {width: 15, click: BackSpace, __include: 小睦.yaml:/退格}
+      - {width: 15, click: Return, long_click: "\n", label_symbol: ' ', __include: 小睦.yaml:/回车}
+
+
+  tp_keyboard: # 调频
+    __include: 锚点/调频
+    keys:
+      # 第一行
+      - {width: 13}
+      - {click: vd}
+      - {click: iv}
+      - {click: Back}
+      # 第二行
+      - {click: Up}
+      - {click: Down}
+      - {click: zy}
+      - {click: yh}
+
+# 集成键盘
+  layout:
+    __include: 锚点/集成
+    keys:
+# 第一行
+      - {click: Keyboard_default, label: "\uE107", hint: 26键拼音, __include: 锚点/集成附加}
+      - {click: Keyboard_number, label: "\uE101", hint: 九键数字, __include: 锚点/集成附加}
+      - {click: Keyboard_editor, label: "\uE101", hint: 编辑键盘, __include: 锚点/集成附加}
+      - {click: keyboard_tp, label: "\uE101", hint: 调频键盘, __include: 锚点/集成附加}
+# 第二行
+      - {click: theme, label: "\uE101", hint: 主题键盘, __include: 锚点/集成附加}
+      - {click: keyboard_theme, label: "\uE101", hint: 主题键盘第二页, __include: 锚点/集成附加}
+      - {click: liquid_keyboard_ascii, label: "\uE101", hint: 液态键盘, __include: 锚点/集成附加}
+      - {click: cilpboard_window, label: "\uE101", hint: 剪切板, __include: 锚点/集成附加}
+      - {click: Q1, hint: 指尖生花, __include: 锚点/集成附加}
+      - {click: Q3, hint: 元书, __include: 锚点/集成附加}
+      - {click: Q4, hint: "元书 · 深色", __include: 锚点/集成附加}
+      - {click: Q5, hint: 好可爱娃, __include: 锚点/集成附加}
+      - {width: 12.5}
+      - {click: ux, hint: 刷新, key_text_size: 33}
+      - {click: Color_settings, hint: 配色, key_text_size: 33}
+      - {click: IME_switch, hint: 切换输入法, key_text_size: 33, __include: 小睦.yaml:/空格}
+
+liquid_keyboard:
+  # 目前只能直接写参数，不支持变量或者fallback机制。
+  row: 4              #每屏最多显示多少行按键
+  row_land: 5         #横屏每屏最多显示多少行按键
+  key_height: 40      #按键高度
+  key_height_land: 40 #横屏模式按键高度
+  single_width: 55    #single类型的按键宽度
+  vertical_gap: 0     #纵向按键间隙
+  margin_x: 4         #左右按键间隙的1/2
+  fixed_key_bar:  # 固定按键条
+    position: bottom  # 摆放位置（在滚动区域的……） top|bottom|left|right
+    keys:  # 按键（显示名称为对应的label，不能放太多）
+      - liquid_keyboard_exit
+      - ief
+      - Left
+      - cilpboard_window
+      - Right
+      - BackSpace
+      - Return
+  keyboards: [history, ascii, cn, emoji, URL, email, zhuyin, list, jpn, math, unit, symbol, tabs]
+  tabs:
+    name: 更多
+    type: TABS
+  history:
+    name: 常用
+    type: HISTORY
+  emoji:
+    type: SINGLE
+    name: emoji
+    keys: "😀😃😄😁😆😅🤣😂🙂🙃🫠😉😊😇🥰😍🤩😘😗☺😚😙🥲😋😛😜🤪😝🤑🤗🤭🫢🫣🤫🤔🫡🤐🤨😐😑😶😏😒🙄😬🤥😌😔😪🤤😴😷🤒🤕🤢🤮🤧🥵🥶🥴😵🤯🤠🥳🥸😎🤓🧐😕🫤😟🙁😮😯😲😳🥺🥹😦😧😨😰😥😢😭😱😖😣😞😓😩😫🥱😤😡😠🤬👋🤚🖐✋🖖🫱🫲🫳🫴👌🤌🤏✌🤞🫰🤟🤘🤙👈👉👆🖕👇☝🫵👍👎✊👊🤛🤜💊👀🍭🐵🐒🦍🦧🐶🐕🦮🐩🐺🦊🦝🐱🐈🦁🐯🐅🐆🐴🐎🦄🦓🦌🦬🐮🐂🐃🐄🐷🐖🐗🐽🐏🐑🐐🐪🐫🦙🦒🐘🦣🦏🦛🐭🐁🐀🐹🐰🐇🐿🦫🦔🦇🐻🐨🐼🦥🦦🦨🦘🦡🐾🦃🐔🐓🐣🐤🐥🐦🐧🕊🦅🦆🦢🦉🦤🪶🦩🦚🦜🐸🐊🐢🦎🐍🐲🐉🦕🦖🐳🐋🐬🦭🐟🐠🐡🦈🐙🐚🪸🐌🦋🐛🐜🐝🪲🐞🦗🪳🕷🕸🦂🦟🪰🪱🦠💐🌸💮🪷🏵🌹🥀🌺🌻🌼🌷🌱🪴🌲🌳🌴🌵🌾🌿☘🍀🍁🍂🍃🪹🪺🍄🍇🍈🍉🍊🍋🍌🍍🥭🍎🍏🍐🍑🍒🍓🫐🥝🍅🫒🥥🥑🍆🥔🥕🌽🌶🫑🥒🥬🥦🧄🧅🥜🫘🌰🍞🥐🥖🫓🥨🥯🥞🧇🧀🍖🍗🥩🥓🍔🍟🍕🌭🥪🌮🌯🫔🥙🧆🥚🍳🥘🍲🫕🥣🥗🍿🧈🧂🥫🍱🍘🍙🍚🍛🍜🍝🍠🍢🍣🍤🍥🥮🍡🥟🥠🥡🦀🦞🦐🦑🦪🍦🍧🍨🍩🍪🎂🍰🧁🥧🍫🍬🍮🍯🍼🥛☕🫖🍵🍶🍾🍷🍸🍹🍺🍻🥂🥃🫗🥤🧋🧃🧉🧊🥢🍽🍴🥄🔪🫙🏺🌍🌎🌏🗺🗾🧭😈👿💀💩🤡👹👺👻👽👾🤖😺😸😹😻😼😽🙀😿😾🙈🙉🙊💌💘💝💖💗💓💞💕💟❣💔❤🧡💛💚💙💜🤎🖤🤍💢💥💫💦💨💭💤👏🙌🫶👐🤲🤝🙏🤳💪🦾🦿🦵🦶👂🦻👃🧠🫀🫁🦷🦴👁👅🤺🛌♾👑✨🪐⭐🌟🫧"
+  ascii:
+    type: SINGLE
+    name: 英文
+    keys: ",.?¿!:;/\\|·*-+=^$`'\"~@#%&<>()[]{}_"
+  cn:
+    type: SINGLE
+    name: 中文
+    keys:  #keys列表可以使用多种格式混合书写。
+      - ，
+      - 。
+      - ？
+      - ！
+      - ：
+      - 、
+      - “
+      - ”
+      - ‘
+      - ···
+      - ……
+      - {click: "-"}
+      - {click: "——", label: "破折"}
+      - （
+      - ）
+      - 【
+      - 】
+      - 《
+      - 》
+      - ［
+      - ］
+      - ｛
+      - ｝
+      - 「
+      - 」
+      - 『
+      - 』
+      - ～
+      - ｜
+  URL:
+    type: SINGLE
+    name: 网址
+    keys:
+      - https://
+      - http://
+      - www.
+      - .com
+      - .net
+  email:
+    type: SINGLE
+    name: 邮箱
+    keys:
+      - {click: "@163.com"}
+      - {click: "@126.com"}
+      - {click: "@yeah.net"}
+      - {click: "@gmail.com"}
+      - {click: "@outlook.com"}
+      - {click: "@hotmail.com"}
+      - {click: "@qq.com"}
+  zhuyin:
+    name: 注音
+    type: SINGLE
+    keys: "āáǎàōóǒòēéěèīíǐìūúǔùǖǘǚǜüêɑńňㄊㄑㄘɡㄋㄒㄙㄅㄌㄓㄚㄆㄍㄔㄛㄇㄎㄕㄜㄈㄏㄖㄝㄉㄐㄗㄞㄟㄦㄠㄧㄡ丨ㄢㄨㄣㄩㄤㄥ"
+  list:
+    name: 序号
+    type: SINGLE
+    keys: "⓪①②③④⑤⑥⑦⑧⑨⑩➊➋➌➍➎➏➐➑➒➓¹²³⁴⁵ⁿ⁶⁷⁸⁹⁰₁₂₃₄₅ₙ₆₇₈₉₀"
+  math:
+    type: SINGLE
+    name: 数学
+    keys: "≈＝≠≌<>≤≥≡()[]{}-+±×*/÷&∥%‰‱°′″∫∮∯∬∭∰∞∑∧∏∈∵∴⊥∝∨∪•√〒∝∽∈∩∧⊙⌒∥∟∣∂∆∞≌∉∪∨⊕⊿⊥∠∫∬∭"  #tab中的按键列表
+  jpn:
+    name: 日文
+    type: SINGLE
+    keys: "あいうえおかがきぎくぐけげこごさざしじすずせぜそぞただちぢつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろわをんアィイウェエオカガキギクグケゲコゴサザシジスズセゼソゾタダチヂツヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモャヤュユョヨラリルレロワヲン"
+  unit:
+    name: 单位
+    type: SINGLE
+    keys: "℃¥$€฿￡㎡m³℉￥£￠₠¹²³⁴⁵ⁿ⁶⁷⁸⁹⁰ˣ⁺⁻⁼⁽⁾½⅓¼⅔¾₁₂₃₄₅ₙ₆₇₈₉₀ₓ₊₋₌₍₎℅"
+  symbol:
+    name: 特殊
+    type: SINGLE
+    keys: "△▽○◇□☆▲▼●◆■★▷◁▶◀♻♲†⚝✡⚹✦✸✹￼�×⌫☑☒✅❎✔✘✓✗☀☼☽☾◑◐㏂㏘☭♀♂☹☻☠☜☝☞☚☟☛▪•‥…∷※♩♪♫♬§°♭♯♮‖¶№◎¤۞℗®©卍卐℡™㏇Φ⇦⇧⇨⇩⇪↖↑↗←↔→↙↓↘⇄⇅⇆⇤↩⇥▸◂▴▾◤◥◣◢㊤㊧㊥㊨㊦❏❐◲〼▢▣↶✁↷✍⏍ϟ📝✎✆☱☰☴⚿⛮⚙☲☯☵⛶☩☐☳☷☶💬🗨⟲ღ✈☂🎤🌐🔍"
+
+# 预编辑（编码区）
+preedit:
+  horizontal_padding: 11 #横向内边距（整数）
+  alpha: 0.8 #不透明度（0-1，浮点）
+  top_end_radius: 8 #右上方圆角（浮点）
+  foreground: #前景样式
+    font_size: 18 #字号（浮点）
+
+# 候选窗口
+window:
+  insets: #窗口内边距
+    vertical: 3 #纵向内边距（整数）
+    horizontal: 3 #横向内边距（整数）
+  item_padding: #候选项内边距
+    vertical: 2 #纵向内边距（整数）
+    horizontal: 4 #横向内边距（整数）
+  min_width: 5 #最小宽度（整数）
+  corner_radius: 6 #圆角半径（浮点）
+  alpha: 1 #透明度（0-1，浮点）
+  foreground: #前景样式
+    label_font_size: 21 #序号字号（浮点）
+    text_font_size: 21 #候选字号（浮点）
+    comment_font_size: 18 #提示字号（浮点）
