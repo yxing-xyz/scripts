@@ -9,13 +9,6 @@
 ;;
 (setq auto-mode-case-fold nil)
 
-(unless (or (daemonp) noninteractive init-file-debug)
-  (add-hook 'emacs-startup-hook
-            (lambda ()
-              (setq file-name-handler-alist
-                    (delete-dups (append file-name-handler-alist
-                                         my--file-name-handler-alist))))
-            101))
 ;; Configure Load Path
 ;;
 
@@ -23,20 +16,27 @@
 (defun update-load-path (&rest _)
   "Update the `load-path` to prioritize personal configurations."
   (dolist (dir '("site-lisp" "lisp"))
-    (push (expand-file-name dir user-emacs-directory) load-path)))
+    (let ((site-lisp-dir (expand-file-name dir user-emacs-directory)))
+      (when (file-directory-p site-lisp-dir)
+        (add-to-list 'load-path site-lisp-dir)))))
 
 ;; Initialize load paths explicitly
 (update-load-path)
 
-;; Add subdirectories inside "site-lisp" to `load-path`
+;; Rescan site-lisp subdirectories after package initialization
 (defun add-subdirs-to-load-path (&rest _)
-  "Recursively add subdirectories in `site-lisp` to `load-path`.
+  "Recursively add subdirectories in `site-lisp' to `load-path'.
 
-Avoid placing large files like EAF in `site-lisp` to prevent slow startup."
-  (let ((default-directory (expand-file-name "site-lisp" user-emacs-directory)))
+This runs as :after advice on `package-initialize' so that any
+subdirectories added to `site-lisp' during package installation are
+picked up automatically. Uses `&rest _' to absorb and ignore the
+arguments passed by the advised function.
+
+Avoid placing large projects (e.g., EAF) directly in `site-lisp',
+as recursive scanning slows down startup."
+  (let ((default-directory (locate-user-emacs-file "site-lisp")))
     (normal-top-level-add-subdirs-to-load-path)))
 
-;; Ensure these functions are called after `package-initialize`
 (advice-add #'package-initialize :after #'add-subdirs-to-load-path)
 
 ;; 屏蔽原生编译的异步弹窗（必备）
@@ -61,20 +61,24 @@ Avoid placing large files like EAF in `site-lisp` to prevent slow startup."
 (require 'init-edit)
 (require 'init-completion)
 (require 'init-snippet)
+(require 'init-check)
 
 (require 'init-bookmark)
 (require 'init-dired)
 (require 'init-ibuffer)
 (require 'init-workspace)
+(require 'init-window)
 (require 'init-treemacs)
 (require 'init-dict)
-(require 'init-org)
+(require 'init-utils)
 (require 'init-markdown)
 (require 'init-shell)
+(require 'init-ai)
 
 ;; Programming
 (require 'init-vc)
 (require 'init-prog)
+(require 'init-web)
 (require 'init-lsp)
 (require 'init-elisp)
 (require 'init-go)

@@ -1,8 +1,13 @@
-;; -*- lexical-binding: t; -*-
+;; init-custom.el --- Define customizations.	-*- lexical-binding: t -*-
+;;; Commentary:
+;;
+;; Customization.
+;;
 
 ;;; Code:
+
 (defgroup xx nil
-  "emacs config"
+  "Emacs customization."
   :group 'convenience
   :link '(url-link :tag "Homepage" "https://github.com/yxing-dev/.emacs.d"))
 
@@ -16,26 +21,33 @@
   :group 'xx
   :type 'string)
 
+;; Emacs Lisp Package Archive (ELPA)
 (defcustom xx-package-archives-alist
   (let ((proto (if (gnutls-available-p) "https" "http")))
     `((melpa   . (("gnu"    . ,(format "%s://elpa.gnu.org/packages/" proto))
                   ("nongnu" . ,(format "%s://elpa.nongnu.org/nongnu/" proto))
                   ("melpa"  . ,(format "%s://melpa.org/packages/" proto))))
-      (ustc    . (("gnu"    . ,(format "%s://mirrors.ustc.edu.cn/elpa/gnu/" proto))
-                  ("nongnu" . ,(format "%s://mirrors.ustc.edu.cn/elpa/nongnu/" proto))
-                  ("melpa"  . ,(format "%s://mirrors.ustc.edu.cn/elpa/melpa/" proto))))
-      ;; 增加清华大学 (TUNA) 镜像源
-      (tuna    . (("gnu"    . ,(format "%s://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/" proto))
-                  ("nongnu" . ,(format "%s://mirrors.tuna.tsinghua.edu.cn/elpa/nongnu/" proto))
-                  ("melpa"  . ,(format "%s://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/" proto))))
-      ;; 增加北京外国语大学 (BFSU) 镜像源
       (bfsu    . (("gnu"    . ,(format "%s://mirrors.bfsu.edu.cn/elpa/gnu/" proto))
                   ("nongnu" . ,(format "%s://mirrors.bfsu.edu.cn/elpa/nongnu/" proto))
                   ("melpa"  . ,(format "%s://mirrors.bfsu.edu.cn/elpa/melpa/" proto))))
-      ;; 增加腾讯云 (Tencent) 镜像源
-      (tencent . (("gnu"    . ,(format "%s://mirrors.cloud.tencent.com/elpa/gnu/" proto))
-                  ("nongnu" . ,(format "%s://mirrors.cloud.tencent.com/elpa/nongnu/" proto))
-                  ("melpa"  . ,(format "%s://mirrors.cloud.tencent.com/elpa/melpa/" proto))))))
+      (cernet  . (("gnu"    . ,(format "%s://mirrors.cernet.edu.cn/elpa/gnu/" proto))
+                  ("nongnu" . ,(format "%s://mirrors.cernet.edu.cn/elpa/nongnu/" proto))
+                  ("melpa"  . ,(format "%s://mirrors.cernet.edu.cn/elpa/melpa/" proto))))
+      (iscas   . (("gnu"    . ,(format "%s://mirror.iscas.ac.cn/elpa/gnu/" proto))
+                  ("nongnu" . ,(format "%s://mirror.iscas.ac.cn/elpa/nongnu/" proto))
+                  ("melpa"  . ,(format "%s://mirror.iscas.ac.cn/elpa/melpa/" proto))))
+      (netease . (("gnu"    . ,(format "%s://mirrors.163.com/elpa/gnu/" proto))
+                  ("nongnu" . ,(format "%s://mirrors.163.com/elpa/nongnu/" proto))
+                  ("melpa"  . ,(format "%s://mirrors.163.com/elpa/melpa/" proto))))
+      (sjtu    . (("gnu"    . ,(format "%s://mirrors.sjtug.sjtu.edu.cn/emacs-elpa/gnu/" proto))
+                  ("nongnu" . ,(format "%s://mirrors.sjtug.sjtu.edu.cn/emacs-elpa/nongnu/" proto))
+                  ("melpa"  . ,(format "%s://mirrors.sjtug.sjtu.edu.cn/emacs-elpa/melpa/" proto))))
+      (tuna    . (("gnu"    . ,(format "%s://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/" proto))
+                  ("nongnu" . ,(format "%s://mirrors.tuna.tsinghua.edu.cn/elpa/nongnu/" proto))
+                  ("melpa"  . ,(format "%s://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/" proto))))
+      (ustc    . (("gnu"    . ,(format "%s://mirrors.ustc.edu.cn/elpa/gnu/" proto))
+                  ("nongnu" . ,(format "%s://mirrors.ustc.edu.cn/elpa/nongnu/" proto))
+                  ("melpa"  . ,(format "%s://mirrors.ustc.edu.cn/elpa/melpa/" proto))))))
   "A list of the package archives."
   :group 'xx
   :type '(alist :key-type (symbol :tag "Archive group name")
@@ -57,6 +69,7 @@
                               :tag (capitalize (symbol-name name))
                               name)))
                     xx-package-archives-alist)))
+
 (defcustom xx-theme 'doom-dark+
   "The color theme."
   :group 'xx
@@ -106,18 +119,13 @@ Nil to use font supports ligatures."
   :group 'xx
   :type '(repeat (symbol :tag "Major-Mode")))
 
-(defcustom xx-lsp 'eglot
-  "Set language server.
-
-`lsp-mode': See https://github.com/emacs-lsp/lsp-mode.
-`eglot': See https://github.com/joaotavora/eglot.
-tags: Use tags file instead of language server. See https://github.com/universal-ctags/citre.
-nil means disabled."
+(defcustom xx-lsp t
+  "Enable language server or not."
   :group 'xx
-  :type '(choice (const :tag "LSP Mode" lsp-mode)
-                 (const :tag "Eglot" eglot)
-                 (const :tag "Disable" nil)))
+  :type 'boolean)
 
 
-(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+
+(setq custom-file (locate-user-emacs-file "custom.el"))
+
 (provide 'init-custom)

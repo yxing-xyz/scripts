@@ -1,0 +1,267 @@
+;; init-utils.el --- Initialize ultilities.	-*- lexical-binding: t -*-
+;;; Commentary:
+;;
+;; Some usefule Utilities.
+;;
+
+;;; Code:
+
+(eval-when-compile
+  (require 'init-const))
+
+;; Display available keybindings in popup
+(use-package which-key
+  :custom
+  (which-key-dont-use-unicode nil)
+  (which-key-max-description-length 30)
+  (which-key-lighter nil)
+  (which-key-show-remaining-keys t)
+  :bind ("C-h M-m" . which-key-show-major-mode)
+  :hook ((after-init server-after-make-frame) . which-key-mode)
+  :config
+  ;; Key prefix descriptions
+  (dolist (map '(("M-s h"     . "highlight")
+                 ("M-s s"     . "symbol-overlay")
+                 ("C-c &"     . "yasnippet")
+                 ("C-c @"     . "hideshow")
+                 ("C-c a"     . "ai")
+                 ("C-c c"     . "consult")
+                 ("C-c d"     . "dict")
+                 ("C-c l"     . "link-hint")
+                 ("C-c n"     . "org-roam")
+                 ("C-c o"     . "org")
+                 ("C-c t"     . "hl-todo")
+                 ("C-c z"     . "kirigami")
+                 ("C-c C-a"   . "activities")
+                 ("C-c C-z"   . "browse")
+                 ("C-x 8"     . "unicode")
+                 ("C-x 8 e"   . "emoji")
+                 ("C-x @"     . "modifior")
+                 ("C-x a"     . "abbrev")
+                 ("C-x c"     . "colorful")
+                 ("C-x n"     . "narrow")
+                 ("C-x p"     . "project")
+                 ("C-x p l"   . "layout")
+                 ("C-x p C-x" . "misc")
+                 ("C-x r"     . "rect & bookmark")
+                 ("C-x t"     . "tab & treemacs")
+                 ("C-x w"     . "window & highlight")
+                 ("C-x w ^"   . "detach")
+                 ("C-x w f"   . "flip")
+                 ("C-x w o"   . "rotate windows")
+                 ("C-x w r"   . "rotate layout")
+                 ("C-x x"     . "buffer")
+                 ("C-x C-a"   . "edebug")
+                 ("C-x RET"   . "coding-system")
+                 ("C-x X"     . "edebug")
+                 ("C-x v b"   . "vc-branch")
+                 ("C-x v w"   . "vc-working-tree")
+                 ("C-x v E"   . "vc-outgoing")
+                 ("C-x v M"   . "vc-mergebase")
+                 ("C-x v T"   . "vc-unintegrated")
+                 ("C-x v T R" . "vc-remote-unintegrated")))
+    (which-key-add-key-based-replacements (car map) (cdr map)))
+
+  ;; Mode-specific key replacements
+  (dolist (mode-map '((org-mode
+                       ("C-c \""  . "org-plot")
+                       ("C-c C-v" . "org-babel")
+                       ("C-c C-x" . "org-misc"))
+                      (python-mode
+                       ("C-c C-i" . "python-import")
+                       ("C-c C-t" . "python-skeleton"))
+                      (python-ts-mode
+                       ("C-c C-i" . "python-import")
+                       ("C-c C-t" . "python-skeleton"))
+                      (rust-mode
+                       ("C-c C-c" . "rust-build"))
+                      (markdown-mode
+                       ("C-c C-a" . "markdown-link")
+                       ("C-c C-c" . "markdown-command")
+                       ("C-c C-s" . "markdown-style")
+                       ("C-c C-t" . "markdown-header")
+                       ("C-c C-x" . "markdown-toggle"))
+                      (markdown-ts-mode
+                       ("C-c C-x" . "markdown-toggle")
+                       ("C-c C-v" . "markdown-code-block"))
+                      (gfm-mode
+                       ("C-c C-a" . "markdown-link")
+                       ("C-c C-c" . "markdown-command")
+                       ("C-c C-s" . "markdown-style")
+                       ("C-c C-t" . "markdown-header")
+                       ("C-c C-x" . "markdown-toggle"))))
+    (let ((mode (car mode-map))
+          (maps (cdr mode-map)))
+      (dolist (map maps)
+        (which-key-add-major-mode-key-based-replacements
+          mode (car map) (cdr map))))))
+
+;; Persistent the scratch buffer
+(use-package persistent-scratch
+  :custom
+  (persistent-scratch-backup-file-name-format "%Y-%m-%d")
+  (persistent-scratch-backup-directory (locate-user-emacs-file "persistent-scratch"))
+  :bind (:map persistent-scratch-mode-map
+         ([remap kill-buffer] . (lambda (&rest _)
+                                  (interactive)
+                                  (user-error "Scratch buffer cannot be killed")))
+         ([remap revert-buffer] . persistent-scratch-restore)
+         ([remap revert-buffer-quick] . persistent-scratch-restore))
+  :hook ((after-init . persistent-scratch-autosave-mode)
+         (lisp-interaction-mode . persistent-scratch-mode)))
+
+;; Search tools
+(use-package grep
+  :ensure nil
+  :custom (grep-use-headings t))
+
+;; Writable `grep' buffer
+(use-package wgrep
+  :custom
+  (wgrep-auto-save-buffer t)
+  (wgrep-change-readonly-file t))
+
+;; Fast search tool `ripgrep'
+(use-package rg
+  :defines rg-custom-type-aliases
+  :hook (after-init . rg-enable-default-bindings)
+  :config (add-to-list 'rg-custom-type-aliases '("tmpl" . "*.tmpl")))
+
+;; A Simple and cool pomodoro timer
+(use-package pomidor
+  :bind ("s-<f12>" . pomidor)
+  :init
+  (setq alert-default-style 'mode-line)
+
+  (when sys/macp
+    (setq pomidor-play-sound-file
+          (lambda (file)
+            (when (executable-find "afplay")
+              (start-process "pomidor-play-sound" nil "afplay" file))))))
+
+;; Nice writing
+(use-package olivetti
+  :bind ("<f7>" . olivetti-mode)
+  :init (setq olivetti-body-width 0.62))
+
+;; Edit text for browsers with GhostText or AtomicChrome extension
+(use-package atomic-chrome
+  :hook ((emacs-startup . atomic-chrome-start-server)
+         (atomic-chrome-edit-mode . delete-other-windows))
+  :init (setq atomic-chrome-buffer-frame-width 100
+              atomic-chrome-buffer-frame-height 30
+              atomic-chrome-buffer-open-style 'frame)
+  :config
+  (when (fboundp 'gfm-mode)
+    (setq atomic-chrome-url-major-mode-alist
+          '(("github\\.com" . gfm-mode)
+            ("gitlab\\.*"   . gfm-mode)))))
+
+;; Process
+(use-package proced
+  :ensure nil
+  :init
+  (setq-default proced-format 'verbose)
+  (setq proced-auto-update-flag t
+        proced-auto-update-interval 3
+        proced-enable-color-flag t))
+
+;; Search
+(use-package webjump
+  :ensure nil
+  :bind ("C-c /" . webjump)
+  :init (setq webjump-sites
+              '(;; Emacs
+                ("Emacs Home Page" .
+                 "www.gnu.org/software/emacs/emacs.html")
+                ("Xah Emacs Site" . "ergoemacs.org/index.html")
+                ("(or emacs irrelevant)" . "oremacs.com")
+                ("Mastering Emacs" .
+                 "https://www.masteringemacs.org/")
+
+                ;; Search engines.
+                ("DuckDuckGo" .
+                 [simple-query "duckduckgo.com"
+                               "duckduckgo.com/?q=" ""])
+                ("Google" .
+                 [simple-query "www.google.com"
+                               "www.google.com/search?q=" ""])
+                ("Bing" .
+                 [simple-query "www.bing.com"
+                               "www.bing.com/search?q=" ""])
+
+                ("Baidu" .
+                 [simple-query "www.baidu.com"
+                               "www.baidu.com/s?wd=" ""])
+                ("Wikipedia" .
+                 [simple-query "wikipedia.org" "wikipedia.org/wiki/" ""]))))
+
+;; IRC
+(use-package erc
+  :ensure nil
+  :defines erc-interpret-mirc-color erc-autojoin-channels-alist
+  :init (setq erc-interpret-mirc-color t
+              erc-lurker-hide-list '("JOIN" "PART" "QUIT")
+              erc-autojoin-channels-alist '(("freenode.net" "#emacs"))))
+
+;; text mode directory tree
+(use-package ztree
+  :custom-face
+  (ztreep-header-face ((t (:inherit diff-header :foreground unspecified))))
+  (ztreep-arrow-face ((t (:inherit font-lock-comment-face :foreground unspecified))))
+  (ztreep-leaf-face ((t (:inherit diff-index :foreground unspecified))))
+  (ztreep-node-face ((t (:inherit font-lock-variable-name-face :foreground unspecified))))
+  (ztreep-expand-sign-face ((t (:inherit font-lock-function-name-face))))
+  (ztreep-diff-header-face ((t (:inherit (diff-header bold :foreground unspecified)))))
+  (ztreep-diff-header-small-face ((t (:inherit diff-file-header :foreground unspecified))))
+  (ztreep-diff-model-normal-face ((t (:inherit font-lock-doc-face :foreground unspecified))))
+  (ztreep-diff-model-ignored-face ((t (:inherit font-lock-doc-face :strike-through t :foreground unspecified))))
+  (ztreep-diff-model-diff-face ((t (:inherit diff-removed :foreground unspecified))))
+  (ztreep-diff-model-add-face ((t (:inherit diff-nonexistent :foreground unspecified))))
+  :pretty-hydra
+  ((:title (pretty-hydra-title "Ztree" 'octicon "nf-oct-diff" :face 'nerd-icons-green)
+    :color pink :quit-key ("q" "C-g"))
+   ("Diff"
+    (("C" ztree-diff-copy "copy" :exit t)
+     ("h" ztree-diff-toggle-show-equal-files "show/hide equals" :exit t)
+     ("H" ztree-diff-toggle-show-filtered-files "show/hide ignores" :exit t)
+     ("D" ztree-diff-delete-file "delete" :exit t)
+     ("v" ztree-diff-view-file "view" :exit t)
+     ("d" ztree-diff-simple-diff-files "simple diff" :exit t)
+     ("r" ztree-diff-partial-rescan "partial rescan" :exit t)
+     ("R" ztree-diff-full-rescan "full rescan" :exit t))
+    "View"
+    (("RET" ztree-perform-action "expand/collapse or view" :exit t)
+     ("SPC" ztree-perform-soft-action "expand/collapse or view in other" :exit t)
+     ("TAB" ztree-jump-side "jump side" :exit t)
+     ("g" ztree-refresh-buffer "refresh" :exit t)
+     ("x" ztree-toggle-expand-subtree "expand/collapse" :exit t)
+     ("<backspace>" ztree-move-up-in-tree "go to parent" :exit t))))
+  :bind (:map ztreediff-mode-map
+         ("C-<f5>" . ztree-hydra/body))
+  :init (setq ztree-draw-unicode-lines t
+              ztree-show-number-of-children t))
+
+;; Misc
+(use-package file-info
+  :bind ("C-c c i" . file-info-show)
+  :config
+  (with-no-warnings
+    (defun my/file-info-show (fn &rest args)
+      "Wrapper for `file-info-show'."
+      ;; display on the center of the frame
+      (let ((hydra-posframe-show-params
+             (plist-put (copy-alist hydra-posframe-show-params)
+                        :poshandler #'posframe-poshandler-frame-center)))
+        (apply fn args)))
+    (advice-add 'file-info-show :around #'my/file-info-show)))
+
+(use-package reveal-in-folder
+  :bind ("C-c C-r" . reveal-in-folder))
+
+;; 字体查看器
+(use-package show-font)
+(provide 'init-utils)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; init-utils.el ends here

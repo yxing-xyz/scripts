@@ -1,4 +1,5 @@
 ;; init-go.el --- Initialize Golang configurations.	-*- lexical-binding: t -*-
+
 ;;; Commentary:
 ;;
 ;; Golang configurations.
@@ -39,7 +40,9 @@
            (message "Failed to install %s: %d" pkg status)))))))
 
 ;; Configure Golang automatically
-(defvar go-keymap  'go-ts-mode-map "The keymap for Golang.")
+(defvar go-keymap
+  'go-ts-mode-map
+  "The keymap for Golang.")
 
 (defun go-auto-config ()
   "Configure Golang automatically."
@@ -71,11 +74,9 @@
 ;; Golang
 (use-package go-ts-mode
   :functions (exec-path-from-shell-copy-envs)
-  :mode (("\\.go\\'" . go-ts-mode)
-         ("/go\\.mod\\'" . go-mod-ts-mode))
   :custom (go-ts-mode-indent-offset 4)
-  :config
-  (go-auto-config))
+  :config (go-auto-config))
+
 
 (provide 'init-go)
 

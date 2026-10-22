@@ -14,14 +14,11 @@
 
 ;; 禁止linux X参数
 (setq command-line-x-option-alist nil)
-;; 控制 Emacs 单次从子进程（subprocess） 读取输出的最大字节数
-(setq read-process-output-max #x100000)
 ;; 彻底禁用 FFAP 对 “远程机器路径” 的识别和处理
 (setq ffap-machine-p-known 'reject)
 
 ;; gc
 (use-package gcmh
-  :diminish
   :hook (emacs-startup . gcmh-mode)
   :init (setq gcmh-idle-delay 'auto
               gcmh-auto-idle-delay-factor 10
@@ -85,11 +82,10 @@
               savehist-autosave-interval 300))
 
 (use-package simple
-  :diminish visual-line-mode
   :ensure nil
   :hook ((after-init . size-indication-mode)
          ;; (text-mode . visual-line-mode) 取消自动换行显示
-         ((prog-mode markdown-mode conf-mode) . enable-trailing-whitespace))
+         ((prog-mode markdown-mode markdown-ts-mode conf-mode) . enable-trailing-whitespace))
   :init
   (setq column-number-mode t
         line-number-mode t
@@ -176,31 +172,61 @@
       sentence-end-double-space nil
       word-wrap-by-category t)
 
-(defface posframe-border
-  `((t (:inherit region)))
-  "Face used by the `posframe' border."
-  :group 'posframe)
-(defvar posframe-border-width 2
-  "Default posframe border width.")
+;; (defface posframe-border
+;;   `((t (:inherit region)))
+;;   "Face used by the `posframe' border."
+;;   :group 'posframe)
+;; (defvar posframe-border-width 2
+;;   "Default posframe border width.")
 
 
+;; =============================================================================
+;; Frame 窗口（框架）相关配置
+;; =============================================================================
+
+;; 窗口全屏快捷键绑定
+;; S-s-<return>：Shift + s + 回车 切换全屏
+(bind-key "S-s-<return>" #'toggle-frame-fullscreen)
+;; Mac 平台额外绑定 C-s-f（Command+Shift+F，贴合Mac原生全屏习惯）
+(when sys/macp
+  (bind-key "C-s-f" #'toggle-frame-fullscreen))
+
+
+;; 窗口透明度配置，使用 transwin 包
+(use-package transwin
+  :bind (("C-M-9" . transwin-inc)   ; Ctrl+Alt+9：增加透明度（更透明）
+         ("C-M-8" . transwin-dec)   ; Ctrl+Alt+8：降低透明度（更实）
+         ("C-M-7" . transwin-toggle)) ; Ctrl+Alt+7：切换透明/不透明
+  :init
+  ;; Linux 平台使用 alpha-background 参数控制透明度（X11/Wayland 下标准参数）
+  (when sys/linuxp
+    (setq transwin-parameter-alpha 'alpha-background)))
+
+;; Child frame 子悬浮窗口配置（posframe，用于提示、弹窗、预览等悬浮窗）
 (use-package posframe
   :custom-face
+  ;; 子窗口边框 face，继承 posframe-border 自定义面
   (child-frame-border ((t (:inherit posframe-border))))
-  :hook (after-load-theme . posframe-delete-all)
+  :hook (after-load-theme . posframe-delete-all) ; 切换主题时关闭所有悬浮窗，防止样式错乱
   :init
+  ;; 自定义 posframe 边框的颜色，继承 region（选中区域）的样式
   (defface posframe-border
     `((t (:inherit region)))
     "Face used by the `posframe' border."
     :group 'posframe)
+  ;; posframe 默认边框宽度
   (defvar posframe-border-width 2
     "Default posframe border width.")
   :config
   (with-no-warnings
+    ;; 给 posframe 创建窗口后加建议：清除侧边 fringe（竖条）背景，悬浮窗更干净
     (defun my/posframe--prettify-frame (&rest _)
       (set-face-background 'fringe nil posframe--frame))
+    ;; 给 posframe--create-posframe 函数追加后置钩子，美化悬浮窗
     (advice-add #'posframe--create-posframe :after #'my/posframe--prettify-frame)
 
+    ;; 自定义悬浮窗位置处理器：水平居中，垂直靠下一点（居中偏下）
+    ;; info 是 posframe 传入的位置信息 plist，包含父窗口宽高、悬浮窗宽高、字体高度等
     (defun posframe-poshandler-frame-center-near-bottom (info)
       (cons (/ (- (plist-get info :parent-frame-width)
                   (plist-get info :posframe-width))
@@ -208,6 +234,7 @@
             (/ (+ (plist-get info :parent-frame-height)
                   (* 2 (plist-get info :font-height)))
                2)))))
+
 
 ;; Global keybindings
 (bind-keys ("s-r"     . revert-buffer-quick)
@@ -238,325 +265,5 @@
   :hook (after-init . browse-kill-ring-default-keybindings)
   :init (setq browse-kill-ring-separator "────────────────"
               browse-kill-ring-separator-face 'shadow))
-
-;; window
-
-;; Directional window-selection routines
-(use-package windmove
-  :ensure nil
-  :bind (("M-h" . windmove-left)   ; Alt + h 向左
-         ("M-j" . windmove-down)   ; Alt + j 向下
-         ("M-k" . windmove-up)     ; Alt + k 向上
-         ("M-l" . windmove-right)) ; Alt + l 向右
-  ;; 保持你之前的 window-setup hook 以确保布局加载后生效（可选）
-  :hook (window-setup . windmove-mode))
-
-;; Quickly switch windows
-(use-package ace-window
-  :pretty-hydra
-  ((:title (pretty-hydra-title "Window Management" 'faicon "nf-fa-th")
-    :foreign-keys warn :quit-key ("q" "C-g"))
-   ("Actions"
-    (("TAB" other-window "switch")
-     ("x" ace-delete-window "delete")
-     ("X" ace-delete-other-windows "delete other" :exit t)
-     ("s" ace-swap-window "swap")
-     ("a" ace-select-window "select" :exit t)
-     ("m" toggle-frame-maximized "maximize" :exit t)
-     ("u" toggle-frame-fullscreen "fullscreen" :exit t))
-    "Resize"
-    (("h" shrink-window-horizontally "←")
-     ("j" enlarge-window "↓")
-     ("k" shrink-window "↑")
-     ("l" enlarge-window-horizontally "→")
-     ("n" balance-windows "balance"))
-    "Split"
-    (("r" split-window-right "horizontally")
-     ("R" split-window-horizontally-instead "horizontally instead")
-     ("v" split-window-below "vertically")
-     ("V" split-window-vertically-instead "vertically instead")
-     ("t" toggle-window-split "toggle"))
-    "Zoom"
-    (("+" text-scale-increase "in")
-     ("=" text-scale-increase "in")
-     ("-" text-scale-decrease "out")
-     ("0" (text-scale-increase 0) "reset"))
-    "Misc"
-    (("o" set-frame-font "frame font")
-     ("f" make-frame-command "new frame")
-     ("d" delete-frame "delete frame")
-     ("<left>" tab-bar-history-back "previous layout")
-     ("<right>" tab-bar-history-back "next layout"))))
-  :custom-face
-  (aw-leading-char-face ((t (:inherit font-lock-keyword-face :foreground unspecified :bold t :height 3.0))))
-  (aw-minibuffer-leading-char-face ((t (:inherit font-lock-keyword-face :bold t :height 1.0))))
-  (aw-mode-line-face ((t (:inherit mode-line-emphasis :bold t))))
-  :bind (([remap other-window] . ace-window)
-         ("C-c w" . ace-window-hydra/body)
-         ("C-x |" . split-window-horizontally-instead)
-         ("C-x _" . split-window-vertically-instead))
-  :config
-  (defun toggle-window-split ()
-    (interactive)
-    (if (= (count-windows) 2)
-        (let* ((this-win-buffer (window-buffer))
-               (next-win-buffer (window-buffer (next-window)))
-               (this-win-edges (window-edges (selected-window)))
-               (next-win-edges (window-edges (next-window)))
-               (this-win-2nd (not (and (<= (car this-win-edges)
-                                           (car next-win-edges))
-                                       (<= (cadr this-win-edges)
-                                           (cadr next-win-edges)))))
-               (splitter
-                (if (= (car this-win-edges)
-                       (car (window-edges (next-window))))
-                    'split-window-horizontally
-                  'split-window-vertically)))
-          (delete-other-windows)
-          (let ((first-win (selected-window)))
-            (funcall splitter)
-            (if this-win-2nd (other-window 1))
-            (set-window-buffer (selected-window) this-win-buffer)
-            (set-window-buffer (next-window) next-win-buffer)
-            (select-window first-win)
-            (if this-win-2nd (other-window 1))))
-      (user-error "`toggle-window-split' only supports two windows")))
-
-  ;; Bind hydra to dispatch list
-  (add-to-list 'aw-dispatch-alist '(?w ace-window-hydra/body) t))
-
-;; Enforce rules for popups
-(use-package popper
-  :after project
-  :demand t
-  :custom
-  (popper-group-function #'popper-group-by-project)
-  (popper-echo-dispatch-actions t)
-  :bind (:map popper-mode-map
-         ("C-h z"       . popper-toggle)
-         ("C-<tab>"     . popper-cycle)
-         ("C-M-<tab>"   . popper-toggle-type))
-  :init
-  (setq popper-mode-line ""
-        popper-reference-buffers
-        '("\\*Messages\\*$"
-          "Output\\*$" "\\*Pp Eval Output\\*$"
-          "^\\*eldoc.*\\*$"
-          "\\*Compile-Log\\*$"
-          "\\*Completions\\*$"
-          "\\*Warnings\\*$"
-          "\\*Async Shell Command\\*$"
-          "\\*Apropos\\*$"
-          "\\*Backtrace\\*$"
-          "\\*Calendar\\*$"
-          "\\*Fd\\*$" "\\*Find\\*$" "\\*Finder\\*$"
-          "\\*Kill Ring\\*$"
-          "\\*Embark \\(Collect\\|Live\\):.*\\*$"
-
-          bookmark-bmenu-mode
-          comint-mode
-          compilation-mode
-          help-mode helpful-mode
-          tabulated-list-mode
-          Buffer-menu-mode
-
-          flymake-diagnostics-buffer-mode
-          gnus-article-mode devdocs-mode
-          grep-mode occur-mode rg-mode
-
-          osx-dictionary-mode fanyi-mode
-          "^\\*gt-result\\*$" "^\\*gt-log\\*$"
-          "^\\*Process List\\*$" process-menu-mode cargo-process-mode
-
-          "^\\*.*eshell.*\\*.*$" eshell-mode
-          "^\\*ghostel\\*$" ghostel-mode
-          "^\\*.*shell.*\\*.*$" shell-mode
-          "^\\*.*terminal.*\\*.*$" term-mode
-
-          "\\*DAP Templates\\*$" dap-server-log-mode
-          "\\*ELP Profiling Results\\*" profiler-report-mode
-          "\\*package update results\\*$" "\\*Package-Lint\\*$"
-          "\\*[Wo]*Man.*\\*$"
-          "\\*ert\\*$"
-          "\\*gud-debug\\*$"
-          "\\*lsp-help\\*$" "\\*lsp session\\*$"
-          "\\*quickrun\\*$"
-          "\\*vc-.*\\**"
-          "\\*diff-hl\\**"
-          "^\\*macro expansion\\**"
-
-          "\\*Agenda Commands\\*" "\\*Org Select\\*" "\\*Capture\\*" "^CAPTURE-.*\\.org*"
-          "\\*Gofmt Errors\\*$" "\\*Go Test\\*$" godoc-mode
-          "\\*docker-.+\\*" "\\*prolog\\*" "\\*rustfmt\\*$"
-          inferior-python-mode inf-ruby-mode swift-repl-mode))
-  :config
-  (with-no-warnings
-    (defun my/popper-fit-window-height (win)
-      "Adjust the height of popup window WIN to fit the buffer's content."
-      (let ((desired-height (floor (/ (frame-height) 3))))
-        (fit-window-to-buffer win desired-height desired-height)))
-    (setq popper-window-height #'my/popper-fit-window-height)
-
-    (defun popper-close-window-hack (&rest _args)
-      "Close popper window via `C-g'."
-      (when (and ; (called-interactively-p 'interactive)
-             (not (region-active-p))
-             popper-open-popup-alist)
-        (let ((window (caar popper-open-popup-alist))
-              (buffer (cdar popper-open-popup-alist)))
-          (when (and (window-live-p window)
-                     (buffer-live-p buffer)
-                     (not (with-current-buffer buffer
-                            (derived-mode-p 'eshell-mode
-                                            'ghostel-mode
-                                            'shell-mode))))
-            (delete-window window)))))
-    (advice-add #'keyboard-quit :before #'popper-close-window-hack)
-    (popper-mode 1)
-    (popper-tab-line-mode 1)))
-
-;; Display available keybindings in popup
-(use-package which-key
-  :diminish
-  :bind ("C-h M-m" . which-key-show-major-mode)
-  :hook (after-init . which-key-mode)
-  :init (setq which-key-max-description-length 30
-              which-key-lighter nil
-              which-key-show-remaining-keys t)
-  :config
-  ;; Key prefix descriptions
-  (dolist (map '(("M-s h" . "highlight")
-                 ("M-s s" . "symbol-overlay")
-                 ("C-c &" . "yasnippet")
-                 ("C-c @" . "hideshow")
-                 ("C-c c" . "consult")
-                 ("C-c d" . "dict")
-                 ("C-c l" . "link-hint")
-                 ("C-c n" . "org-roam")
-                 ("C-c o" . "org")
-                 ("C-c t" . "hl-todo")
-                 ("C-c C-a" . "activities")
-                 ("C-c C-z" . "browse")
-                 ("C-x 8" . "unicode")
-                 ("C-x 8 e" . "emoji")
-                 ("C-x @" . "modifior")
-                 ("C-x a" . "abbrev")
-                 ("C-x c" . "colorful")
-                 ("C-x n" . "narrow")
-                 ("C-x p" . "project")
-                 ("C-x r" . "rect & bookmark")
-                 ("C-x t" . "tab & treemacs")
-                 ("C-x w" . "window & highlight")
-                 ("C-x w ^" . "window")
-                 ("C-x C-a" . "edebug")
-                 ("C-x RET" . "coding-system")
-                 ("C-x X" . "edebug")
-                 ("C-x v b" . "vc-branch")
-                 ("C-x v M" . "vc-mergebase")))
-    (which-key-add-key-based-replacements (car map) (cdr map)))
-
-  ;; Mode-specific key replacements
-  (dolist (mode-map '((org-mode
-                       ("C-c \"" . "org-plot")
-                       ("C-c C-v" . "org-babel")
-                       ("C-c C-x" . "org-misc"))
-                      (python-mode
-                       ("C-c C-t" . "python-skeleton"))
-                      (markdown-mode
-                       ("C-c C-a" . "markdown-link")
-                       ("C-c C-c" . "markdown-command")
-                       ("C-c C-s" . "markdown-style")
-                       ("C-c C-t" . "markdown-header")
-                       ("C-c C-x" . "markdown-toggle"))
-                      (gfm-mode
-                       ("C-c C-a" . "markdown-link")
-                       ("C-c C-c" . "markdown-command")
-                       ("C-c C-s" . "markdown-style")
-                       ("C-c C-t" . "markdown-header")
-                       ("C-c C-x" . "markdown-toggle"))))
-    (let ((mode (car mode-map))
-          (maps (cdr mode-map)))
-      (dolist (map maps)
-        (which-key-add-major-mode-key-based-replacements
-          mode (car map) (cdr map))))))
-
-;; Search tools
-(use-package grep
-  :ensure nil
-  :autoload grep-apply-setting
-  :init
-  (when (executable-find "rg")
-    (grep-apply-setting
-     'grep-command "rg --color=auto --null -nH --no-heading -e ")
-    (grep-apply-setting
-     'grep-template "rg --color=auto --null --no-heading -g '!*/' -e <R> <D>")
-    (grep-apply-setting
-     'grep-find-command '("rg --color=auto --null -nH --no-heading -e ''" . 38))
-    (grep-apply-setting
-     'grep-find-template "rg --color=auto --null -nH --no-heading -e <R> <D>")))
-
-;; Writable `grep' buffer
-(use-package wgrep
-  :init (setq wgrep-auto-save-buffer t
-              wgrep-change-readonly-file t))
-
-;; Fast search tool `ripgrep'
-(use-package rg
-  :hook (after-init . rg-enable-default-bindings)
-  :bind (:map rg-global-map
-         ("c" . rg-dwim-current-dir)
-         ("f" . rg-dwim-current-file)
-         ("m" . rg-menu))
-  :init (setq rg-show-columns t)
-  :config (add-to-list 'rg-custom-type-aliases '("tmpl" . "*.tmpl")))
-
-(use-package proced
-  :ensure nil
-  :init
-  (setq-default proced-format 'verbose)
-  (setq proced-auto-update-flag t
-        proced-auto-update-interval 3
-        proced-enable-color-flag t))
-
-;; Search
-(use-package webjump
-  :ensure nil
-  :bind ("C-c /" . webjump)
-  :init (setq webjump-sites
-              '(;; Emacs
-                ("Emacs Home Page" .
-                 "www.gnu.org/software/emacs/emacs.html")
-                ("Xah Emacs Site" . "ergoemacs.org/index.html")
-                ("(or emacs irrelevant)" . "oremacs.com")
-                ("Mastering Emacs" .
-                 "https://www.masteringemacs.org/")
-
-                ;; Search engines.
-                ("DuckDuckGo" .
-                 [simple-query "duckduckgo.com"
-                               "duckduckgo.com/?q=" ""])
-                ("Google" .
-                 [simple-query "www.google.com"
-                               "www.google.com/search?q=" ""])
-                ("Bing" .
-                 [simple-query "www.bing.com"
-                               "www.bing.com/search?q=" ""])
-
-                ("Baidu" .
-                 [simple-query "www.baidu.com"
-                               "www.baidu.com/s?wd=" ""])
-                ("Wikipedia" .
-                 [simple-query "wikipedia.org" "wikipedia.org/wiki/" ""]))))
-
-;; 文件信息
-(use-package file-info
-  :bind ("C-c c i" . file-info-show))
-
-;; 打开文件管理器
-(use-package reveal-in-folder)
-
-;; 字体查看器
-(use-package show-font)
-
 (provide 'init-base)
 ;;; init-base.el ends here

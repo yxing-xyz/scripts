@@ -1,4 +1,4 @@
-;;; early-init.el --- Early initialization. -*- lexical-binding: t -*-
+;;; early-init.el --- Early initialization. -*- lexical-binding: t no-byte-compile: t -*-
 
 ;; Copyright (C) 2019-2026 Vincent Zhang
 
@@ -26,15 +26,37 @@
 ;;; Commentary:
 ;;; Code:
 
+;; `gc-cons-percentage` 控制：**已分配内存达到 `gc-cons-threshold * gc-cons-percentage` 时，触发 GC**
+(setq gc-cons-percentage 1.0)
 (if noninteractive  ; in CLI sessions
-    (setq gc-cons-threshold #x8000000   ; 128MB
-          ;; Backport from 29 (see emacs-mirror/emacs@73a384a98698)
-          gc-cons-percentage 1.0)
+    (setq gc-cons-threshold #x8000000) ; 128MB
   (setq gc-cons-threshold most-positive-fixnum))
 
+;; `read-process-output-max`：**单次从子进程（LSP、git、shell 等）最多读取多少字节**。
+(setq read-process-output-max #x10000) ; 64kb
 
-(defvar my--file-name-handler-alist file-name-handler-alist)
-(setq file-name-handler-alist nil)
+;; PERF: Many elisp file API calls consult `file-name-handler-alist'.
+;; Setting it to nil speeds up startup significantly.
+;; Reduce file-name operations on `load-path'. No dynamic modules are
+;; loaded this early, so we skip .so/.dll search. Also skip .gz to
+;; avoid decompression checks.
+;; We restore them after startup.
+(let ((default-file-name-handler-alist file-name-handler-alist)
+      (default-load-suffixes load-suffixes)
+      (default-load-file-rep-suffixes load-file-rep-suffixes))
+  (setq file-name-handler-alist nil
+        load-suffixes '(".elc" ".el")
+        load-file-rep-suffixes '(""))
+  (add-hook 'emacs-startup-hook
+            (lambda ()
+              (setq load-suffixes default-load-suffixes
+                    load-file-rep-suffixes default-load-file-rep-suffixes
+                    file-name-handler-alist default-file-name-handler-alist))
+            101))
+
+;; PERF: introduced in Emacs 31 to speed up startup ~15%
+(when (boundp 'load-path-filter-function)
+  (setq load-path-filter-function #'load-path-filter-cache-directory-files))
 
 ;; Prevent unwanted runtime compilation for gccemacs (native-comp) users;
 ;; packages are compiled ahead-of-time when they are installed and site files
@@ -42,17 +64,13 @@
 (setq native-comp-deferred-compilation nil ;; obsolete since 29.1
       native-comp-jit-compilation nil)
 
-;; To speedup the Emacs windows, reducing the count on searching `load-path'
-(setq load-suffixes '(".elc" ".el")
-      load-file-rep-suffixes '(""))
+;; PERF: reduce the startup time
+(setq package-quickstart t)
+
 ;; Package initialize occurs automatically, before `user-init-file' is
 ;; loaded, but after `early-init-file'. We handle package
 ;; initialization, so we must prevent Emacs from doing it early!
 (setq package-enable-at-startup nil)
-
-;; `use-package' is builtin since 29.
-;; It must be set before loading `use-package'.
-(setq use-package-enable-imenu-support t)
 
 ;; In noninteractive sessions, prioritize non-byte-compiled source files to
 ;; prevent the use of stale byte-code. Otherwise, it saves us a little IO time
@@ -62,6 +80,10 @@
 ;; Explicitly set the preferred coding systems to avoid annoying prompt
 ;; from emacs (especially on Microsoft Windows)
 (prefer-coding-system 'utf-8)
+
+;; `use-package' is builtin since 29.
+;; It must be set before loading `use-package'.
+(setq use-package-enable-imenu-support t)
 
 ;; Inhibit resizing frame
 (setq frame-inhibit-implied-resize t)
@@ -76,15 +98,6 @@
 
 ;; Prevent flash of unstyled mode line
 (setq-default mode-line-format nil)
-
-;; PATH and other environment variables injection
-;; To avoid loading `exec-path-from-shell' for better performance
-(when-let ((env-file (expand-file-name "env.el" user-emacs-directory))
-           (env-example-file (expand-file-name "env-example.el" user-emacs-directory)))
-  (when (and (not (file-exists-p env-file))
-             (file-exists-p env-example-file))
-    (copy-file env-example-file env-file))
-  (load env-file 'noerror))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; early-init.el ends here

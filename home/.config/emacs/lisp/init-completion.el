@@ -1,86 +1,37 @@
-;; -*- lexical-binding: t; -*-
-
+;;; init-completion.el --- Initialize completion configurations.	-*- lexical-binding: t -*-
 ;;; Code:
+
 (eval-when-compile
   (require 'init-const))
 
 (use-package orderless
   :custom
-  ;; --- 核心搜索逻辑设定 ---
-  ;; 设置补全风格：优先使用 orderless，如果匹配不到则回退到 basic（基本搜索）
   (completion-styles '(orderless basic))
-
-  ;; --- 默认行为设定 ---
-  ;; 清空默认的分类补全规则，确保全局尽可能统一使用 orderless 风格
   (completion-category-defaults nil)
-
-  ;; --- 特殊场景覆盖 ---
-  ;; 针对特定类型的补全进行“微调”
-  ;; 这里指定：在搜索【文件】(file) 时，不使用无序匹配，而是使用：
-  ;; 1. basic: 基础前缀匹配
-  ;; 2. partial-completion: 部分补全（例如输入 /u/s/b 补全为 /usr/share/bin）
-  ;; 理由：文件路径通常有严格的层级结构，乱序搜索反而容易干扰判断。
   (completion-category-overrides '((file (styles basic partial-completion))))
-
-  ;; --- 分隔符设定 ---
-  ;; 定义如何拆分你的搜索词。这里使用的是“空格拆分”：
-  ;; 即你输入的每个空格都会把搜索词切分成一个独立的匹配因子。
-  ;; 同时也支持“转义”，即如果你真想搜空格，可以用反斜杠转义。
   (orderless-component-separator #'orderless-escapable-split-on-space))
 
+;; Support Pinyin
 (use-package pinyinlib
-  ;; 确保在 orderless 插件加载之后再执行，因为我们要扩展 orderless 的功能
   :after orderless
-
-  ;; 声明外部函数，防止字节编译时报 "function not known" 的警告
   :functions orderless-regexp
-
-  ;; 延迟加载：只有在调用这个函数时才真正加载 pinyinlib 库，加快启动速度
   :autoload pinyinlib-build-regexp-string
-
   :init
-  ;; 定义一个新的匹配器：将输入的字符串转换为拼音正则表达式
-  (defun orderless-regexp-pinyin (str)
-    "将输入的字符串 STR 视为拼音，并构建对应的正则表达式进行匹配。"
-    ;; 调用 pinyinlib 将 "nh" 变成 "[你拟泥...][好耗浩...]" 这种正则
-    ;; 然后交给 orderless 的正则匹配引擎处理
-    (orderless-regexp (pinyinlib-build-regexp-string str)))
-
-  ;; 将上面定义的“拼音匹配法”添加到 orderless 的匹配样式列表中
-  ;; 这样当你搜索时，Emacs 会自动尝试用拼音去匹配结果
+  (defun orderless-regexp-pinyin (component)
+    "Match COMPONENT as a pinyin regex."
+    (orderless-regexp (pinyinlib-build-regexp-string component)))
   (add-to-list 'orderless-matching-styles 'orderless-regexp-pinyin))
 
-;; 垂直列表
+;; VERTical Interactive COmpletion
 (use-package vertico
-  ;; ---------------------------------------------------------
-  ;; 自定义变量配置
-  ;; ---------------------------------------------------------
-  :custom
-  (vertico-count 15)           ;; 设置补全列表显示的最大行数为 15 行
-
-  ;; ---------------------------------------------------------
-  ;; 按键绑定（主要针对 Minibuffer 内部的操作）
-  ;; ---------------------------------------------------------
+  :custom (vertico-count 15)
   :bind (:map vertico-map
-         ;; 在文件路径补全时，按回车进入目录而非直接确认选定
+         ("C-j" . vertico-exit-input)
          ("RET" . vertico-directory-enter)
-         ;; 删除字符时，如果是路径分隔符（/），则智能删除整级目录
          ("DEL" . vertico-directory-delete-char)
-         ;; 一次性删除一级目录名（比如将 /home/user/ 删至 /home/）
-         ("M-DEL" . vertico-directory-delete-word)
-         ("C-j" . vertico-exit-input))
-
-  ;; ---------------------------------------------------------
-  ;; 钩子函数（在特定时机自动执行）
-  ;; ---------------------------------------------------------
-  :hook (
-         ;; Emacs 初始化完成后自动开启 vertico 模式
-         (after-init . vertico-mode)
-
-         ;; 路径清理钩子：当你通过输入绝对路径（如 / 或 ~/）来切换目录时，
-         ;; 自动隐藏（Tidy）之前输入框中失效的路径部分，保持界面整洁
+         ("M-DEL" . vertico-directory-delete-word))
+  :hook ((after-init . vertico-mode)
          (rfn-eshadow-update-overlay . vertico-directory-tidy)))
-
 
 ;; Enrich existing commands with completion annotations
 (use-package marginalia
@@ -90,15 +41,12 @@
 (use-package nerd-icons-completion
   :hook (marginalia-mode . nerd-icons-completion-marginalia-setup))
 
-
 ;; Consulting completing-read
 (use-package consult
-  :defines (xref-show-xrefs-function xref-show-definitions-function)
-  :defines shr-color-html-colors-alist
+  :defines (xref-show-xrefs-function xref-show-definitions-function shr-color-html-colors-alist)
+  :functions (list-colors-duplicates consult-colors--web-list my/consult--read)
   :autoload (consult-register-format consult-register-window consult-xref)
   :autoload (consult--read consult--customize-put consult--grep)
-  :commands (consult-narrow-help)
-  :functions (list-colors-duplicates consult-colors--web-list)
   :bind (;; C-c bindings in `mode-specific-map'
          ("C-c M-x" . consult-mode-command)
          ("C-c h"   . consult-history)
@@ -179,14 +127,57 @@
     (setq xref-show-xrefs-function #'consult-xref
           xref-show-definitions-function #'consult-xref))
 
-  ;; More utils
+  :config
+  ;; Optionally configure preview. The default value
+  ;; is 'any, such that any key triggers the preview.
+  ;; (setq consult-preview-key 'any)
+  ;; (setq consult-preview-key "M-.")
+  ;; (setq consult-preview-key '("S-<down>" "S-<up>"))
+  (setq consult-preview-key nil)
+
+  ;; For some commands and buffer sources it is useful to configure the
+  ;; :preview-key on a per-command basis using the `consult-customize' macro.
+  (consult-customize
+   consult-goto-line :preview-key 'any
+   consult-theme :preview-key '("M-." :debounce 0.5 "<up>" "<down>")
+
+   consult-buffer consult-recent-file
+   consult-source-recent-file consult-source-project-recent-file
+   :preview-key '("M-.")
+
+   consult-man consult-bookmark consult-xref
+   consult-source-bookmark consult-source-file-register
+   :preview-key '(:debounce 0.4 any)
+
+   consult-line consult-line-multi
+   consult-ripgrep consult-git-grep consult-grep
+   :initial (selected-region-or-symbol-at-point)
+   :preview-key 'any)
+
+  ;; Optionally configure the narrowing key.
+  ;; Both < and C-+ work reasonably well.
+  (setq consult-narrow-key "<") ;; "C-+"
+
+  ;; Select initial texts
+  ;; It's useful in `consult-grep' and similar commands
+  (defun my/consult--read (fn &rest args)
+    "Select initial texts in `consult--read'."
+    (minibuffer-with-setup-hook
+        (lambda ()
+          "Select initial texts."
+          (set-mark (point-max))
+          (goto-char (minibuffer-prompt-end)))
+      (apply fn args)))
+  (advice-add #'consult--read :around #'my/consult--read)
+
+  ;;
+  ;; More utilities: list colors
+  ;;
   (defvar consult-colors-history nil
     "History for `consult-colors-emacs' and `consult-colors-web'.")
 
   ;; No longer preloaded in Emacs 28.
   (autoload 'list-colors-duplicates "facemenu")
-  ;; No preloaded in consult.el
-  (autoload 'consult--read "consult")
 
   (defun consult-colors-emacs (color)
     "Show a list of all supported colors for a particular frame.
@@ -218,62 +209,22 @@ value of the selected COLOR."
                           :require-match t
                           :category 'color
                           :history '(:input consult-colors-history))))
-    (insert color))
-  :config
-  ;; Optionally configure preview. The default value
-  ;; is 'any, such that any key triggers the preview.
-  ;; (setq consult-preview-key 'any)
-  ;; (setq consult-preview-key '("S-<down>" "S-<up>"))
-  (setq consult-preview-key nil)
-  ;; For some commands and buffer sources it is useful to configure the
-  ;; :preview-key on a per-command basis using the `consult-customize' macro.
-  (consult-customize
-   consult-goto-line :preview-key 'any
-   consult-buffer consult-recent-file :preview-key '("M-.")
-   consult-theme :preview-key '("M-." :debounce 0.5 "<up>" "<down>")
-   consult-line consult-line-multi
-   consult-ripgrep consult-git-grep consult-grep
-   :initial (selected-region-or-symbol-at-point)
-   :preview-key 'any)
-
-  (defun my/consult--read (fn &rest args)
-    "Select initial texts in `consult--read'."
-    (minibuffer-with-setup-hook
-        (lambda ()
-          "Select initial texts."
-          (set-mark (point-max))
-          (goto-char (minibuffer-prompt-end)))
-      (apply fn args)))
-  (advice-add #'consult--read :around #'my/consult--read)
-
-  ;; Optionally configure the narrowing key.
-  ;; Both < and C-+ work reasonably well.
-  (setq consult-narrow-key "<") ;; "C-+"
-
-  ;; Optionally make narrowing help available in the minibuffer.
-  ;; You may want to use `embark-prefix-help-command' or which-key instead.
-  (define-key consult-narrow-map (vconcat consult-narrow-key "?") #'consult-narrow-help))
+    (insert color)))
 
 (use-package consult-dir
   :ensure t
-  :bind (
-         ;; 1. 全局绑定：在任何地方按 C-x C-d 都会调用 consult-dir
-         ("C-x C-d" . consult-dir)
-
-         ;; 2. 切换作用域：接下来的绑定只在“小缓冲区的补全状态”下生效
+  :bind (("C-x C-d" . consult-dir)
          :map minibuffer-local-completion-map
          ("C-x C-d" . consult-dir)
-         ("C-x C-j" . consult-dir-jump-file)
-         ))
+         ("C-x C-j" . consult-dir-jump-file)))
 
+(use-package consult-flyspell
+  :bind ("M-g s" . consult-flyspell))
 
 (use-package consult-yasnippet
-  :ensure t
-  :after (yasnippet consult)
   :bind ("M-g y" . consult-yasnippet))
 
 (use-package embark
-  :after (embark-consult)
   :commands embark-prefix-help-command
   :bind (("s-."   . embark-act)
          ("C-s-." . embark-act)
@@ -344,8 +295,7 @@ targets."
   :bind (:map minibuffer-mode-map
          ("C-c C-o" . embark-export)))
 
-
-
+;; Auto completion
 (use-package corfu
   :autoload (corfu-quit consult-completion-in-region)
   :functions (persistent-scratch-save corfu-move-to-minibuffer)
@@ -355,8 +305,8 @@ targets."
   (corfu-count 12)
   (corfu-preview-current nil)
   (corfu-on-exact-match nil)
-  (corfu-auto-delay 0.1)
-  (corfu-popupinfo-delay '(0.5 . 0.2))
+  (corfu-auto-delay 0.2)
+  (corfu-popupinfo-delay '(0.4 . 0.2))
   (global-corfu-modes '((not erc-mode
                              circe-mode
                              help-mode
@@ -382,12 +332,26 @@ targets."
              completion-cycle-threshold completion-cycling)
          (consult-completion-in-region beg end table pred)))))
   (keymap-set corfu-map "M-m" #'corfu-move-to-minibuffer)
-  (keymap-set corfu-map "RET" nil)      ; 解除普通回车上屏
-  (keymap-set corfu-map "<return>" nil) ; 解除小键盘/部分终端回车上屏
   (add-to-list 'corfu-continue-commands #'corfu-move-to-minibuffer))
 
-(use-package corfu-terminal
-  :hook (global-corfu-mode . corfu-terminal-mode))
+;; A few more useful configurations...
+(use-package emacs
+  :custom
+  ;; TAB cycle if there are only few candidates
+  ;; (completion-cycle-threshold 3)
+
+  ;; Enable indentation+completion using the TAB key.
+  ;; `completion-at-point' is often bound to M-TAB.
+  (tab-always-indent 'complete)
+
+  ;; Emacs 30 and newer: Disable Ispell completion function. As an alternative,
+  ;; try `cape-dict'.
+  (text-mode-ispell-word-completion nil)
+
+  ;; Emacs 28 and newer: Hide commands in M-x which do not apply to the current
+  ;; mode.  Corfu commands are hidden, since they are not used via M-x. This
+  ;; setting is useful beyond Corfu.
+  (read-extended-command-predicate #'command-completion-default-include-p))
 
 (use-package nerd-icons-corfu
   :autoload nerd-icons-corfu-formatter

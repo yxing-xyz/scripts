@@ -12,7 +12,7 @@
               rust-mode-treesitter-derive t))
 
 (use-package ron-mode
-  :mode ("\\.ron" . ron-mode))
+  :mode ("\\.ron"))
 
 (provide 'init-rust)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

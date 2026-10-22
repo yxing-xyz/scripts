@@ -1,6 +1,8 @@
-;;; init-prog.el --- 编程配置 -*- lexical-binding: t -*-
-;; Author: Ethan
+;; init-prog.el --- Initialize programming configurations.	-*- lexical-binding: t -*-
 ;;; Commentary:
+;;
+;; General programming configurations.
+;;
 ;;; Code:
 
 (eval-when-compile
@@ -13,15 +15,20 @@
 
 (use-package prog-mode :ensure nil)
 
+;; Built into Emacs 31+
 (use-package treesit
   :ensure nil
+  :custom (treesit-enabled-modes '(not rust-mode markdown-mode))
   :init
-  ;; 确保开启最高等级高亮
   (setq-default treesit-font-lock-level 4))
-;; Tree-sitter support
+;; Automatic Tree-sitter grammar management
 (use-package treesit-auto
+  :defines treesit-auto-langs
+  :custom (treesit-auto-install 'prompt)
   :hook (after-init . global-treesit-auto-mode)
-  :init (setq treesit-auto-install t))
+  :config
+  ;; `rust-mode' will handle tree-sitter
+  (delete 'rust treesit-auto-langs))
 
 ;; Show function arglist or variable docstring
 (use-package eldoc
@@ -49,26 +56,20 @@
 
 ;; Cross-referencing commands
 (use-package xref
-  :autoload xref-show-definitions-completing-read
   :bind (("M-g ." . xref-find-definitions)
          ("M-g ," . xref-go-back))
-  :init
+  :custom
   ;; Use faster search tool
-  (when (executable-find "rg")
-    (setq xref-search-program 'ripgrep))
-
+  (xref-search-program (if (executable-find "rg") 'ripgrep 'grep))
   ;; Select from xref candidates in minibuffer
-  (setq xref-show-definitions-function #'xref-show-definitions-completing-read
-        xref-show-xrefs-function #'xref-show-definitions-completing-read))
-
+  (xref-show-definitions-function #'xref-show-definitions-completing-read)
+  (xref-show-xrefs-function #'xref-show-definitions-completing-read))
 ;; Code styles
 (use-package editorconfig
-  :diminish
   :hook after-init)
 
 ;; Reformat buffer stably
 (use-package apheleia
-  :diminish
   :hook (after-init . apheleia-global-mode))
 
 ;; Run commands quickly
@@ -160,15 +161,18 @@ Install the doc if it's not installed."
 
 ;; Protobuf item configuration
 (use-package protobuf-mode
-  :hook (protobuf-mode . (lambda ()
-                           "Set up Protobuf's imenu generic expressions."
-                           (setq imenu-generic-expression
-                                 '((nil "^[[:space:]]*\\(message\\|service\\|enum\\)[[:space:]]+\\([[:alnum:]]+\\)" 2))))))
+  :hook (protobuf-mode
+         .
+         (lambda ()
+           "Set up Protobuf's imenu generic expressions."
+           (setq imenu-generic-expression
+                 '((nil "^[[:space:]]*\\(message\\|service\\|enum\\)\
+[[:space:]]+\\([[:alnum:]]+\\)" 2))))))
 
 ;; nXML item for special file types
 (use-package nxml-mode
   :ensure nil
-  :mode (("\\.xaml\\'" . xml-mode)))
+  :mode ("\\.xaml\\'"))
 
 ;; Fish shell item and auto-formatting
 (use-package fish-mode
