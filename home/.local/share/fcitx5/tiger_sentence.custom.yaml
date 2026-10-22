@@ -1,3 +1,4 @@
 patch:
   key_binder:
     import_preset: default
+  "switches/@0/reset": 1

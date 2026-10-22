@@ -77,11 +77,6 @@
   (advice-add 'compilation-filter :around #'my/advice-compilation-filter) ; 拦截编译过滤函数
   (advice-add 'gud-filter :around #'my/advice-compilation-filter)) ; 拦截 GDB 调试过滤函数
 
-;; 更强的终端模拟器 (Eat)
-(unless sys/win32p ; 仅在非 Windows 下使用（eat 对类 Unix 支持更好）
-  (use-package ghostel
-    :hook (eshell-load . ghostel-eshell-visual-command-mode)))
-
 (provide 'init-shell) ; 声明包名
 
 ;;; init-shell.el 到此结束

@@ -8,9 +8,6 @@
 (defconst xx-custom-post-file
   (expand-file-name "custom-post.el" user-emacs-directory))
 
-(defconst xx-env-file
-  (expand-file-name "env.el" user-emacs-directory)
-  "Environment file at startup.")
 
 (defconst sys/win32p
   (eq system-type 'windows-nt)
@@ -19,6 +16,14 @@
 (defconst sys/linuxp
   (eq system-type 'gnu/linux)
   "Are we running on a GNU/Linux system?")
+
+(defconst sys/unixp
+  (eq system-type 'berkeley-unix)
+  "Are we running on an Unix system?")
+
+(defconst sys/androidp
+  (eq system-type 'android)
+  "Are we running on an Android system?")
 
 (defconst sys/macp
   (eq system-type 'darwin)

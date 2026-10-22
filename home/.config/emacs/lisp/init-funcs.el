@@ -1,5 +1,11 @@
-;; -*- lexical-binding: t; -*-
+;; init-funcs.el --- Define functions.	-*- lexical-binding: t -*-
 
+;;; Commentary:
+;;
+;; Define some useful functions.
+;;
+
+;;; Code:
 
 (require 'cl-lib)
 
@@ -7,7 +13,6 @@
 (defvar socks-noproxy)
 (defvar socks-server)
 
-(declare-function apheleia-global-mode "apheleia")
 (declare-function browse-url-file-url "browse-url")
 (declare-function browse-url-interactive-arg "browse-url")
 (declare-function chart-bar-quickie "chart")
@@ -105,7 +110,7 @@ Same as `replace-string' `C-q' `C-m' `RET' `RET'."
   (when (yes-or-no-p (format "Really delete '%s'?"
                              (file-name-nondirectory buffer-file-name)))
     (delete-file (buffer-file-name))
-    (kill-this-buffer)))
+    (kill-current-buffer)))
 
 (defun rename-this-file (new-name)
   "Renames both current buffer and file it's visiting to NEW-NAME."
@@ -204,10 +209,14 @@ interactively.  Turn the filename into a URL with function
 (defun reload-init-file ()
   "Reload Emacs configurations."
   (interactive)
-  (load user-init-file))
+  (when (yes-or-no-p "Really reload Emacs configurations?")
+    (load early-init-file)
+    (load user-init-file)
+    (run-hooks 'after-init-hook 'window-setup-hook 'emacs-startup-hook)))
 (defalias 'xx-reload-init-file #'reload-init-file)
 
 
+;; Misc
 ;; Misc
 (defun byte-compile-elpa ()
   "Compile packages in elpa directory. Useful if you switch Emacs versions."
@@ -219,10 +228,10 @@ interactively.  Turn the filename into a URL with function
 (defun byte-compile-site-lisp ()
   "Compile packages in site-lisp directory."
   (interactive)
-  (let ((dir (locate-user-emacs-file "site-lisp")))
+  (let ((default-directory (locate-user-emacs-file "site-lisp")))
     (if (fboundp 'async-byte-recompile-directory)
-        (async-byte-recompile-directory dir)
-      (byte-recompile-directory dir 0 t))))
+        (async-byte-recompile-directory default-directory)
+      (byte-recompile-directory default-directory 0 t))))
 
 (defun native-compile-elpa ()
   "Native-compile packages in elpa directory."
@@ -233,20 +242,22 @@ interactively.  Turn the filename into a URL with function
 (defun native-compile-site-lisp ()
   "Native compile packages in site-lisp directory."
   (interactive)
-  (let ((dir (locate-user-emacs-file "site-lisp")))
+  (let ((default-directory (locate-user-emacs-file "site-lisp")))
     (if (fboundp 'native-compile-async)
-        (native-compile-async dir t))))
+        (native-compile-async default-directory t))))
 
 
 
-(defun file-too-long-p ()
-  "Check whether the file is too long.
+(defun file-too-big-p ()
+  "Check whether the file is too big.
 
-Returns non-nil if the buffer size exceeds 500,000 bytes or has more than 10,000
-lines."
-  (or (> (buffer-size) 500000)
+Returns non-nil if the buffer size exceeds 999,999 bytes or has more than 10,000
+lines, or more than 2,000 bytes in one line."
+  (or (> (buffer-size) 999999)
       (and (fboundp 'buffer-line-statistics)
-           (> (car (buffer-line-statistics)) 10000))))
+           (let ((statics (buffer-line-statistics)))
+             (or (> (car statics) 10000)
+                 (> (cadr statics) 2000))))))
 
 
 (defun set-package-archives (archives &optional refresh async no-save)
@@ -330,49 +341,18 @@ Return the fastest package archive."
 
 
 ;; Update
-(defun update-config ()
-  "Update  Emacs configurations to the latest version."
-  (interactive)
-  (let ((dir (expand-file-name user-emacs-directory)))
-    (unless (file-exists-p dir)
-      (user-error "\"%s\" doesn't exist" dir))
-
-    (message "Updating configurations...")
-    (cd dir)
-    (shell-command "git pull")
-    (message "Updating configurations...done")))
-
 (defun update-packages ()
   "Refresh package contents and update all packages."
   (interactive)
   (message "Updating packages...")
-  (and (fboundp 'apheleia-global-mode) (apheleia-global-mode -1))
   (package-upgrade-all)
-  (and (fboundp 'apheleia-global-mode) (apheleia-global-mode 1))
   (message "Updating packages...done"))
-
-(defalias 'xx-update-packages #'update-packages)
-
-(defun update-config-and-packages()
-  "Update configurations and packages."
-  (interactive)
-  (update-config)
-  (update-packages))
-(defalias 'xx-update #'update-config-and-packages)
-
-
-(defun update-all()
-  "Update dotfiles, org files, configurations and packages to the latest."
-  (interactive)
-  (update-config-and-packages))
-(defalias 'xx-update-all #'update-all)
 
 ;; Fonts
 (defun xx-install-fonts ()
   "Install necessary fonts."
   (interactive)
   (nerd-icons-install-fonts))
-
 
 ;; Network Proxy
 (defun show-http-proxy ()
@@ -535,8 +515,8 @@ Return the fastest package archive."
    ((bound-and-true-p winner-mode)
     (winner-undo))
    (t (user-error "Unable to recover layout"))))
-(provide 'init-funcs)
 
+(provide 'init-funcs)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; init-funcs.el ends here

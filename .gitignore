@@ -122,3 +122,6 @@ home/.config/emacs/projects
 /home/.local/share/fcitx5/themes/dms/highlight.svg
 /home/.local/share/fcitx5/themes/dms/panel.svg
 /home/.local/share/fcitx5/themes/dms/theme.conf
+/home/.config/emacs/package-quickstart.el
+/home/.config/emacs/package-quickstart.elc
+/home/.config/emacs/recentf.eld

@@ -7,6 +7,9 @@
 
 ;;; Code:
 
+(eval-when-compile
+  (require 'init-const))
+
 (use-package markdown-mode
   :mode (("README\\.md\\'" . gfm-mode))
   :init
@@ -61,61 +64,68 @@ mermaid.initialize({
   :config
   ;; Support `mermaid'
   (add-to-list 'markdown-code-lang-modes '("mermaid" . mermaid-mode))
+  (use-package markdown-mermaid
+    :bind (:map markdown-mode-map
+           ("C-c M" . markdown-mermaid-preview)))
 
   (with-no-warnings
     ;; Use `which-key' instead
     (advice-add #'markdown--command-map-prompt :override #'ignore)
-    (advice-add #'markdown--style-map-prompt   :override #'ignore)
+    (advice-add #'markdown--style-map-prompt   :override #'ignore))
 
-    ;; Preview with webkit
-    (defun my/markdown-export-and-preview ()
-      "Preview with `xwidget' if applicable, otherwise with the default browser."
-      (xx-browse-url-of-file (markdown-export)))
-    (advice-add #'markdown-export-and-preview :override #'my/markdown-export-and-preview)))
+  ;; Table of contents
+  (use-package markdown-toc
+    :bind (:map markdown-mode-command-map
+           ("r" . markdown-toc-generate-or-refresh-toc))
+    :hook markdown-mode
+    :init (setq markdown-toc-indentation-space 2
+                markdown-toc-header-toc-title "\n## Table of Contents"
+                markdown-toc-user-toc-structure-manipulation-fn 'cdr)
+    :config
+    (with-no-warnings
+      (define-advice markdown-toc-generate-toc (:around (fn &rest args) lsp)
+        "Generate or refresh toc after disabling lsp."
+        (cond
+         ((bound-and-true-p eglot--manage-mode)
+          (eglot--manage-mode -1)
+          (apply fn args)
+          (eglot--manage-mode 1))
+         ((bound-and-true-p lsp-managed-mode)
+          (lsp-managed-mode -1)
+          (apply fn args)
+          (lsp-managed-mode 1))
+         (t
+          (apply fn args)))))))
 
-;; Table of contents
-(use-package markdown-toc
-  :diminish
-  :bind (:map markdown-mode-command-map
-         ("r" . markdown-toc-generate-or-refresh-toc))
-  :hook markdown-mode
-  :init (setq markdown-toc-indentation-space 2
-              markdown-toc-header-toc-title "\n## Table of Contents"
-              markdown-toc-user-toc-structure-manipulation-fn 'cdr)
-  :config
-  (with-no-warnings
-    (define-advice markdown-toc-generate-toc (:around (fn &rest args) lsp)
-      "Generate or refresh toc after disabling lsp."
-      (cond
-       ((bound-and-true-p eglot--manage-mode)
-        (eglot--manage-mode -1)
-        (apply fn args)
-        (eglot--manage-mode 1))
-       ((bound-and-true-p lsp-managed-mode)
-        (lsp-managed-mode -1)
-        (apply fn args)
-        (lsp-managed-mode 1))
-       (t
-        (apply fn args))))))
+;; Built into Emacs 31+
+(use-package markdown-ts-mode
+  :ensure nil
+  :mode ("\\.md\\'" "\\.mdx\\'" "\\.markdown\\'")
+  :custom (markdown-ts-ellipsis " ⌄")
+  :config (require 'markdown-ts-mode-x)
+
+  ;; Reveal Markdown source at point
+  (use-package markdown-ts-appear
+    :custom (markdown-ts-appear-table-reveal 'table)
+    :hook (markdown-ts-mode . markdown-ts-appear-mode)))
 
 ;; Preview markdown files
 ;; @see https://github.com/seagle0128/grip-mode?tab=readme-ov-file#prerequisite
 (use-package grip-mode
-  :defines markdown-mode-command-map org-mode-map grip-update-after-change grip-use-mdopen
+  :defines markdown-mode-command-map markdown-ts-mode-map org-mode-map
   :functions auth-source-user-and-password
-  :autoload grip-mode
+  :commands grip-mode
   :init
   (with-eval-after-load 'markdown-mode
-    (bind-key "g" #'grip-mode markdown-mode-command-map))
-
+    (bind-key "C-g" #'grip-mode markdown-mode-command-map))
+  (with-eval-after-load 'markdown-ts-mode
+    (bind-key "C-c C-g" #'grip-mode markdown-ts-mode-map))
   (with-eval-after-load 'org
     (bind-key "C-c C-g" #'grip-mode org-mode-map))
-
-  (setq grip-update-after-change nil)
-
-  ;; mdopen doesn't need credentials, and only support external browsers
-  (if (executable-find "mdopen")
-      (setq grip-use-mdopen t)
+  :config
+  ;; `grip' requires credentials
+  (when (and (memq grip-command '(auto grip))
+             (executable-find "grip"))
     (when-let* ((credential (and (require 'auth-source nil t)
                                  (auth-source-user-and-password "api.github.com"))))
       (setq grip-github-user (car credential)

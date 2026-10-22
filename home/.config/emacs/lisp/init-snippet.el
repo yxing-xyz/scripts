@@ -1,7 +1,12 @@
-;; -*- lexical-binding: t -*-
+;; init-snippet.el --- Initialize snippet configurations.	-*- lexical-binding: t -*-
+
+;;; Commentary:
+;;
+;; Snippet configurations.
+;;
+
 
 (use-package yasnippet
-  :diminish yas-minor-mode
   :hook (after-init . yas-global-mode))
 
 ;; Collection of yasnippet snippets
