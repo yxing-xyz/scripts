@@ -110,10 +110,11 @@ keybinds clear-defaults=true {
         bind "Alt =" { Resize "Increase"; }
         bind "Alt [" { PreviousSwapLayout; }
         bind "Alt ]" { NextSwapLayout; }
-        bind "Alt h" { MoveFocusOrTab "left"; }
-        bind "Alt j" { MoveFocus "down"; }
-        bind "Alt k" { MoveFocus "up"; }
-        bind "Alt l" { MoveFocusOrTab "right"; }
+        // 这里改成 Alt+Shift H/J/K/L，移除原来 Alt h/j/k/l
+        bind "Alt Shift H" { MoveFocusOrTab "left"; }
+        bind "Alt Shift J" { MoveFocus "down"; }
+        bind "Alt Shift K" { MoveFocus "up"; }
+        bind "Alt Shift L" { MoveFocusOrTab "right"; }
         bind "Alt n" { NewPane; }
     }
     shared_except "locked" "move" {
@@ -186,8 +187,8 @@ plugins {
     plugin-manager location="zellij:plugin-manager"
     session-manager location="zellij:session-manager"
     status-bar location="zellij:status-bar"
-    strider location="zellij:strider"
     tab-bar location="zellij:tab-bar"
+    strider location="zellij:strider"
     welcome-screen location="zellij:session-manager" {
         welcome_screen true
     }
