@@ -81,3 +81,8 @@ chars = "\u001f"
 key = "Insert"
 mods = "Shift"
 action = "Paste"
+
+[[keyboard.bindings]]
+key = "O"
+mods = "Control|Shift"
+action = "ReceiveChar"
