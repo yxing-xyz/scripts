@@ -7,11 +7,15 @@
 
 ;;; Code:
 
-;; Directional window-selection routines
+;; directional window-selection routines
 (use-package windmove
   :ensure nil
-  :hook (window-setup . (lambda ()
-                          (windmove-default-keybindings 'super))))
+  :bind (("M-H" . windmove-left)
+         ("M-J" . windmove-down)
+         ("M-K" . windmove-up)
+         ("M-L" . windmove-right))
+  :config
+  (windmove-default-keybindings nil))
 
 
 ;; restore old window configurations
