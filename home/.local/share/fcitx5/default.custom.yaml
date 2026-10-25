@@ -5,4 +5,4 @@ patch:
   "switcher/hotkeys":
     - "Control+F12"
   "key_binder/bindings/+":
-    - { when: always, accept: "Control+F11", select: .next }
+    # - { when: always, accept: "Control+F11", select: .next }

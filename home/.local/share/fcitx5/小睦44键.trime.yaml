@@ -435,7 +435,7 @@ preset_keys:
   keyboard_layout: {label: "\uE101", send: Eisu_toggle, select: layout, preview: ""}
   # 自定义按键
   BS: {label: "\uE049", repeatable: true, send: BackSpace}
-  fi: {label: 方案, send: 'Control+F11'}
+  fi: {label: 方案, send: 'Control+F12'}
   zy: {label: 左移, send: Control+j}
   yh: {label: 右移, send: Control+k}
   iv: {label: 重置, send: Control+l}
