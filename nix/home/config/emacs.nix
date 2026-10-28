@@ -11,7 +11,6 @@
       # doc
       pandoc
       multimarkdown
-      # 建议同时安装 mermaid-cli，如果你后续想用它做离线转换
       mermaid-cli
 
       # spellcheck
@@ -21,24 +20,25 @@
       hunspellDicts.en_US
 
       # nix
-      nixd # nix语言服务器
+      nixd
 
       # go
       go
-      gopls # gopls
+      gopls
       delve
-      # dlv
-      (lib.lowPrio pkgs.gotools) # 它是配角，冲突时让位
-      gomodifytags # gomodifytags
-      gotests # gotests
-      impl # impl
-      gogetdoc # gogetdoc
-      reftools # 包含 fillstruct
+      (lib.lowPrio gotools)
+      gomodifytags
+      gotests
+      impl
+      gogetdoc
+      reftools
 
       # rust
-      rust-analyzer
       cargo
       rustc
+      clippy
+      rustfmt
+      rust-analyzer
 
       # c
       gcc
@@ -53,6 +53,7 @@
     ++ lib.optionals (!config.settings.enableGui) [
       pkgs.emacs-nox
     ];
+
   home.file.".config/emacs".source =
     config.lib.file.mkOutOfStoreSymlink "${projectRoot}/home/.config/emacs";
 }
