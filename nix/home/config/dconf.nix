@@ -47,11 +47,11 @@ in
       monospace-font-name = "Noto Sans Mono CJK SC 10";
 
       accent-color = "green";
-      color-scheme = "prefer-dark";
+      color-scheme = "prefer-light";
       cursor-size = 24;
       cursor-theme = "Bibata-Modern-Ice";
-      gtk-theme = "Sweet-v40";
-      icon-theme = "Flat-Remix-Cyan-Dark";
+      gtk-theme = "Flat-Remix-GTK-Black-Light";
+      icon-theme = "Pop";
 
       enable-hot-corners = false;
       show-battery-percentage = true;
