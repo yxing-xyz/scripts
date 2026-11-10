@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  projectRoot,
   ...
 }:
 
@@ -28,4 +29,14 @@
   home.sessionPath = [
     "$HOME/go/bin"
   ];
+
+  home.file.".npmrc" = {
+    source =     config.lib.file.mkOutOfStoreSymlink "${projectRoot}/home/.npmrc";
+    force =true;
+  };
+
+  home.file.".gitconfig"  =  {
+      source = config.lib.file.mkOutOfStoreSymlink "${projectRoot}/home/.gitconfig";
+      force = true;
+  };
 }

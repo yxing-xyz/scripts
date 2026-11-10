@@ -1,6 +1,7 @@
-model = "kimi-k3"
-model_provider = "kimi"
-model_context_window = 1048576
+model = "glm-5.3"
+model_provider = "glm"
+model_reasoning_effort = "max"
+model_catalog_json = "~/.codex/models.json"
 
 developer_instructions = """
 你是编程助手，**所有自然语言沟通、解释、总结、说明全部使用简体中文**，只有代码、注释、报错原文、标识符保留英文。
@@ -14,6 +15,12 @@ git commit 信息、文档描述、注释说明优先中文。
 name = "Kimi"
 base_url = "https://api.moonshot.cn/v1"
 env_key = "KIMI_API_KEY"
+wire_api = "responses"
+
+[model_providers.glm]
+name = "GLM"
+base_url = "https://open.bigmodel.cn/api/v1"
+env_key = "GLM_API_KEY"
 wire_api = "responses"
 
 

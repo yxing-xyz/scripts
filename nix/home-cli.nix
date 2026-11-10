@@ -18,6 +18,7 @@
     ./home/config/niri.nix
     ./home/config/dconf.nix
     ./home/config/fcitx5.nix
+    ./home/config/environment.nix
   ];
   home.sessionVariables = {
     # 基础 Wayland 支持
