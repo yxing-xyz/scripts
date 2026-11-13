@@ -288,22 +288,6 @@ zinit ice wait"0" lucid \
 	atpull"%atclone"
 zinit snippet https://raw.githubusercontent.com/catppuccin/zsh-fsh/refs/heads/main/themes/catppuccin-frappe.ini
 
-typeset -U path
-path=(
-  /usr/local/bin
-  /usr/bin
-  /usr/local/sbin
-  /usr/bin/site_perl
-  /usr/bin/vendor_perl
-  /usr/bin/core_perl
-  ${path:#/usr/local/bin}
-  ${path:#/usr/bin}
-  ${path:#/usr/local/sbin}
-  ${path:#/usr/bin/site_perl}
-  ${path:#/usr/bin/vendor_perl}
-  ${path:#/usr/bin/core_perl}
-)
-
 # Alacritty & Zellij 自动挂载
 if [ ! -z "${ALACRITTY_LOG+x}" ]; then
 	if [[ -z "$ZELLIJ" ]]; then
