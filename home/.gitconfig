@@ -15,6 +15,7 @@
 [pull]
     # pull 时默认使用 rebase 模式，保持提交历史呈线性，避免不必要的 merge commit
     rebase = true
+	ff = only
 
 [credential]
     # 将密码永久存储在磁盘上（下次输入后不再询问，注意安全）
@@ -79,7 +80,7 @@
 
 [merge]
     # 合并时禁用快进模式（FF），强制生成 merge commit 以保留分支历史（与 pull.rebase 略有逻辑冲突，建议根据习惯调整）
-    ff = false
+	ff = only
 [rebase]
     # 在 rebase 时自动执行 stash push 和 stash pop
     autoStash = true
