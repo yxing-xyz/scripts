@@ -44,3 +44,5 @@ jobs:
           file: "./rootfs.Dockerfile"
           tags: ${{ env.TAGS }}
           context: ./rockylinux/9
+          provenance: false   # 关闭 provenance 证明，解决 unknown manifest class 错误
+          sbom: false         # 同时关闭 SBOM（可选，但建议一并关闭）
