@@ -1,0 +1,14 @@
+https://github.com/jesseduffield/lazygit/releases/download/v0.66.3/checksums.txt
+https://github.com/jesseduffield/lazygit/releases/download/v0.66.3/lazygit_0.66.3_darwin_arm64.tar.gz
+https://github.com/jesseduffield/lazygit/releases/download/v0.66.3/lazygit_0.66.3_darwin_x86_64.tar.gz
+https://github.com/jesseduffield/lazygit/releases/download/v0.66.3/lazygit_0.66.3_freebsd_32-bit.tar.gz
+https://github.com/jesseduffield/lazygit/releases/download/v0.66.3/lazygit_0.66.3_freebsd_arm64.tar.gz
+https://github.com/jesseduffield/lazygit/releases/download/v0.66.3/lazygit_0.66.3_freebsd_armv6.tar.gz
+https://github.com/jesseduffield/lazygit/releases/download/v0.66.3/lazygit_0.66.3_freebsd_x86_64.tar.gz
+https://github.com/jesseduffield/lazygit/releases/download/v0.66.3/lazygit_0.66.3_linux_32-bit.tar.gz
+https://github.com/jesseduffield/lazygit/releases/download/v0.66.3/lazygit_0.66.3_linux_arm64.tar.gz
+https://github.com/jesseduffield/lazygit/releases/download/v0.66.3/lazygit_0.66.3_linux_armv6.tar.gz
+https://github.com/jesseduffield/lazygit/releases/download/v0.66.3/lazygit_0.66.3_linux_x86_64.tar.gz
+https://github.com/jesseduffield/lazygit/releases/download/v0.66.3/lazygit_0.66.3_windows_32-bit.zip
+https://github.com/jesseduffield/lazygit/releases/download/v0.66.3/lazygit_0.66.3_windows_arm64.zip
+https://github.com/jesseduffield/lazygit/releases/download/v0.66.3/lazygit_0.66.3_windows_x86_64.zip
