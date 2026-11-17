@@ -40,6 +40,11 @@
       force = true;
   };
 
+  home.file.".gitmessage" = {
+    source = config.lib.file.mkOutOfStoreSymlink "${projectRoot}/home/.gitmessage";
+    force = true;
+  };
+
   home.file.".config/feishu-flags.conf"  =  {
       source = config.lib.file.mkOutOfStoreSymlink "${projectRoot}/home/.config/feishu-flags.conf";
       force = true;

@@ -12,6 +12,10 @@
     # 设置执行 git init 时默认的分支名为 main
     defaultBranch = main
 
+[commit]
+    # 使用提交信息模板，提供类型、作用域、正文和脚注的填写提示
+    template = ~/.gitmessage
+
 [pull]
     # pull 时默认使用 rebase 模式，保持提交历史呈线性，避免不必要的 merge commit
     rebase = true
